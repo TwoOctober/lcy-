@@ -69,7 +69,7 @@
         <div class="spinner"></div>
         <p>页面将在 <span class="countdown" id="countdown">3</span> 秒后自动跳转到目标网站</p>
         <p>如果没有自动跳转，请点击下面的按钮：</p>
-        <a href="https://lcynb.zh-cn.edgeone.site" class="button">立即跳转</a>
+        <a href="https://lcynb.netlify.app" class="button">立即跳转</a>
     </div>
 
     <script>
@@ -84,13 +84,13 @@
             if (countdown <= 0) {
                 clearInterval(timer);
                 // 跳转到目标网站
-                window.location.href = 'https://lcynb.zh-cn.edgeone.site';
+                window.location.href = 'https://lcynb.netlify.app';
             }
         }, 1000);
 
         // 备用跳转方法（以防JavaScript被禁用）
         setTimeout(() => {
-            window.location.href = 'https://lcynb.zh-cn.edgeone.site';
+            window.location.href = 'https://lcynb.netlify.app';
         }, 3000);
     </script>
 </body>
