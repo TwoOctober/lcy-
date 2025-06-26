@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, Star, Users, ExternalLink, Globe, ArrowRight, Sparkles, Construction } from "lucide-react"
+import { Download, Star, Users, ExternalLink, Globe, ArrowRight, Sparkles, Construction, Clock } from "lucide-react"
 
 const games = [
   {
@@ -13,7 +13,7 @@ const games = [
     title: "Counter-Strike 1.6",
     description: "一号线路为自解压程序，二号线路为免安装zip压缩包",
     image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Counter-Strike1.6NonSteam.jpg-D8dLM52zmAysoia8voqudzKJJQEPlA.jpeg",
+      "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 1,
     downloads: "198",
     size: "59MB",
@@ -36,6 +36,24 @@ const games = [
       { name: "开发中", url: "#", type: "pc", isInDevelopment: true },
       { name: "开发中", url: "#", type: "mobile", isInDevelopment: true },
     ],
+  },
+]
+
+const updateLogs = [
+  {
+    version: "2025-06-26",
+    
+    changes: ["优化下载弹窗体验"],
+  },
+  {
+    version: "2025-06-22",
+    
+    changes: ["优化页面加载速度", "改进移动端适配"],
+  },
+  {
+    version: "2025-06-21",
+    
+    changes: ["新版ui正式上线", "初步实现下载功能", "添加了跳转提示"],
   },
 ]
 
@@ -159,7 +177,7 @@ export default function GameDownloadSite() {
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-12">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               <div className="text-left">
                 <h3 className="text-2xl font-medium text-gray-900 mb-2">Vegcat.icu</h3>
@@ -173,6 +191,34 @@ export default function GameDownloadSite() {
                 点击跳转
                 <ExternalLink className="w-4 h-4 ml-2" />
               </Button>
+            </div>
+          </div>
+
+          {/* Update Log Section */}
+          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-center mb-8">
+              <Clock className="w-6 h-6 mr-3 text-gray-600" />
+              <h3 className="text-2xl font-medium text-gray-900">更新日志</h3>
+            </div>
+
+            <div className="space-y-6 text-left">
+              {updateLogs.map((log, index) => (
+                <div key={index} className="border-l-2 border-gray-200 pl-6 relative">
+                  <div className="absolute w-3 h-3 bg-gray-400 rounded-full -left-2 top-2"></div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <Badge className="bg-gray-900 text-white px-3 py-1 text-sm">{log.version}</Badge>
+                    <span className="text-sm text-gray-500">{log.date}</span>
+                  </div>
+                  <ul className="space-y-1 text-gray-600">
+                    {log.changes.map((change, changeIndex) => (
+                      <li key={changeIndex} className="flex items-start">
+                        <span className="text-gray-400 mr-2">•</span>
+                        <span>{change}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
         </div>
