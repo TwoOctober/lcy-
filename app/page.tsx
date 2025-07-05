@@ -41,6 +41,11 @@ const games = [
 
 const updateLogs = [
   {
+    version: "2025-07-05",
+    
+    changes: ["删除冗余文件", "修复严重bug", "添加了新地图"],
+  },
+  {
     version: "2025-06-26",
     
     changes: ["优化下载弹窗体验"],
@@ -99,11 +104,11 @@ export default function GameDownloadSite() {
           <div className="text-center">
             <div className="inline-flex items-center px-4 py-2 bg-black text-white text-sm font-medium rounded-full mb-8">
               <Sparkles className="w-4 h-4 mr-2" />
-              柳承远牛逼下载站
+              第一赛季结束
             </div>
             <h1 className="text-6xl font-light text-gray-900 mb-6 tracking-tight">
-              LCYNB.icu
-              <span className="block font-extralight text-gray-600">EASY Download</span>
+              6657SB.icu
+              <span className="block font-extralight text-gray-600">VegcatPowered</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">一键注册，一键汉化，一键下载。</p>
           </div>
@@ -173,7 +178,7 @@ export default function GameDownloadSite() {
           <div className="mb-12">
             <h2 className="text-4xl font-light text-gray-900 mb-6">关于此站点</h2>
             <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-              LCYNB.icu是一个公益下载站点，用爱发电，下载资源仅供学习交流，严厉禁止商用和盗版软件，该站点只提供下载链接，不参与任何盗版、抄袭或进行违法犯罪等活动。
+              本站点为公益下载站点，用爱发电，下载资源仅供学习交流，严厉禁止商用和盗版软件，该站点只提供下载链接，不参与任何盗版、抄袭或进行违法犯罪等活动。
             </p>
           </div>
 
@@ -242,7 +247,7 @@ export default function GameDownloadSite() {
                 <p className="text-gray-600 mb-3">下载方式: {selectedDownload.linkName}</p>
                 <Badge className="bg-gray-900 text-white px-3 py-1 text-sm">
                   {selectedDownload.linkType === "official" && "高速下载"}
-                  {selectedDownload.linkType === "fast" && "高速下载"}
+                  {selectedDownload.linkType === "fast" && "免解压"}
                   {selectedDownload.linkType === "pc" && "PC版本"}
                   {selectedDownload.linkType === "mobile" && "移动版本"}
                 </Badge>
@@ -306,7 +311,7 @@ export default function GameDownloadSite() {
                   className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 py-3 h-auto rounded-full font-medium transition-all duration-300"
                 >
                   <Sparkles className="w-4 h-4 mr-2" />
-                  期待一下下
+                  期待一下
                 </Button>
               </div>
             </div>
@@ -317,7 +322,7 @@ export default function GameDownloadSite() {
       {/* Footer */}
       <footer className="border-t border-gray-100 bg-white py-12">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-gray-500 text-sm">© 2024 Vegcat. Crafted with Vercel.</p>
+          <p className="text-gray-500 text-sm">© 2025 Vegcat.</p>
         </div>
       </footer>
 

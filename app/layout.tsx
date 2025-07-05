@@ -6,8 +6,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "lcynb.icu",
-  description: "柳承远牛逼下载站 - 一键注册，一键汉化，一键下载",
+  title: "6657sb.icu",
+  description: "一键注册，一键汉化，一键下载",
     generator: 'v0.dev'
 }
 
