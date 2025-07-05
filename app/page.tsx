@@ -15,7 +15,7 @@ const games = [
     image:
       "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 1,
-    downloads: "198",
+    downloads: "1294",
     size: "59MB",
     category: "FPS",
     downloadLinks: [
@@ -103,9 +103,10 @@ export default function GameDownloadSite() {
         <div className="relative max-w-7xl mx-auto px-6 py-24">
           <div className="text-center">
             <h1 className="text-6xl font-light text-gray-900 mb-6 tracking-tight">
-              恭喜本站点突破1k访问！
+              6657SB.icu
+              <span className="block font-extralight text-gray-600">VegcatPowered</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Powered By Vegcat</p>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">一键注册，一键汉化，一键下载。</p>
           </div>
         </div>
       </section>
@@ -283,9 +284,9 @@ export default function GameDownloadSite() {
           <DialogHeader>
             <DialogTitle className="text-2xl font-light text-gray-900 mb-2 flex items-center">
               <Construction className="w-6 h-6 mr-2 text-yellow-600" />
-              游戏开发中
+              站点开发中
             </DialogTitle>
-            <DialogDescription className="text-yellow-700 text-base">该游戏未上线，检查后续更新。</DialogDescription>
+            <DialogDescription className="text-yellow-700 text-base">该游戏开发尚未，检查后续更新。</DialogDescription>
           </DialogHeader>
 
           {selectedDevelopmentGame && (
@@ -296,7 +297,7 @@ export default function GameDownloadSite() {
                   <p>敬请期待</p>
                 </div>
                 <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 text-sm mt-3">
-                  掉头发中
+                  开发中
                 </Badge>
               </div>
 
