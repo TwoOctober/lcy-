@@ -103,7 +103,7 @@ export default function GameDownloadSite() {
         <div className="relative max-w-7xl mx-auto px-6 py-24">
           <div className="text-center">
             <h1 className="text-6xl font-light text-gray-900 mb-6 tracking-tight">
-              6657SB.icu
+              恭喜本站点突破1k访问！
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Powered By Vegcat</p>
           </div>
