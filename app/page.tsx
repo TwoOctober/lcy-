@@ -19,8 +19,8 @@ const games = [
     size: "59MB",
     category: "FPS",
     downloadLinks: [
-      { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i0hS32z09bwf", type: "official" },
-      { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iCvGf2z09elc", type: "fast" },
+      { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/iOjyO30cmlgf", type: "official" },
+      { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iMgSB30cmp7a", type: "fast" },
     ],
   },
   {
@@ -103,10 +103,9 @@ export default function GameDownloadSite() {
         <div className="relative max-w-7xl mx-auto px-6 py-24">
           <div className="text-center">
             <h1 className="text-6xl font-light text-gray-900 mb-6 tracking-tight">
-              6657SB.icu
-              <span className="block font-extralight text-gray-600">VegcatPowered</span>
+              祝贺本站点访问量破1k+
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">一键注册，一键汉化，一键下载。</p>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Powered by Vegcat</p>
           </div>
         </div>
       </section>
@@ -263,7 +262,7 @@ export default function GameDownloadSite() {
                   className="flex-1 bg-gray-900 hover:bg-gray-800 text-white h-12 rounded-full font-medium"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  开始下载 (提取码: lcynb)
+                  开始下载 (提取码: 6657)
                 </Button>
                 <Button
                   variant="outline"
@@ -284,9 +283,9 @@ export default function GameDownloadSite() {
           <DialogHeader>
             <DialogTitle className="text-2xl font-light text-gray-900 mb-2 flex items-center">
               <Construction className="w-6 h-6 mr-2 text-yellow-600" />
-              站点开发中
+              全速赶工中
             </DialogTitle>
-            <DialogDescription className="text-yellow-700 text-base">该游戏开发尚未，检查后续更新。</DialogDescription>
+            <DialogDescription className="text-yellow-700 text-base">进度已经沦陷，亿万同学必须隐忍</DialogDescription>
           </DialogHeader>
 
           {selectedDevelopmentGame && (
@@ -297,7 +296,7 @@ export default function GameDownloadSite() {
                   <p>敬请期待</p>
                 </div>
                 <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 text-sm mt-3">
-                  开发中
+                  掉头发中
                 </Badge>
               </div>
 
