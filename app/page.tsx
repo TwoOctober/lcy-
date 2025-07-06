@@ -258,8 +258,8 @@ export default function GameDownloadSite() {
                   onClick={() => {
                     window.open(
                       selectedDownload.linkType === "official"
-                        ? "https://wwuq.lanzouq.com/i0hS32z09bwf"
-                        : "https://wwuq.lanzouq.com/iCvGf2z09elc",
+                        ? "https://wwuq.lanzouq.com/i9WHN30eisdc"
+                        : "https://wwuq.lanzouq.com/iPmfM30ei60h",
                       "_blank",
                     )
                     setIsDownloadDialogOpen(false)
