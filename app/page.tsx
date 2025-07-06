@@ -16,11 +16,11 @@ const games = [
       "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 1,
     downloads: "1294",
-    size: "59MB",
+    size: "94MB",
     category: "FPS",
     downloadLinks: [
-      { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/iOjyO30cmlgf", type: "official" },
-      { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iMgSB30cmp7a", type: "fast" },
+      { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
+      { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iPmfM30ei60h", type: "fast" },
     ],
   },
   {
@@ -40,6 +40,11 @@ const games = [
 ]
 
 const updateLogs = [
+  {
+    version: "2025-07-06",
+    
+    changes: ["正式弃用旧版", "修复严重bug", "上线cs1.6增强版"],
+  },
   {
     version: "2025-07-05",
     
