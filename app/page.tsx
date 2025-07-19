@@ -55,7 +55,7 @@ export default function GameDownloadSite() {
       {/* Hero Section */}
       <section className="bg-gray-50 py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-light text-gray-900 mb-4">祝贺本站点访问量破1k+</h1>
+          <h1 className="text-4xl font-light text-gray-900 mb-4">祝贺本站点访问量破1k+</h1>
           <p className="text-lg text-gray-600">Powered by Vegcat</p>
         </div>
       </section>
@@ -63,6 +63,46 @@ export default function GameDownloadSite() {
       {/* Games & Competition Section */}
       <section className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 gap-8">
+          {/* 大庙杯比赛 */}
+          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl overflow-hidden shadow-sm border border-yellow-200">
+            <div className="aspect-video bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center">
+              <Trophy className="w-24 h-24 text-yellow-600" />
+            </div>
+
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-3">
+                <h3 className="text-2xl font-medium text-gray-900">大庙杯比赛</h3>
+                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">竞赛活动</Badge>
+              </div>
+
+              <p className="text-gray-600 mb-6">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
+
+              <div className="space-y-2">
+                <Button
+                  onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
+                  className="w-full justify-between h-12 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0"
+                >
+                  <div className="flex items-center">
+                    <Trophy className="w-4 h-4 mr-2" />
+                    <span>参与比赛</span>
+                  </div>
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
+                  variant="outline"
+                  className="w-full justify-between h-12 px-4 border-yellow-300 text-yellow-700 hover:bg-yellow-50"
+                >
+                  <div className="flex items-center">
+                    <Globe className="w-4 h-4 mr-2" />
+                    <span>查看详情</span>
+                  </div>
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
           {/* CS 1.6 Game */}
           {games.map((game) => (
             <div key={game.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border">
@@ -111,46 +151,6 @@ export default function GameDownloadSite() {
               </div>
             </div>
           ))}
-
-          {/* 大庙杯比赛 */}
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl overflow-hidden shadow-sm border border-yellow-200">
-            <div className="aspect-video bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center">
-              <Trophy className="w-24 h-24 text-yellow-600" />
-            </div>
-
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-2xl font-medium text-gray-900">大庙杯比赛</h3>
-                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">竞赛活动</Badge>
-              </div>
-
-              <p className="text-gray-600 mb-6">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
-
-              <div className="space-y-2">
-                <Button
-                  onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
-                  className="w-full justify-between h-12 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0"
-                >
-                  <div className="flex items-center">
-                    <Trophy className="w-4 h-4 mr-2" />
-                    <span>参与比赛</span>
-                  </div>
-                  <ExternalLink className="w-4 h-4" />
-                </Button>
-                <Button
-                  onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
-                  variant="outline"
-                  className="w-full justify-between h-12 px-4 border-yellow-300 text-yellow-700 hover:bg-yellow-50"
-                >
-                  <div className="flex items-center">
-                    <Globe className="w-4 h-4 mr-2" />
-                    <span>查看详情</span>
-                  </div>
-                  <ExternalLink className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
