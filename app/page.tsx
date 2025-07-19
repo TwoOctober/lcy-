@@ -2,39 +2,22 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, Star, Users, ExternalLink, Globe, ArrowRight, Sparkles, Construction, Clock } from "lucide-react"
+import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock } from "lucide-react"
 
 const games = [
   {
     id: 1,
     title: "Counter-Strike 1.6",
     description: "一号线路为自解压程序，二号线路为免安装zip压缩包",
-    image:
-      "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
+    image: "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 1,
     downloads: "1294",
     size: "94MB",
-    category: "FPS",
     downloadLinks: [
       { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
       { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iPmfM30ei60h", type: "fast" },
-    ],
-  },
-  {
-    id: 2,
-    title: "死神vs火影",
-    description: "开发中",
-    image: "https://image.9game.cn/2020/11/9/185773507.jpg",
-    rating: 1,
-    downloads: "0",
-    size: "0MB",
-    category: "FPS",
-    downloadLinks: [
-      { name: "开发中", url: "#", type: "pc", isInDevelopment: true },
-      { name: "开发中", url: "#", type: "mobile", isInDevelopment: true },
     ],
   },
 ]
@@ -42,98 +25,60 @@ const games = [
 const updateLogs = [
   {
     version: "2025-07-06",
-    
     changes: ["正式弃用旧版", "修复严重bug", "上线cs1.6增强版"],
   },
   {
     version: "2025-07-05",
-    
     changes: ["删除冗余文件", "修复严重bug", "添加了新地图"],
   },
   {
     version: "2025-06-26",
-    
     changes: ["优化下载弹窗体验"],
-  },
-  {
-    version: "2025-06-22",
-    
-    changes: ["优化页面加载速度", "改进移动端适配"],
-  },
-  {
-    version: "2025-06-21",
-    
-    changes: ["新版ui正式上线", "初步实现下载功能", "添加了跳转提示"],
   },
 ]
 
 export default function GameDownloadSite() {
-  // 两个独立的弹窗状态
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
-  const [isDevelopmentDialogOpen, setIsDevelopmentDialogOpen] = useState(false)
-
   const [selectedDownload, setSelectedDownload] = useState<{
     gameName: string
     linkName: string
     linkType: string
   } | null>(null)
 
-  const [selectedDevelopmentGame, setSelectedDevelopmentGame] = useState<{
-    gameName: string
-    linkName: string
-  } | null>(null)
-
-  const handleDownloadClick = (gameName: string, linkName: string, linkType: string, isInDevelopment?: boolean) => {
-    if (isInDevelopment) {
-      // 开发中的游戏
-      setSelectedDevelopmentGame({ gameName, linkName })
-      setIsDevelopmentDialogOpen(true)
-    } else {
-      // 正常下载
-      setSelectedDownload({ gameName, linkName, linkType })
-      setIsDownloadDialogOpen(true)
-    }
+  const handleDownloadClick = (gameName: string, linkName: string, linkType: string) => {
+    setSelectedDownload({ gameName, linkName, linkType })
+    setIsDownloadDialogOpen(true)
   }
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-          <div className="absolute top-0 right-1/4 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-1/3 w-72 h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-6 py-24">
-          <div className="text-center">
-            <h1 className="text-6xl font-light text-gray-900 mb-6 tracking-tight">
-              祝贺本站点访问量破1k+
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Powered by Vegcat</p>
-          </div>
+      <section className="bg-gray-50 py-24">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h1 className="text-5xl font-light text-gray-900 mb-4">祝贺本站点访问量破1k+</h1>
+          <p className="text-lg text-gray-600">Powered by Vegcat</p>
         </div>
       </section>
 
-      {/* Games Section */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid lg:grid-cols-2 gap-12">
-          {games.map((game, index) => (
-            <Card key={game.id} className="group border-0 shadow-none bg-transparent overflow-hidden">
-              <div className="relative">
-                <div className="aspect-[4/3] overflow-hidden rounded-3xl bg-gray-100">
-                  <img
-                    src={game.image || "/placeholder.svg"}
-                    alt={game.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                </div>
+      {/* Games & Competition Section */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* CS 1.6 Game */}
+          {games.map((game) => (
+            <div key={game.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border">
+              <div className="aspect-video bg-gray-100">
+                <img
+                  src={game.image || "/placeholder.svg"}
+                  alt={game.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
 
-              <CardContent className="p-0 pt-8">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-3xl font-light text-gray-900">{game.title}</h3>
-                  <div className="text-right text-sm text-gray-500">
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-2xl font-medium text-gray-900">{game.title}</h3>
+                  <div className="text-sm text-gray-500 text-right">
                     <div className="flex items-center mb-1">
                       <Star className="w-4 h-4 fill-yellow-400 text-yellow-400 mr-1" />
                       {game.rating}
@@ -145,81 +90,112 @@ export default function GameDownloadSite() {
                   </div>
                 </div>
 
-                <p className="text-gray-600 text-lg leading-relaxed mb-8">{game.description}</p>
+                <p className="text-gray-600 mb-6">{game.description}</p>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {game.downloadLinks.map((link, linkIndex) => (
                     <Button
                       key={linkIndex}
-                      onClick={() => handleDownloadClick(game.title, link.name, link.type, link.isInDevelopment)}
+                      onClick={() => handleDownloadClick(game.title, link.name, link.type)}
                       variant="outline"
-                      className="w-full justify-between h-14 px-6 border-gray-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 text-left group/btn"
+                      className="w-full justify-between h-12 px-4 hover:bg-gray-900 hover:text-white"
                     >
                       <div className="flex items-center">
-                        <Download className="w-5 h-5 mr-3" />
-                        <span className="font-medium">{link.name}</span>
+                        <Download className="w-4 h-4 mr-2" />
+                        <span>{link.name}</span>
                       </div>
-                      <div className="flex items-center text-sm text-gray-500 group-hover/btn:text-gray-300">
-                        <span className="mr-2">{game.size}</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
+                      <span className="text-sm">{game.size}</span>
                     </Button>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
+
+          {/* 大庙杯比赛 */}
+          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl overflow-hidden shadow-sm border border-yellow-200">
+            <div className="aspect-video bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center">
+              <Trophy className="w-24 h-24 text-yellow-600" />
+            </div>
+
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-3">
+                <h3 className="text-2xl font-medium text-gray-900">大庙杯比赛</h3>
+                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">竞赛活动</Badge>
+              </div>
+
+              <p className="text-gray-600 mb-6">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
+
+              <div className="space-y-2">
+                <Button
+                  onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
+                  className="w-full justify-between h-12 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0"
+                >
+                  <div className="flex items-center">
+                    <Trophy className="w-4 h-4 mr-2" />
+                    <span>参与比赛</span>
+                  </div>
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
+                  variant="outline"
+                  className="w-full justify-between h-12 px-4 border-yellow-300 text-yellow-700 hover:bg-yellow-50"
+                >
+                  <div className="flex items-center">
+                    <Globe className="w-4 h-4 mr-2" />
+                    <span>查看详情</span>
+                  </div>
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Personal Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="mb-12">
-            <h2 className="text-4xl font-light text-gray-900 mb-6">关于此站点</h2>
-            <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-              本站点为公益下载站点，用爱发电，下载资源仅供学习交流，严厉禁止商用和盗版软件，该站点只提供下载链接，不参与任何盗版、抄袭或进行违法犯罪等活动。
+      {/* About & Updates Section */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          {/* About */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-light text-gray-900 mb-4">关于此站点</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              本站点为公益下载站点，用爱发电，下载资源仅供学习交流，严厉禁止商用和盗版软件。
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-12">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-              <div className="text-left">
-                <h3 className="text-2xl font-medium text-gray-900 mb-2">Vegcat.icu</h3>
+          <div className="bg-white rounded-2xl p-6 shadow-sm border mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-medium text-gray-900 mb-1">Vegcat.icu</h3>
                 <p className="text-gray-600">探索关于站点和站长的信息以及接下来的更新计划。</p>
               </div>
               <Button
                 onClick={() => window.open("https://vegcat.icu", "_blank")}
-                className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 h-auto rounded-full font-medium transition-all duration-300 hover:scale-105 flex items-center group"
+                className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-full flex items-center"
               >
-                <Globe className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                <Globe className="w-4 h-4 mr-2" />
                 点击跳转
                 <ExternalLink className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
 
-          {/* Update Log Section */}
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-            <div className="flex items-center justify-center mb-8">
-              <Clock className="w-6 h-6 mr-3 text-gray-600" />
-              <h3 className="text-2xl font-medium text-gray-900">更新日志</h3>
+          {/* Update Log */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border">
+            <div className="flex items-center justify-center mb-6">
+              <Clock className="w-5 h-5 mr-2 text-gray-600" />
+              <h3 className="text-xl font-medium text-gray-900">更新日志</h3>
             </div>
 
-            <div className="space-y-6 text-left">
+            <div className="space-y-4">
               {updateLogs.map((log, index) => (
-                <div key={index} className="border-l-2 border-gray-200 pl-6 relative">
-                  <div className="absolute w-3 h-3 bg-gray-400 rounded-full -left-2 top-2"></div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <Badge className="bg-gray-900 text-white px-3 py-1 text-sm">{log.version}</Badge>
-                    <span className="text-sm text-gray-500">{log.date}</span>
-                  </div>
+                <div key={index} className="border-l-2 border-gray-200 pl-4">
+                  <Badge className="bg-gray-900 text-white mb-2">{log.version}</Badge>
                   <ul className="space-y-1 text-gray-600">
                     {log.changes.map((change, changeIndex) => (
-                      <li key={changeIndex} className="flex items-start">
-                        <span className="text-gray-400 mr-2">•</span>
-                        <span>{change}</span>
-                      </li>
+                      <li key={changeIndex}>• {change}</li>
                     ))}
                   </ul>
                 </div>
@@ -229,27 +205,23 @@ export default function GameDownloadSite() {
         </div>
       </section>
 
-      {/* CS1.6 Download Dialog */}
+      {/* Download Dialog */}
       <Dialog open={isDownloadDialogOpen} onOpenChange={setIsDownloadDialogOpen}>
-        <DialogContent className="bg-white border border-gray-200 max-w-md rounded-3xl p-8">
+        <DialogContent className="bg-white max-w-md rounded-2xl p-6">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-light text-gray-900 mb-2">下载注意事项</DialogTitle>
-            <DialogDescription className="text-gray-600 text-base">
-              双击cdkey_schinese.reg以自动注册和汉化
+            <DialogTitle className="text-xl text-gray-900">下载注意事项</DialogTitle>
+            <DialogDescription className="text-gray-600">
+              双击cdkey_schinese.reg以自动注册和汉化，游戏内H键呼出zbot菜单
             </DialogDescription>
-            <DialogDescription className="text-gray-600 text-base">游戏内H键呼出zbot菜单</DialogDescription>
           </DialogHeader>
 
           {selectedDownload && (
-            <div className="py-6">
-              <div className="bg-gray-50 rounded-2xl p-6 mb-6">
-                <h3 className="font-medium text-xl mb-2 text-gray-900">{selectedDownload.gameName}</h3>
-                <p className="text-gray-600 mb-3">下载方式: {selectedDownload.linkName}</p>
-                <Badge className="bg-gray-900 text-white px-3 py-1 text-sm">
-                  {selectedDownload.linkType === "official" && "高速下载"}
-                  {selectedDownload.linkType === "fast" && "免解压"}
-                  {selectedDownload.linkType === "pc" && "PC版本"}
-                  {selectedDownload.linkType === "mobile" && "移动版本"}
+            <div className="pt-4">
+              <div className="bg-gray-50 rounded-xl p-4 mb-4">
+                <h3 className="font-medium text-lg mb-1">{selectedDownload.gameName}</h3>
+                <p className="text-gray-600 mb-2">下载方式: {selectedDownload.linkName}</p>
+                <Badge className="bg-gray-900 text-white">
+                  {selectedDownload.linkType === "official" ? "高速下载" : "免解压"}
                 </Badge>
               </div>
 
@@ -264,7 +236,7 @@ export default function GameDownloadSite() {
                     )
                     setIsDownloadDialogOpen(false)
                   }}
-                  className="flex-1 bg-gray-900 hover:bg-gray-800 text-white h-12 rounded-full font-medium"
+                  className="flex-1 bg-gray-900 hover:bg-gray-800 text-white rounded-full"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   开始下载 (提取码: 6657)
@@ -272,7 +244,7 @@ export default function GameDownloadSite() {
                 <Button
                   variant="outline"
                   onClick={() => setIsDownloadDialogOpen(false)}
-                  className="flex-1 border-gray-200 hover:border-gray-300 h-12 rounded-full font-medium"
+                  className="flex-1 rounded-full"
                 >
                   取消
                 </Button>
@@ -282,75 +254,12 @@ export default function GameDownloadSite() {
         </DialogContent>
       </Dialog>
 
-      {/* Development Dialog */}
-      <Dialog open={isDevelopmentDialogOpen} onOpenChange={setIsDevelopmentDialogOpen}>
-        <DialogContent className="bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200 max-w-md rounded-3xl p-8">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-light text-gray-900 mb-2 flex items-center">
-              <Construction className="w-6 h-6 mr-2 text-yellow-600" />
-              全速赶工中
-            </DialogTitle>
-            <DialogDescription className="text-yellow-700 text-base">进度已经沦陷，亿万同学必须隐忍</DialogDescription>
-          </DialogHeader>
-
-          {selectedDevelopmentGame && (
-            <div className="py-6">
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-yellow-200">
-                <h3 className="font-medium text-xl mb-3 text-gray-900">{selectedDevelopmentGame.gameName}</h3>
-                <div className="space-y-2 text-sm text-gray-700">
-                  <p>敬请期待</p>
-                </div>
-                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 text-sm mt-3">
-                  掉头发中
-                </Badge>
-              </div>
-
-              <div className="text-center">
-                <Button
-                  onClick={() => setIsDevelopmentDialogOpen(false)}
-                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 py-3 h-auto rounded-full font-medium transition-all duration-300"
-                >
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  期待一下
-                </Button>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
       {/* Footer */}
-      <footer className="border-t border-gray-100 bg-white py-12">
-        <div className="max-w-7xl mx-auto px-6 text-center">
+      <footer className="border-t bg-white py-8">
+        <div className="max-w-4xl mx-auto px-6 text-center">
           <p className="text-gray-500 text-sm">© 2025 Vegcat.</p>
         </div>
       </footer>
-
-      <style jsx>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </div>
   )
 }
