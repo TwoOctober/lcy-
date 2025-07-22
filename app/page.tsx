@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -37,6 +37,39 @@ const updateLogs = [
   },
 ]
 
+// 打字机效果组件
+function TypewriterText({ text, speed = 100 }: { text: string; speed?: number }) {
+  const [displayText, setDisplayText] = useState("")
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [showCursor, setShowCursor] = useState(true)
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayText((prev) => prev + text[currentIndex])
+        setCurrentIndex((prev) => prev + 1)
+      }, speed)
+
+      return () => clearTimeout(timeout)
+    }
+  }, [currentIndex, text, speed])
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev)
+    }, 500)
+
+    return () => clearInterval(cursorInterval)
+  }, [])
+
+  return (
+    <span>
+      {displayText}
+      <span className={`inline-block w-0.5 h-8 bg-gray-900 ml-1 ${showCursor ? "opacity-100" : "opacity-0"}`}>|</span>
+    </span>
+  )
+}
+
 export default function GameDownloadSite() {
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
   const [selectedDownload, setSelectedDownload] = useState<{
@@ -55,7 +88,9 @@ export default function GameDownloadSite() {
       {/* Hero Section */}
       <section className="bg-gray-50 py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl font-light text-gray-900 mb-4">祝贺本站点访问量破1k+</h1>
+          <h1 className="text-4xl font-light text-gray-900 mb-4 min-h-[3rem]">
+            <TypewriterText text="祝贺本站点访问量破1k+" speed={80} />
+          </h1>
           <p className="text-lg text-gray-600">Powered by Vegcat</p>
         </div>
       </section>
@@ -64,38 +99,38 @@ export default function GameDownloadSite() {
       <section className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 gap-8">
           {/* 大庙杯比赛 */}
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl overflow-hidden shadow-sm border border-yellow-200">
-            <div className="aspect-video bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center">
-              <Trophy className="w-24 h-24 text-yellow-600" />
+          <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+            <div className="aspect-video bg-gradient-to-br from-slate-100 to-blue-100 flex items-center justify-center">
+              <Trophy className="w-24 h-24 text-slate-600" />
             </div>
 
             <div className="p-6">
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-2xl font-medium text-gray-900">大庙杯比赛</h3>
-                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">竞赛活动</Badge>
+                <Badge className="bg-gradient-to-r from-slate-600 to-blue-600 text-white">竞赛活动</Badge>
               </div>
 
               <p className="text-gray-600 mb-6">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
 
               <div className="space-y-2">
                 <Button
-                  onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
-                  className="w-full justify-between h-12 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0"
+                  onClick={() => window.open("https://b23.tv/x5nXHGj", "_blank")}
+                  className="w-full justify-between h-12 px-4 bg-gradient-to-r from-slate-600 to-blue-600 hover:from-slate-700 hover:to-blue-700 text-white border-0"
                 >
                   <div className="flex items-center">
                     <Trophy className="w-4 h-4 mr-2" />
-                    <span>参与比赛</span>
+                    <span>查看比赛</span>
                   </div>
                   <ExternalLink className="w-4 h-4" />
                 </Button>
                 <Button
                   onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
                   variant="outline"
-                  className="w-full justify-between h-12 px-4 border-yellow-300 text-yellow-700 hover:bg-yellow-50"
+                  className="w-full justify-between h-12 px-4 border-slate-300 text-slate-700 hover:bg-slate-50"
                 >
                   <div className="flex items-center">
                     <Globe className="w-4 h-4 mr-2" />
-                    <span>查看详情</span>
+                    <span>比赛通知群</span>
                   </div>
                   <ExternalLink className="w-4 h-4" />
                 </Button>
