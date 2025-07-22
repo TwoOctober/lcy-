@@ -42,6 +42,7 @@ function TypewriterText({ text, speed = 100 }: { text: string; speed?: number })
   const [displayText, setDisplayText] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showCursor, setShowCursor] = useState(true)
+  const [isComplete, setIsComplete] = useState(false)
 
   useEffect(() => {
     if (currentIndex < text.length) {
@@ -51,21 +52,37 @@ function TypewriterText({ text, speed = 100 }: { text: string; speed?: number })
       }, speed)
 
       return () => clearTimeout(timeout)
+    } else if (currentIndex === text.length && !isComplete) {
+      setIsComplete(true)
+      // 打字完成后，光标闪烁几次然后消失
+      setTimeout(() => {
+        setShowCursor(false)
+      }, 2000)
     }
-  }, [currentIndex, text, speed])
+  }, [currentIndex, text, speed, isComplete])
 
   useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev)
-    }, 500)
+    if (!isComplete) {
+      const cursorInterval = setInterval(() => {
+        setShowCursor((prev) => !prev)
+      }, 500)
 
-    return () => clearInterval(cursorInterval)
-  }, [])
+      return () => clearInterval(cursorInterval)
+    }
+  }, [isComplete])
 
   return (
-    <span>
-      {displayText}
-      <span className={`inline-block w-0.5 h-8 bg-gray-900 ml-1 ${showCursor ? "opacity-100" : "opacity-0"}`}>|</span>
+    <span className="relative">
+      <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
+        {displayText}
+      </span>
+      {!isComplete && (
+        <span
+          className={`inline-block w-0.5 h-8 bg-gray-900 ml-1 transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`}
+        >
+          |
+        </span>
+      )}
     </span>
   )
 }
@@ -85,6 +102,23 @@ export default function GameDownloadSite() {
 
   return (
     <div className="min-h-screen bg-white">
+      <style jsx>{`
+        @keyframes gradient-x {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        .animate-gradient-x {
+          animation: gradient-x 3s ease infinite;
+        }
+        .bg-300\\% {
+          background-size: 300% 300%;
+        }
+      `}</style>
+
       {/* Hero Section */}
       <section className="bg-gray-50 py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
@@ -100,8 +134,13 @@ export default function GameDownloadSite() {
         <div className="grid md:grid-cols-2 gap-8">
           {/* 大庙杯比赛 */}
           <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl overflow-hidden shadow-sm border border-indigo-200">
-            <div className="aspect-video bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
-              <Trophy className="w-24 h-24 text-indigo-600" />
+            <div className="aspect-video bg-gray-100">
+              <img
+                src="https://i2.hdslb.com/bfs/archive/42d63ebb4c437229c2694059aa28c4d579dfb75b.jpg"
+                alt="大庙杯比赛"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
 
             <div className="p-6">
