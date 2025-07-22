@@ -99,15 +99,15 @@ export default function GameDownloadSite() {
       <section className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 gap-8">
           {/* 大庙杯比赛 */}
-          <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
-            <div className="aspect-video bg-gradient-to-br from-slate-100 to-blue-100 flex items-center justify-center">
-              <Trophy className="w-24 h-24 text-slate-600" />
+          <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl overflow-hidden shadow-sm border border-indigo-200">
+            <div className="aspect-video bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
+              <Trophy className="w-24 h-24 text-indigo-600" />
             </div>
 
             <div className="p-6">
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-2xl font-medium text-gray-900">大庙杯比赛</h3>
-                <Badge className="bg-gradient-to-r from-slate-600 to-blue-600 text-white">竞赛活动</Badge>
+                <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white">竞赛活动</Badge>
               </div>
 
               <p className="text-gray-600 mb-6">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
@@ -115,7 +115,7 @@ export default function GameDownloadSite() {
               <div className="space-y-2">
                 <Button
                   onClick={() => window.open("https://b23.tv/x5nXHGj", "_blank")}
-                  className="w-full justify-between h-12 px-4 bg-gradient-to-r from-slate-600 to-blue-600 hover:from-slate-700 hover:to-blue-700 text-white border-0"
+                  className="w-full justify-between h-12 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0"
                 >
                   <div className="flex items-center">
                     <Trophy className="w-4 h-4 mr-2" />
@@ -126,7 +126,7 @@ export default function GameDownloadSite() {
                 <Button
                   onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
                   variant="outline"
-                  className="w-full justify-between h-12 px-4 border-slate-300 text-slate-700 hover:bg-slate-50"
+                  className="w-full justify-between h-12 px-4 border-indigo-300 text-indigo-700 hover:bg-indigo-50"
                 >
                   <div className="flex items-center">
                     <Globe className="w-4 h-4 mr-2" />
