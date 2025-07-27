@@ -136,7 +136,7 @@ export default function GameDownloadSite() {
           <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl overflow-hidden shadow-sm border border-indigo-200">
             <div className="aspect-video bg-gray-100">
               <img
-                src="https://i2.hdslb.com/bfs/archive/42d63ebb4c437229c2694059aa28c4d579dfb75b.jpg"
+                src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAJK-GiGU_3oRPUxEP8eTGkmSXROKgXlAAJqGAACQKIxVDZrG7Mq9Q5zNgQ.jpg"
                 alt="大庙杯比赛"
                 className="w-full h-full object-cover"
                 loading="lazy"
