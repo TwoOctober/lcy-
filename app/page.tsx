@@ -24,16 +24,16 @@ const games = [
 
 const updateLogs = [
   {
+    version: "2025-08-22",
+    changes: ["优化UI", "修复bug", "上线大庙杯比赛"],
+  },
+  {
     version: "2025-07-06",
     changes: ["正式弃用旧版", "修复严重bug", "上线cs1.6增强版"],
   },
   {
     version: "2025-07-05",
     changes: ["删除冗余文件", "修复严重bug", "添加了新地图"],
-  },
-  {
-    version: "2025-06-26",
-    changes: ["优化下载弹窗体验"],
   },
 ]
 
