@@ -72,12 +72,12 @@ function TypewriterText({ text, speed = 100 }: { text: string; speed?: number })
 
   return (
     <span className="relative">
-      <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient-x bg-300%">
+      <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
         {displayText}
       </span>
       {!isComplete && (
         <span
-          className={`inline-block w-0.5 h-8 bg-white ml-1 transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`}
+          className={`inline-block w-0.5 h-8 bg-yellow-400 ml-1 transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`}
         >
           |
         </span>
@@ -147,8 +147,8 @@ function useScrollAnimation() {
         })
       },
       {
-        threshold: 0.1,
-        rootMargin: "-10% 0px -10% 0px",
+        threshold: 0.3,
+        rootMargin: "-20% 0px -20% 0px",
       },
     )
 
@@ -162,6 +162,57 @@ function useScrollAnimation() {
   return visibleSections
 }
 
+// 页面吸附滚动Hook
+function useSnapScroll() {
+  useEffect(() => {
+    let isScrolling = false
+    let scrollTimeout: NodeJS.Timeout
+
+    const handleScroll = () => {
+      if (isScrolling) return
+
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => {
+        const sections = document.querySelectorAll("section")
+        const scrollPosition = window.scrollY + window.innerHeight / 2
+
+        let targetSection: Element | null = null
+        let minDistance = Number.POSITIVE_INFINITY
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect()
+          const sectionTop = window.scrollY + rect.top
+          const sectionCenter = sectionTop + rect.height / 2
+          const distance = Math.abs(scrollPosition - sectionCenter)
+
+          if (distance < minDistance) {
+            minDistance = distance
+            targetSection = section
+          }
+        })
+
+        if (targetSection && minDistance > 100) {
+          isScrolling = true
+          targetSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          })
+
+          setTimeout(() => {
+            isScrolling = false
+          }, 1000)
+        }
+      }, 150)
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      clearTimeout(scrollTimeout)
+    }
+  }, [])
+}
+
 export default function GameDownloadSite() {
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
   const [selectedDownload, setSelectedDownload] = useState<{
@@ -171,6 +222,7 @@ export default function GameDownloadSite() {
   } | null>(null)
 
   const visibleSections = useScrollAnimation()
+  useSnapScroll()
 
   const handleDownloadClick = (gameName: string, linkName: string, linkType: string) => {
     setSelectedDownload({ gameName, linkName, linkType })
@@ -184,6 +236,9 @@ export default function GameDownloadSite() {
   return (
     <div className="min-h-screen">
       <style jsx>{`
+        html {
+          scroll-behavior: smooth;
+        }
         @keyframes gradient-x {
           0%, 100% {
             background-position: 0% 50%;
@@ -295,7 +350,7 @@ export default function GameDownloadSite() {
         @keyframes slideInUp {
           from {
             opacity: 0;
-            transform: translateY(60px);
+            transform: translateY(40px);
           }
           to {
             opacity: 1;
@@ -305,7 +360,7 @@ export default function GameDownloadSite() {
         @keyframes slideInLeft {
           from {
             opacity: 0;
-            transform: translateX(-60px);
+            transform: translateX(-40px);
           }
           to {
             opacity: 1;
@@ -315,7 +370,7 @@ export default function GameDownloadSite() {
         @keyframes slideInRight {
           from {
             opacity: 0;
-            transform: translateX(60px);
+            transform: translateX(40px);
           }
           to {
             opacity: 1;
@@ -325,7 +380,7 @@ export default function GameDownloadSite() {
         @keyframes fadeInScale {
           from {
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.95);
           }
           to {
             opacity: 1;
@@ -335,7 +390,7 @@ export default function GameDownloadSite() {
         @keyframes staggeredFadeIn {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
           }
           to {
             opacity: 1;
@@ -343,7 +398,7 @@ export default function GameDownloadSite() {
           }
         }
         .animate-gradient-x {
-          animation: gradient-x 3s ease infinite;
+          animation: gradient-x 2s ease infinite;
         }
         .animate-wave-1 {
           animation: wave-1 25s ease-in-out infinite;
@@ -379,19 +434,19 @@ export default function GameDownloadSite() {
           animation: gradient-shift 8s ease infinite;
         }
         .animate-slide-in-up {
-          animation: slideInUp 0.8s ease-out forwards;
+          animation: slideInUp 0.5s ease-out forwards;
         }
         .animate-slide-in-left {
-          animation: slideInLeft 0.8s ease-out forwards;
+          animation: slideInLeft 0.5s ease-out forwards;
         }
         .animate-slide-in-right {
-          animation: slideInRight 0.8s ease-out forwards;
+          animation: slideInRight 0.5s ease-out forwards;
         }
         .animate-fade-in-scale {
-          animation: fadeInScale 0.8s ease-out forwards;
+          animation: fadeInScale 0.5s ease-out forwards;
         }
         .animate-staggered-fade-in {
-          animation: staggeredFadeIn 0.6s ease-out forwards;
+          animation: staggeredFadeIn 0.4s ease-out forwards;
         }
         .bg-300\\% {
           background-size: 300% 300%;
@@ -404,19 +459,39 @@ export default function GameDownloadSite() {
         }
         .scroll-section {
           opacity: 0;
-          transform: translateY(60px);
+          transform: translateY(40px);
         }
         .scroll-section.visible {
           opacity: 1;
           transform: translateY(0);
-          transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .stagger-1 { transition-delay: 0.1s; }
-        .stagger-2 { transition-delay: 0.2s; }
-        .stagger-3 { transition-delay: 0.3s; }
-        .stagger-4 { transition-delay: 0.4s; }
-        .stagger-5 { transition-delay: 0.5s; }
-        .stagger-6 { transition-delay: 0.6s; }
+        .stagger-1 { transition-delay: 0.05s; }
+        .stagger-2 { transition-delay: 0.1s; }
+        .stagger-3 { transition-delay: 0.15s; }
+        .stagger-4 { transition-delay: 0.2s; }
+        .stagger-5 { transition-delay: 0.25s; }
+        .stagger-6 { transition-delay: 0.3s; }
+        
+        /* 页面吸附样式 */
+        section {
+          scroll-snap-align: start;
+        }
+        
+        /* 优化滚动条 */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+          background: rgba(59, 130, 246, 0.5);
+          border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: rgba(59, 130, 246, 0.7);
+        }
       `}</style>
 
       {/* 全屏Hero Section */}
