@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "lcynb.icu",
+  title: "6657sb.icu",
   description: "一键注册，一键汉化，一键下载",
   icons: {
     icon: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico",

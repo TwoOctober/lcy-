@@ -37,55 +37,6 @@ const updateLogs = [
   },
 ]
 
-// 打字机效果组件
-function TypewriterText({ text, speed = 100 }: { text: string; speed?: number }) {
-  const [displayText, setDisplayText] = useState("")
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [showCursor, setShowCursor] = useState(true)
-  const [isComplete, setIsComplete] = useState(false)
-
-  useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText((prev) => prev + text[currentIndex])
-        setCurrentIndex((prev) => prev + 1)
-      }, speed)
-
-      return () => clearTimeout(timeout)
-    } else if (currentIndex === text.length && !isComplete) {
-      setIsComplete(true)
-      setTimeout(() => {
-        setShowCursor(false)
-      }, 2000)
-    }
-  }, [currentIndex, text, speed, isComplete])
-
-  useEffect(() => {
-    if (!isComplete) {
-      const cursorInterval = setInterval(() => {
-        setShowCursor((prev) => !prev)
-      }, 500)
-
-      return () => clearInterval(cursorInterval)
-    }
-  }, [isComplete])
-
-  return (
-    <span className="relative">
-      <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
-        {displayText}
-      </span>
-      {!isComplete && (
-        <span
-          className={`inline-block w-0.5 h-8 bg-yellow-400 ml-1 transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`}
-        >
-          |
-        </span>
-      )}
-    </span>
-  )
-}
-
 // 新的动态背景组件
 function DynamicBackground() {
   return (
@@ -162,7 +113,7 @@ function useScrollAnimation() {
   return visibleSections
 }
 
-// 页面吸附滚动Hook
+// 页面吸附滚动Hook - 调慢速度
 function useSnapScroll() {
   useEffect(() => {
     let isScrolling = false
@@ -198,11 +149,12 @@ function useSnapScroll() {
             block: "start",
           })
 
+          // 延长锁定时间到2.5秒，让吸附动画更慢更平滑
           setTimeout(() => {
             isScrolling = false
-          }, 1000)
+          }, 2500)
         }
-      }, 150)
+      }, 300) // 增加延迟到300ms，让吸附不那么敏感
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
@@ -508,8 +460,10 @@ export default function GameDownloadSite() {
               className="w-16 h-16 mx-auto mb-6 animate-bounce-slow"
             />
           </div>
-          <h1 className="text-6xl md:text-7xl font-light text-white mb-8 min-h-[5rem]">
-            <TypewriterText text="祝贺本站点访问量破1k+" speed={80} />
+          <h1 className="text-6xl md:text-7xl font-light text-white mb-8">
+            <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
+              6657sb.icu
+            </span>
           </h1>
           <p className="text-2xl text-white/80 mb-12 font-light">Powered by Vegcat</p>
         </div>
