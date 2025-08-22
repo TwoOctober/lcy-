@@ -740,14 +740,10 @@ export default function GameDownloadSite() {
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                    <span className="mr-2 text-xl sm:text-2xl">💙</span>
-                    支付宝赞助
+                    <span className="mr-2 text-xl sm:text-2xl">支付宝支付</span>
+                    
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-4">使用支付宝APP扫码赞助</p>
-                  <div className="w-full h-10 sm:h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg text-sm sm:text-base">
-                    <span className="mr-2">💰</span>
-                    支付宝
-                  </div>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">请使用支付宝APP扫码</p>
                 </div>
               </div>
 
@@ -762,14 +758,10 @@ export default function GameDownloadSite() {
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                    <span className="mr-2 text-xl sm:text-2xl">💚</span>
-                    微信赞助
+                    <span className="mr-2 text-xl sm:text-2xl">微信支付</span>
+                    
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-4">使用微信APP扫码赞助</p>
-                  <div className="w-full h-10 sm:h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg text-sm sm:text-base">
-                    <span className="mr-2">💰</span>
-                    微信
-                  </div>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">请使用微信APP扫码</p>
                 </div>
               </div>
             </div>
@@ -777,9 +769,9 @@ export default function GameDownloadSite() {
             {/* 底部说明 */}
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200">
               <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                感谢您的支持！您的每一份赞助都将用于网站的维护和优化，让我们能够为大家提供更好的服务。
+                感谢您的支持！您的每一份赞助都将用于本公益项目的维护和优化，为大家提供更好的服务。
                 <br />
-                <span className="text-gray-700 font-medium">所有赞助都是自愿的，我们承诺永远免费提供服务。</span>
+                <span className="text-gray-700 font-medium">所有赞助都是自愿的，我们或许会倒闭，但永远不会变质。</span>
               </p>
             </div>
           </div>
