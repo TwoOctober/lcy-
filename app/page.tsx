@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, Sparkles, ChevronDown } from "lucide-react"
+import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, ChevronDown } from "lucide-react"
 
 const games = [
   {
@@ -86,22 +86,49 @@ function TypewriterText({ text, speed = 100 }: { text: string; speed?: number })
   )
 }
 
-// 粒子组件
-function Particles() {
+// 新的动态背景组件
+function DynamicBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {[...Array(50)].map((_, i) => (
+      {/* 流动的波浪效果 */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/10 to-indigo-600/10 animate-wave-1"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tl from-indigo-600/10 to-blue-600/10 animate-wave-2"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-blue-700/10 to-indigo-700/10 animate-wave-3"></div>
+      </div>
+
+      {/* 动态网格 */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-grid-move"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent animate-grid-move-vertical"></div>
+      </div>
+
+      {/* 浮动光点 */}
+      {[...Array(30)].map((_, i) => (
         <div
           key={i}
-          className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
+          className="absolute rounded-full bg-white/20 animate-float-random"
           style={{
+            width: `${Math.random() * 4 + 2}px`,
+            height: `${Math.random() * 4 + 2}px`,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 3}s`,
-            animationDuration: `${2 + Math.random() * 3}s`,
+            animationDelay: `${Math.random() * 10}s`,
+            animationDuration: `${Math.random() * 20 + 10}s`,
           }}
         />
       ))}
+
+      {/* 大型装饰圆环 */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 border border-white/5 rounded-full animate-spin-slow"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 border border-white/5 rounded-full animate-spin-reverse"></div>
+
+      {/* 渐变光晕 */}
+      <div className="absolute top-10 right-10 w-72 h-72 bg-gradient-radial from-blue-400/20 via-blue-500/10 to-transparent rounded-full animate-pulse-slow"></div>
+      <div
+        className="absolute bottom-20 left-20 w-64 h-64 bg-gradient-radial from-indigo-400/20 via-indigo-500/10 to-transparent rounded-full animate-pulse-slow"
+        style={{ animationDelay: "3s" }}
+      ></div>
     </div>
   )
 }
@@ -134,12 +161,88 @@ export default function GameDownloadSite() {
             background-position: 100% 50%;
           }
         }
-        @keyframes float {
+        @keyframes wave-1 {
           0%, 100% {
-            transform: translateY(0px) rotate(0deg);
+            transform: translateX(-100%) translateY(-50%) rotate(0deg);
           }
           50% {
-            transform: translateY(-20px) rotate(180deg);
+            transform: translateX(100%) translateY(-25%) rotate(180deg);
+          }
+        }
+        @keyframes wave-2 {
+          0%, 100% {
+            transform: translateX(100%) translateY(-25%) rotate(180deg);
+          }
+          50% {
+            transform: translateX(-100%) translateY(-75%) rotate(360deg);
+          }
+        }
+        @keyframes wave-3 {
+          0%, 100% {
+            transform: translateX(-50%) translateY(-100%) rotate(90deg);
+          }
+          50% {
+            transform: translateX(-25%) translateY(100%) rotate(270deg);
+          }
+        }
+        @keyframes grid-move {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+        @keyframes grid-move-vertical {
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(100%);
+          }
+        }
+        @keyframes float-random {
+          0%, 100% {
+            transform: translateY(0px) translateX(0px);
+            opacity: 0.3;
+          }
+          25% {
+            transform: translateY(-20px) translateX(10px);
+            opacity: 0.8;
+          }
+          50% {
+            transform: translateY(-10px) translateX(-15px);
+            opacity: 0.5;
+          }
+          75% {
+            transform: translateY(-30px) translateX(5px);
+            opacity: 0.9;
+          }
+        }
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes spin-reverse {
+          from {
+            transform: rotate(360deg);
+          }
+          to {
+            transform: rotate(0deg);
+          }
+        }
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.6;
+            transform: scale(1.1);
           }
         }
         @keyframes bounce-slow {
@@ -148,14 +251,6 @@ export default function GameDownloadSite() {
           }
           50% {
             transform: translateY(-10px);
-          }
-        }
-        @keyframes rotate-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
           }
         }
         @keyframes gradient-shift {
@@ -169,14 +264,35 @@ export default function GameDownloadSite() {
         .animate-gradient-x {
           animation: gradient-x 3s ease infinite;
         }
-        .animate-float {
-          animation: float 8s ease-in-out infinite;
+        .animate-wave-1 {
+          animation: wave-1 25s ease-in-out infinite;
+        }
+        .animate-wave-2 {
+          animation: wave-2 30s ease-in-out infinite;
+        }
+        .animate-wave-3 {
+          animation: wave-3 35s ease-in-out infinite;
+        }
+        .animate-grid-move {
+          animation: grid-move 15s linear infinite;
+        }
+        .animate-grid-move-vertical {
+          animation: grid-move-vertical 20s linear infinite;
+        }
+        .animate-float-random {
+          animation: float-random 15s ease-in-out infinite;
+        }
+        .animate-spin-slow {
+          animation: spin-slow 60s linear infinite;
+        }
+        .animate-spin-reverse {
+          animation: spin-reverse 45s linear infinite;
+        }
+        .animate-pulse-slow {
+          animation: pulse-slow 8s ease-in-out infinite;
         }
         .animate-bounce-slow {
           animation: bounce-slow 3s ease-in-out infinite;
-        }
-        .animate-rotate-slow {
-          animation: rotate-slow 20s linear infinite;
         }
         .animate-gradient-shift {
           animation: gradient-shift 8s ease infinite;
@@ -187,55 +303,40 @@ export default function GameDownloadSite() {
         .bg-400\\% {
           background-size: 400% 400%;
         }
+        .bg-gradient-radial {
+          background: radial-gradient(circle, var(--tw-gradient-stops));
+        }
       `}</style>
 
       {/* 全屏Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 animate-gradient-shift bg-400%">
-        {/* 动态背景层 */}
-        <div className="absolute inset-0">
-          {/* 大型装饰圆形 */}
-          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl animate-float"></div>
-          <div
-            className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-indigo-500/20 rounded-full blur-3xl animate-float"
-            style={{ animationDelay: "2s" }}
-          ></div>
-          <div
-            className="absolute bottom-20 left-1/3 w-64 h-64 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-float"
-            style={{ animationDelay: "4s" }}
-          ></div>
-
-          {/* 几何装饰 */}
-          <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-white/10 rounded-full animate-rotate-slow"></div>
-          <div
-            className="absolute bottom-1/3 right-1/4 w-24 h-24 border border-white/10 rotate-45 animate-rotate-slow"
-            style={{ animationDirection: "reverse" }}
-          ></div>
-
-          {/* 粒子效果 */}
-          <Particles />
-        </div>
+      <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 animate-gradient-shift bg-400%">
+        {/* 新的动态背景 */}
+        <DynamicBackground />
 
         {/* 主要内容 */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex-1 flex flex-col justify-center">
           <div className="mb-8">
-            <Sparkles className="w-16 h-16 text-white/80 mx-auto mb-6 animate-bounce-slow" />
+            <img
+              src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico"
+              alt="网站图标"
+              className="w-16 h-16 mx-auto mb-6 animate-bounce-slow"
+            />
           </div>
           <h1 className="text-6xl md:text-7xl font-light text-white mb-8 min-h-[5rem]">
             <TypewriterText text="祝贺本站点访问量破1k+" speed={80} />
           </h1>
           <p className="text-2xl text-white/80 mb-12 font-light">Powered by Vegcat</p>
-          <div className="w-32 h-1 bg-gradient-to-r from-indigo-400 to-purple-400 mx-auto rounded-full mb-16"></div>
+        </div>
 
-          {/* 滚动指示器 */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-            <button
-              onClick={() => scrollToSection("downloads")}
-              className="flex flex-col items-center text-white/60 hover:text-white/80 transition-colors group"
-            >
-              <span className="text-sm mb-2 font-light">向下滚动探索</span>
-              <ChevronDown className="w-6 h-6 animate-bounce-slow group-hover:translate-y-1 transition-transform" />
-            </button>
-          </div>
+        {/* 滚动指示器 - 移到最底部 */}
+        <div className="relative z-10 pb-8">
+          <button
+            onClick={() => scrollToSection("downloads")}
+            className="flex flex-col items-center text-white/60 hover:text-white/80 transition-colors group"
+          >
+            <span className="text-sm mb-2 font-light">向下滚动探索</span>
+            <ChevronDown className="w-6 h-6 animate-bounce-slow group-hover:translate-y-1 transition-transform" />
+          </button>
         </div>
       </section>
 
@@ -355,8 +456,8 @@ export default function GameDownloadSite() {
             ))}
           </div>
 
-          {/* 继续向下滚动指示器 */}
-          <div className="text-center mt-16">
+          {/* 继续向下滚动指示器 - 完全居中 */}
+          <div className="w-full flex justify-center mt-16">
             <button
               onClick={() => scrollToSection("about")}
               className="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors group"
