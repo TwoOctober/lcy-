@@ -113,7 +113,7 @@ function useScrollAnimation() {
   return visibleSections
 }
 
-// 页面吸附滚动Hook - 大幅增加阈值
+// 页面吸附滚动Hook - 降低阈值让轻微偏移就吸附
 function useSnapScroll() {
   useEffect(() => {
     let isScrolling = false
@@ -142,20 +142,20 @@ function useSnapScroll() {
           }
         })
 
-        // 大幅增加阈值到500px，让吸附更不敏感
-        if (targetSection && minDistance > 500) {
+        // 大幅降低阈值到50px，让一点点偏移就吸附
+        if (targetSection && minDistance > 50) {
           isScrolling = true
           targetSection.scrollIntoView({
             behavior: "smooth",
             block: "start",
           })
 
-          // 延长锁定时间到2.5秒，让吸附动画更慢更平滑
+          // 缩短锁定时间到1秒，让吸附更快响应
           setTimeout(() => {
             isScrolling = false
-          }, 2500)
+          }, 1000)
         }
-      }, 500) // 增加延迟到500ms，让吸附更不敏感
+      }, 100) // 减少延迟到100ms，让吸附更敏感
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
