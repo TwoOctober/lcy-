@@ -783,7 +783,7 @@ export default function GameDownloadSite() {
 
           {/* Footer */}
           <div className={`text-center scroll-section stagger-6 ${visibleSections.has("about") ? "visible" : ""}`}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-8">
               <p className="text-gray-500 text-sm">© 2025 Vegcat. All rights reserved.</p>
               <Button
                 onClick={() => window.open("https://cs.lcynb.icu", "_blank")}
@@ -793,35 +793,14 @@ export default function GameDownloadSite() {
                 <ExternalLink className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
                 跳转旧版
               </Button>
-            </div>
-
-            {/* 赞助按钮 */}
-            <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-3xl p-6 border border-pink-100 shadow-lg">
-              <div className="text-center mb-4">
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">❤️ 支持我们</h4>
-                <p className="text-gray-600 text-sm">如果您觉得我们的服务有帮助，欢迎赞助支持</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button
-                  onClick={() => window.open("https://afdian.net/a/vegcat", "_blank")}
-                  className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 py-3 rounded-2xl flex items-center shadow-lg hover:shadow-xl transition-all duration-300 group"
-                >
-                  <span className="mr-2">💖</span>
-                  爱发电赞助
-                  <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    // 这里可以添加显示二维码的逻辑
-                    alert("微信赞助二维码功能开发中...")
-                  }}
-                  className="border-2 border-pink-200 text-pink-700 hover:bg-pink-50 hover:border-pink-300 px-6 py-3 rounded-2xl flex items-center transition-all duration-300 group"
-                >
-                  <span className="mr-2">💰</span>
-                  微信赞助
-                </Button>
-              </div>
+              <Button
+                onClick={() => window.open("https://afdian.net/a/vegcat", "_blank")}
+                className="px-6 py-2 text-sm bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-2xl flex items-center transition-all duration-300 group"
+              >
+                <span className="mr-2">💖</span>
+                赞助支持
+                <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </div>
           </div>
         </div>
