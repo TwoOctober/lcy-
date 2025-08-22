@@ -133,6 +133,35 @@ function DynamicBackground() {
   )
 }
 
+// 滚动动画Hook
+function useScrollAnimation() {
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => new Set([...prev, entry.target.id]))
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "-10% 0px -10% 0px",
+      },
+    )
+
+    // 观察所有需要动画的元素
+    const sections = document.querySelectorAll("[data-scroll-section]")
+    sections.forEach((section) => observer.observe(section))
+
+    return () => observer.disconnect()
+  }, [])
+
+  return visibleSections
+}
+
 export default function GameDownloadSite() {
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
   const [selectedDownload, setSelectedDownload] = useState<{
@@ -140,6 +169,8 @@ export default function GameDownloadSite() {
     linkName: string
     linkType: string
   } | null>(null)
+
+  const visibleSections = useScrollAnimation()
 
   const handleDownloadClick = (gameName: string, linkName: string, linkType: string) => {
     setSelectedDownload({ gameName, linkName, linkType })
@@ -261,6 +292,56 @@ export default function GameDownloadSite() {
             background-position: 100% 50%;
           }
         }
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(60px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-60px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(60px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes fadeInScale {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        @keyframes staggeredFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
         .animate-gradient-x {
           animation: gradient-x 3s ease infinite;
         }
@@ -297,6 +378,21 @@ export default function GameDownloadSite() {
         .animate-gradient-shift {
           animation: gradient-shift 8s ease infinite;
         }
+        .animate-slide-in-up {
+          animation: slideInUp 0.8s ease-out forwards;
+        }
+        .animate-slide-in-left {
+          animation: slideInLeft 0.8s ease-out forwards;
+        }
+        .animate-slide-in-right {
+          animation: slideInRight 0.8s ease-out forwards;
+        }
+        .animate-fade-in-scale {
+          animation: fadeInScale 0.8s ease-out forwards;
+        }
+        .animate-staggered-fade-in {
+          animation: staggeredFadeIn 0.6s ease-out forwards;
+        }
         .bg-300\\% {
           background-size: 300% 300%;
         }
@@ -306,6 +402,21 @@ export default function GameDownloadSite() {
         .bg-gradient-radial {
           background: radial-gradient(circle, var(--tw-gradient-stops));
         }
+        .scroll-section {
+          opacity: 0;
+          transform: translateY(60px);
+        }
+        .scroll-section.visible {
+          opacity: 1;
+          transform: translateY(0);
+          transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
       `}</style>
 
       {/* 全屏Hero Section */}
@@ -343,17 +454,28 @@ export default function GameDownloadSite() {
       {/* 下载区域 */}
       <section
         id="downloads"
-        className="min-h-screen flex items-center bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20"
+        data-scroll-section
+        className={`min-h-screen flex items-center bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 scroll-section ${
+          visibleSections.has("downloads") ? "visible" : ""
+        }`}
       >
         <div className="max-w-6xl mx-auto px-6 w-full">
-          <div className="text-center mb-16">
+          <div
+            className={`text-center mb-16 scroll-section stagger-1 ${
+              visibleSections.has("downloads") ? "visible" : ""
+            }`}
+          >
             <h2 className="text-5xl font-light text-gray-900 mb-6">精选游戏下载</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-10">
             {/* 大庙杯比赛 */}
-            <div className="group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200">
+            <div
+              className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-2 ${
+                visibleSections.has("downloads") ? "visible" : ""
+              }`}
+            >
               <div className="aspect-video bg-gray-100 relative overflow-hidden">
                 <img
                   src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAJK-GiGU_3oRPUxEP8eTGkmSXROKgXlAAJqGAACQKIxVDZrG7Mq9Q5zNgQ.jpg"
@@ -404,7 +526,9 @@ export default function GameDownloadSite() {
             {games.map((game) => (
               <div
                 key={game.id}
-                className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200"
+                className={`group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 scroll-section stagger-3 ${
+                  visibleSections.has("downloads") ? "visible" : ""
+                }`}
               >
                 <div className="aspect-video bg-gray-100 relative overflow-hidden">
                   <img
@@ -457,7 +581,11 @@ export default function GameDownloadSite() {
           </div>
 
           {/* 继续向下滚动指示器 - 完全居中 */}
-          <div className="w-full flex justify-center mt-16">
+          <div
+            className={`w-full flex justify-center mt-16 scroll-section stagger-4 ${
+              visibleSections.has("downloads") ? "visible" : ""
+            }`}
+          >
             <button
               onClick={() => scrollToSection("about")}
               className="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors group"
@@ -470,9 +598,17 @@ export default function GameDownloadSite() {
       </section>
 
       {/* 关于区域 */}
-      <section id="about" className="min-h-screen flex items-center bg-gradient-to-br from-gray-50 to-indigo-50 py-20">
+      <section
+        id="about"
+        data-scroll-section
+        className={`min-h-screen flex items-center bg-gradient-to-br from-gray-50 to-indigo-50 py-20 scroll-section ${
+          visibleSections.has("about") ? "visible" : ""
+        }`}
+      >
         <div className="max-w-4xl mx-auto px-6 w-full">
-          <div className="text-center mb-16">
+          <div
+            className={`text-center mb-16 scroll-section stagger-1 ${visibleSections.has("about") ? "visible" : ""}`}
+          >
             <h2 className="text-5xl font-light text-gray-900 mb-6">关于此站点</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full mb-8"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -480,7 +616,11 @@ export default function GameDownloadSite() {
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 mb-10">
+          <div
+            className={`bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 mb-10 scroll-section stagger-2 ${
+              visibleSections.has("about") ? "visible" : ""
+            }`}
+          >
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               <div>
                 <h3 className="text-2xl font-semibold text-gray-900 mb-2">Vegcat.icu</h3>
@@ -497,7 +637,11 @@ export default function GameDownloadSite() {
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 mb-16">
+          <div
+            className={`bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 mb-16 scroll-section stagger-3 ${
+              visibleSections.has("about") ? "visible" : ""
+            }`}
+          >
             <div className="flex items-center justify-center mb-8">
               <Clock className="w-6 h-6 mr-3 text-gray-600" />
               <h3 className="text-2xl font-semibold text-gray-900">更新日志</h3>
@@ -505,7 +649,12 @@ export default function GameDownloadSite() {
 
             <div className="space-y-6">
               {updateLogs.map((log, index) => (
-                <div key={index} className="border-l-4 border-indigo-200 pl-6 relative">
+                <div
+                  key={index}
+                  className={`border-l-4 border-indigo-200 pl-6 relative scroll-section stagger-${4 + index} ${
+                    visibleSections.has("about") ? "visible" : ""
+                  }`}
+                >
                   <div className="absolute w-4 h-4 bg-indigo-500 rounded-full -left-2 top-3"></div>
                   <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white mb-3 px-4 py-1 text-sm shadow-md">
                     {log.version}
@@ -524,7 +673,7 @@ export default function GameDownloadSite() {
           </div>
 
           {/* Footer */}
-          <div className="text-center">
+          <div className={`text-center scroll-section stagger-6 ${visibleSections.has("about") ? "visible" : ""}`}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
               <p className="text-gray-500 text-sm">© 2025 Vegcat. All rights reserved.</p>
               <Button
