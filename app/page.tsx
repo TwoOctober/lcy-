@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, ChevronDown, X } from "lucide-react"
+import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, ChevronDown } from "lucide-react"
 
 const games = [
   {
@@ -646,7 +646,7 @@ export default function GameDownloadSite() {
 
           {/* Footer */}
           <div className={`text-center scroll-section stagger-6 ${visibleSections.has("about") ? "visible" : ""}`}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-4">
               <p className="text-gray-500 text-sm">© 2025 Vegcat. All rights reserved.</p>
               <Button
                 onClick={() => window.open("https://cs.lcynb.icu", "_blank")}
@@ -659,7 +659,7 @@ export default function GameDownloadSite() {
               <Button
                 onClick={() => setIsSponsorDialogOpen(true)}
                 variant="outline"
-                className="px-6 py-2 text-sm border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-2xl flex items-center transition-all duration-300 group"
+                className="px-6 py-2 text-sm border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-2xl flex items-center transition-all duration-300"
               >
                 <span className="mr-2">💖</span>
                 赞助支持
@@ -721,14 +721,6 @@ export default function GameDownloadSite() {
       {/* Sponsor Dialog */}
       <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-2xl rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden">
-          {/* 关闭按钮 */}
-          <button
-            onClick={() => setIsSponsorDialogOpen(false)}
-            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-white transition-colors shadow-lg"
-          >
-            <X className="w-5 h-5 text-gray-600" />
-          </button>
-
           {/* 头部 */}
           <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-8 text-center text-gray-800">
             <h2 className="text-3xl font-bold mb-2">💖 支持我们</h2>
@@ -738,25 +730,25 @@ export default function GameDownloadSite() {
           {/* 内容区域 */}
           <div className="p-8">
             <div className="grid md:grid-cols-2 gap-8">
-              {/* 爱发电 */}
+              {/* 支付宝赞助 */}
               <div className="text-center">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 mb-4">
                   <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
-                      src="/placeholder.svg?height=180&width=180&text=爱发电二维码"
-                      alt="爱发电二维码"
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_6GioPdupnPueDpmWWJoCtCD7JyaJAALEGgAC0_xBVaJ3PNVdW0fdNgQ.jpg"
+                      alt="支付宝收款码"
                       className="w-44 h-44 rounded-xl"
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">爱发电赞助</h3>
-                  <p className="text-gray-600 text-sm mb-4">扫码或点击按钮前往爱发电平台</p>
-                  <Button
-                    onClick={() => window.open("https://afdian.net/a/vegcat", "_blank")}
-                    className="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    前往爱发电
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </Button>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="mr-2 text-2xl">💙</span>
+                    支付宝赞助
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">使用支付宝扫码直接赞助</p>
+                  <div className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
+                    <span className="mr-2">💰</span>
+                    扫码赞助
+                  </div>
                 </div>
               </div>
 
@@ -765,14 +757,17 @@ export default function GameDownloadSite() {
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 mb-4">
                   <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
-                      src="/placeholder.svg?height=180&width=180&text=微信收款码"
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_6WioPd_v60plaBZ1VPb4JvApEq6cAALFGgAC0_xBVfAd0SV1irAfNgQ.png"
                       alt="微信收款码"
                       className="w-44 h-44 rounded-xl"
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">微信赞助</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="mr-2 text-2xl">💚</span>
+                    微信赞助
+                  </h3>
                   <p className="text-gray-600 text-sm mb-4">使用微信扫码直接赞助</p>
-                  <div className="w-full h-12 bg-gradient-to-r from-gray-600 to-gray-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
+                  <div className="w-full h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
                     <span className="mr-2">💰</span>
                     扫码赞助
                   </div>
