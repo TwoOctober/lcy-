@@ -113,49 +113,128 @@ function useScrollAnimation() {
   return visibleSections
 }
 
-// 页面吸附滚动Hook - 降低阈值让轻微偏移就吸附
+// 改进的页面吸附滚动Hook - 降低向上滑动的敏感度
 function useSnapScroll() {
   useEffect(() => {
     let isScrolling = false
     let scrollTimeout: NodeJS.Timeout
+    let lastScrollY = window.scrollY
+    let scrollDirection = "down"
 
     const handleScroll = () => {
       if (isScrolling) return
 
+      // 检测滚动方向
+      const currentScrollY = window.scrollY
+      scrollDirection = currentScrollY > lastScrollY ? "down" : "up"
+      lastScrollY = currentScrollY
+
       clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(() => {
-        const sections = document.querySelectorAll("section")
-        const scrollPosition = window.scrollY + window.innerHeight / 2
+      scrollTimeout = setTimeout(
+        () => {
+          const sections = document.querySelectorAll("section")
+          const viewportHeight = window.innerHeight
+          const viewportCenter = window.scrollY + viewportHeight / 2
 
-        let targetSection: Element | null = null
-        let minDistance = Number.POSITIVE_INFINITY
+          let targetSection: Element | null = null
+          let minDistance = Number.POSITIVE_INFINITY
+          let bestAlignment = Number.POSITIVE_INFINITY
 
-        sections.forEach((section) => {
-          const rect = section.getBoundingClientRect()
-          const sectionTop = window.scrollY + rect.top
-          const sectionCenter = sectionTop + rect.height / 2
-          const distance = Math.abs(scrollPosition - sectionCenter)
+          sections.forEach((section) => {
+            const rect = section.getBoundingClientRect()
+            const sectionTop = window.scrollY + rect.top
+            const sectionHeight = rect.height
+            const sectionBottom = sectionTop + sectionHeight
 
-          if (distance < minDistance) {
-            minDistance = distance
-            targetSection = section
-          }
-        })
+            // 改进的中心点计算：考虑视觉重心而非几何中心
+            let sectionCenter: number
 
-        // 大幅降低阈值到50px，让一点点偏移就吸附
-        if (targetSection && minDistance > 50) {
-          isScrolling = true
-          targetSection.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
+            if (sectionHeight > viewportHeight) {
+              // 对于超长页面，使用视口顶部作为对齐点
+              sectionCenter = sectionTop
+            } else {
+              // 对于正常页面，使用几何中心
+              sectionCenter = sectionTop + sectionHeight / 2
+            }
+
+            // 计算到视口中心的距离
+            const distanceToCenter = Math.abs(viewportCenter - sectionCenter)
+
+            // 计算页面在视口中的对齐质量
+            let alignmentScore = 0
+
+            // 如果页面完全在视口内，优先选择
+            if (sectionTop >= window.scrollY && sectionBottom <= window.scrollY + viewportHeight) {
+              alignmentScore = 1000 // 高优先级
+            }
+            // 如果页面顶部对齐视口顶部
+            else if (Math.abs(sectionTop - window.scrollY) < 20) {
+              alignmentScore = 800
+            }
+            // 如果页面底部对齐视口底部
+            else if (Math.abs(sectionBottom - (window.scrollY + viewportHeight)) < 20) {
+              alignmentScore = 600
+            }
+            // 如果页面中心对齐视口中心
+            else if (distanceToCenter < viewportHeight * 0.1) {
+              alignmentScore = 400
+            }
+
+            // 综合评分：距离越近，对齐质量越高，得分越高
+            const totalScore = alignmentScore - distanceToCenter
+
+            if (totalScore > bestAlignment) {
+              bestAlignment = totalScore
+              minDistance = distanceToCenter
+              targetSection = section
+            }
           })
 
-          // 缩短锁定时间到1秒，让吸附更快响应
-          setTimeout(() => {
-            isScrolling = false
-          }, 1000)
-        }
-      }, 100) // 减少延迟到100ms，让吸附更敏感
+          // 根据滚动方向调整吸附阈值
+          const snapThreshold = scrollDirection === "up" ? 150 : 50 // 向上滑动需要更大的偏移才吸附
+
+          // 只有当偏移超过阈值且找到合适的目标时才吸附
+          if (targetSection && minDistance > snapThreshold) {
+            isScrolling = true
+
+            // 根据页面类型选择不同的滚动策略
+            const rect = targetSection.getBoundingClientRect()
+            const sectionHeight = rect.height
+
+            let scrollOptions: ScrollIntoViewOptions
+
+            if (sectionHeight > viewportHeight * 1.2) {
+              // 超长页面：滚动到顶部
+              scrollOptions = {
+                behavior: "smooth",
+                block: "start",
+              }
+            } else if (sectionHeight < viewportHeight * 0.8) {
+              // 短页面：居中显示
+              scrollOptions = {
+                behavior: "smooth",
+                block: "center",
+              }
+            } else {
+              // 标准页面：滚动到顶部
+              scrollOptions = {
+                behavior: "smooth",
+                block: "start",
+              }
+            }
+
+            targetSection.scrollIntoView(scrollOptions)
+
+            // 根据页面大小和滚动方向调整锁定时间
+            const lockTime = scrollDirection === "up" ? 1800 : sectionHeight > viewportHeight * 1.5 ? 1500 : 1000
+
+            setTimeout(() => {
+              isScrolling = false
+            }, lockTime)
+          }
+        },
+        scrollDirection === "up" ? 200 : 100,
+      ) // 向上滑动增加延迟
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
@@ -714,6 +793,35 @@ export default function GameDownloadSite() {
                 <ExternalLink className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
                 跳转旧版
               </Button>
+            </div>
+
+            {/* 赞助按钮 */}
+            <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-3xl p-6 border border-pink-100 shadow-lg">
+              <div className="text-center mb-4">
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">❤️ 支持我们</h4>
+                <p className="text-gray-600 text-sm">如果您觉得我们的服务有帮助，欢迎赞助支持</p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button
+                  onClick={() => window.open("https://afdian.net/a/vegcat", "_blank")}
+                  className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 py-3 rounded-2xl flex items-center shadow-lg hover:shadow-xl transition-all duration-300 group"
+                >
+                  <span className="mr-2">💖</span>
+                  爱发电赞助
+                  <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    // 这里可以添加显示二维码的逻辑
+                    alert("微信赞助二维码功能开发中...")
+                  }}
+                  className="border-2 border-pink-200 text-pink-700 hover:bg-pink-50 hover:border-pink-300 px-6 py-3 rounded-2xl flex items-center transition-all duration-300 group"
+                >
+                  <span className="mr-2">💰</span>
+                  微信赞助
+                </Button>
+              </div>
             </div>
           </div>
         </div>
