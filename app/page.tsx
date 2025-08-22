@@ -720,23 +720,23 @@ export default function GameDownloadSite() {
 
       {/* Sponsor Dialog */}
       <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[90vw] sm:max-w-2xl max-h-[90vh] rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4">
           {/* 头部 */}
           <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-8 text-center text-gray-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2">支持我们</h2>
           </div>
 
           {/* 内容区域 */}
-          <div className="p-4 sm:p-8">
+          <div className="p-4 sm:p-8 overflow-y-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               {/* 支付宝赞助 */}
               <div className="text-center">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
-                  <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+                  <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
-                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_6GioPdupnPueDpmWWJoCtCD7JyaJAALEGgAC0_xBVaJ3PNVdW0fdNgQ.jpg"
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK__GioQeYepsP6iVC3bsMxHNIjllKeAALpGgAC0_xBVf9i4oojkhwjNgQ.jpg"
                       alt="支付宝收款码"
-                      className="w-36 h-36 sm:w-44 sm:h-44 rounded-xl"
+                      className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
@@ -754,11 +754,11 @@ export default function GameDownloadSite() {
               {/* 微信赞助 */}
               <div className="text-center">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
-                  <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+                  <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
-                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_6WioPd_v60plaBZ1VPb4JvApEq6cAALFGgAC0_xBVfAd0SV1irAfNgQ.png"
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_-2ioQebputS_5HfrVDDM_h32L5HZAALoGgAC0_xBVQ5n_jogCyUONgQ.png"
                       alt="微信收款码"
-                      className="w-36 h-36 sm:w-44 sm:h-44 rounded-xl"
+                      className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
