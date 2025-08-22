@@ -593,7 +593,7 @@ export default function GameDownloadSite() {
               visibleSections.has("about") ? "visible" : ""
             }`}
           >
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-8">
               <div>
                 <h3 className="text-2xl font-semibold text-gray-900 mb-2">Vegcat.icu</h3>
                 <p className="text-gray-600 text-lg">探索关于站点和站长的信息以及接下来的更新计划。</p>
@@ -661,7 +661,7 @@ export default function GameDownloadSite() {
                 variant="outline"
                 className="px-6 py-2 text-sm border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-2xl flex items-center transition-all duration-300"
               >
-                <span className="mr-2">💖</span>
+                <span className="mr-2">😶‍🌫️</span>
                 赞助支持
               </Button>
             </div>
@@ -720,64 +720,63 @@ export default function GameDownloadSite() {
 
       {/* Sponsor Dialog */}
       <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-2xl rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4">
           {/* 头部 */}
-          <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-8 text-center text-gray-800">
-            <h2 className="text-3xl font-bold mb-2">💖 支持我们</h2>
-            <p className="text-gray-600">您的支持是我们前进的动力</p>
+          <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-8 text-center text-gray-800">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2">支持我们</h2>
           </div>
 
           {/* 内容区域 */}
-          <div className="p-8">
-            <div className="grid md:grid-cols-2 gap-8">
+          <div className="p-4 sm:p-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               {/* 支付宝赞助 */}
               <div className="text-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 mb-4">
-                  <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
+                  <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
                       src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_6GioPdupnPueDpmWWJoCtCD7JyaJAALEGgAC0_xBVaJ3PNVdW0fdNgQ.jpg"
                       alt="支付宝收款码"
-                      className="w-44 h-44 rounded-xl"
+                      className="w-36 h-36 sm:w-44 sm:h-44 rounded-xl"
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                    <span className="mr-2 text-2xl">💙</span>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="mr-2 text-xl sm:text-2xl">💙</span>
                     支付宝赞助
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">使用支付宝扫码直接赞助</p>
-                  <div className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">使用支付宝APP扫码赞助</p>
+                  <div className="w-full h-10 sm:h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg text-sm sm:text-base">
                     <span className="mr-2">💰</span>
-                    扫码赞助
+                    支付宝
                   </div>
                 </div>
               </div>
 
               {/* 微信赞助 */}
               <div className="text-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 mb-4">
-                  <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
+                  <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
                       src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_6WioPd_v60plaBZ1VPb4JvApEq6cAALFGgAC0_xBVfAd0SV1irAfNgQ.png"
                       alt="微信收款码"
-                      className="w-44 h-44 rounded-xl"
+                      className="w-36 h-36 sm:w-44 sm:h-44 rounded-xl"
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                    <span className="mr-2 text-2xl">💚</span>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="mr-2 text-xl sm:text-2xl">💚</span>
                     微信赞助
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">使用微信扫码直接赞助</p>
-                  <div className="w-full h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">使用微信APP扫码赞助</p>
+                  <div className="w-full h-10 sm:h-12 bg-gradient-to-r from-green-600 to-green-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg text-sm sm:text-base">
                     <span className="mr-2">💰</span>
-                    扫码赞助
+                    微信
                   </div>
                 </div>
               </div>
             </div>
 
             {/* 底部说明 */}
-            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200">
-              <p className="text-gray-600 text-sm leading-relaxed">
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
                 感谢您的支持！您的每一份赞助都将用于网站的维护和优化，让我们能够为大家提供更好的服务。
                 <br />
                 <span className="text-gray-700 font-medium">所有赞助都是自愿的，我们承诺永远免费提供服务。</span>
