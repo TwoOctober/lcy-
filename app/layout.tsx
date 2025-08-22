@@ -5,7 +5,14 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "lcynb.icu",
   description: "一键注册，一键汉化，一键下载",
-    generator: 'v0.dev'
+  icons: {
+    icon: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico",
+    shortcut:
+      "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico",
+    apple:
+      "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico",
+  },
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -15,6 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh">
+      <head>
+        <link
+          rel="icon"
+          href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico"
+        />
+      </head>
       <body>{children}</body>
     </html>
   )
