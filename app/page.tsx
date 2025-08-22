@@ -730,9 +730,9 @@ export default function GameDownloadSite() {
           </button>
 
           {/* 头部 */}
-          <div className="bg-gradient-to-r from-pink-500 to-rose-500 p-8 text-center text-white">
+          <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-8 text-center text-gray-800">
             <h2 className="text-3xl font-bold mb-2">💖 支持我们</h2>
-            <p className="text-pink-100">您的支持是我们前进的动力</p>
+            <p className="text-gray-600">您的支持是我们前进的动力</p>
           </div>
 
           {/* 内容区域 */}
@@ -740,7 +740,7 @@ export default function GameDownloadSite() {
             <div className="grid md:grid-cols-2 gap-8">
               {/* 爱发电 */}
               <div className="text-center">
-                <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100 mb-4">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 mb-4">
                   <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
                       src="/placeholder.svg?height=180&width=180&text=爱发电二维码"
@@ -752,7 +752,7 @@ export default function GameDownloadSite() {
                   <p className="text-gray-600 text-sm mb-4">扫码或点击按钮前往爱发电平台</p>
                   <Button
                     onClick={() => window.open("https://afdian.net/a/vegcat", "_blank")}
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     前往爱发电
                     <ExternalLink className="w-4 h-4 ml-2" />
@@ -762,7 +762,7 @@ export default function GameDownloadSite() {
 
               {/* 微信赞助 */}
               <div className="text-center">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100 mb-4">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 mb-4">
                   <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
                       src="/placeholder.svg?height=180&width=180&text=微信收款码"
@@ -772,7 +772,7 @@ export default function GameDownloadSite() {
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">微信赞助</h3>
                   <p className="text-gray-600 text-sm mb-4">使用微信扫码直接赞助</p>
-                  <div className="w-full h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
+                  <div className="w-full h-12 bg-gradient-to-r from-gray-600 to-gray-700 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
                     <span className="mr-2">💰</span>
                     扫码赞助
                   </div>
@@ -781,14 +781,12 @@ export default function GameDownloadSite() {
             </div>
 
             {/* 底部说明 */}
-            <div className="mt-8 text-center">
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  感谢您的支持！您的每一份赞助都将用于网站的维护和优化，让我们能够为大家提供更好的服务。
-                  <br />
-                  <span className="text-blue-600 font-medium">所有赞助都是自愿的，我们承诺永远免费提供服务。</span>
-                </p>
-              </div>
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200">
+              <p className="text-gray-600 text-sm leading-relaxed">
+                感谢您的支持！您的每一份赞助都将用于网站的维护和优化，让我们能够为大家提供更好的服务。
+                <br />
+                <span className="text-gray-700 font-medium">所有赞助都是自愿的，我们承诺永远免费提供服务。</span>
+              </p>
             </div>
           </div>
         </DialogContent>
