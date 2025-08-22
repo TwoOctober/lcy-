@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, ChevronDown } from "lucide-react"
+import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, ChevronDown, X } from "lucide-react"
 
 const games = [
   {
@@ -113,140 +113,9 @@ function useScrollAnimation() {
   return visibleSections
 }
 
-// 改进的页面吸附滚动Hook - 降低向上滑动的敏感度
-function useSnapScroll() {
-  useEffect(() => {
-    let isScrolling = false
-    let scrollTimeout: NodeJS.Timeout
-    let lastScrollY = window.scrollY
-    let scrollDirection = "down"
-
-    const handleScroll = () => {
-      if (isScrolling) return
-
-      // 检测滚动方向
-      const currentScrollY = window.scrollY
-      scrollDirection = currentScrollY > lastScrollY ? "down" : "up"
-      lastScrollY = currentScrollY
-
-      clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(
-        () => {
-          const sections = document.querySelectorAll("section")
-          const viewportHeight = window.innerHeight
-          const viewportCenter = window.scrollY + viewportHeight / 2
-
-          let targetSection: Element | null = null
-          let minDistance = Number.POSITIVE_INFINITY
-          let bestAlignment = Number.POSITIVE_INFINITY
-
-          sections.forEach((section) => {
-            const rect = section.getBoundingClientRect()
-            const sectionTop = window.scrollY + rect.top
-            const sectionHeight = rect.height
-            const sectionBottom = sectionTop + sectionHeight
-
-            // 改进的中心点计算：考虑视觉重心而非几何中心
-            let sectionCenter: number
-
-            if (sectionHeight > viewportHeight) {
-              // 对于超长页面，使用视口顶部作为对齐点
-              sectionCenter = sectionTop
-            } else {
-              // 对于正常页面，使用几何中心
-              sectionCenter = sectionTop + sectionHeight / 2
-            }
-
-            // 计算到视口中心的距离
-            const distanceToCenter = Math.abs(viewportCenter - sectionCenter)
-
-            // 计算页面在视口中的对齐质量
-            let alignmentScore = 0
-
-            // 如果页面完全在视口内，优先选择
-            if (sectionTop >= window.scrollY && sectionBottom <= window.scrollY + viewportHeight) {
-              alignmentScore = 1000 // 高优先级
-            }
-            // 如果页面顶部对齐视口顶部
-            else if (Math.abs(sectionTop - window.scrollY) < 20) {
-              alignmentScore = 800
-            }
-            // 如果页面底部对齐视口底部
-            else if (Math.abs(sectionBottom - (window.scrollY + viewportHeight)) < 20) {
-              alignmentScore = 600
-            }
-            // 如果页面中心对齐视口中心
-            else if (distanceToCenter < viewportHeight * 0.1) {
-              alignmentScore = 400
-            }
-
-            // 综合评分：距离越近，对齐质量越高，得分越高
-            const totalScore = alignmentScore - distanceToCenter
-
-            if (totalScore > bestAlignment) {
-              bestAlignment = totalScore
-              minDistance = distanceToCenter
-              targetSection = section
-            }
-          })
-
-          // 根据滚动方向调整吸附阈值
-          const snapThreshold = scrollDirection === "up" ? 150 : 50 // 向上滑动需要更大的偏移才吸附
-
-          // 只有当偏移超过阈值且找到合适的目标时才吸附
-          if (targetSection && minDistance > snapThreshold) {
-            isScrolling = true
-
-            // 根据页面类型选择不同的滚动策略
-            const rect = targetSection.getBoundingClientRect()
-            const sectionHeight = rect.height
-
-            let scrollOptions: ScrollIntoViewOptions
-
-            if (sectionHeight > viewportHeight * 1.2) {
-              // 超长页面：滚动到顶部
-              scrollOptions = {
-                behavior: "smooth",
-                block: "start",
-              }
-            } else if (sectionHeight < viewportHeight * 0.8) {
-              // 短页面：居中显示
-              scrollOptions = {
-                behavior: "smooth",
-                block: "center",
-              }
-            } else {
-              // 标准页面：滚动到顶部
-              scrollOptions = {
-                behavior: "smooth",
-                block: "start",
-              }
-            }
-
-            targetSection.scrollIntoView(scrollOptions)
-
-            // 根据页面大小和滚动方向调整锁定时间
-            const lockTime = scrollDirection === "up" ? 1800 : sectionHeight > viewportHeight * 1.5 ? 1500 : 1000
-
-            setTimeout(() => {
-              isScrolling = false
-            }, lockTime)
-          }
-        },
-        scrollDirection === "up" ? 200 : 100,
-      ) // 向上滑动增加延迟
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      clearTimeout(scrollTimeout)
-    }
-  }, [])
-}
-
 export default function GameDownloadSite() {
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
+  const [isSponsorDialogOpen, setIsSponsorDialogOpen] = useState(false)
   const [selectedDownload, setSelectedDownload] = useState<{
     gameName: string
     linkName: string
@@ -254,7 +123,6 @@ export default function GameDownloadSite() {
   } | null>(null)
 
   const visibleSections = useScrollAnimation()
-  useSnapScroll()
 
   const handleDownloadClick = (gameName: string, linkName: string, linkType: string) => {
     setSelectedDownload({ gameName, linkName, linkType })
@@ -504,11 +372,6 @@ export default function GameDownloadSite() {
         .stagger-4 { transition-delay: 0.2s; }
         .stagger-5 { transition-delay: 0.25s; }
         .stagger-6 { transition-delay: 0.3s; }
-        
-        /* 页面吸附样式 */
-        section {
-          scroll-snap-align: start;
-        }
         
         /* 优化滚动条 */
         ::-webkit-scrollbar {
@@ -794,12 +657,11 @@ export default function GameDownloadSite() {
                 跳转旧版
               </Button>
               <Button
-                onClick={() => window.open("https://afdian.net/a/vegcat", "_blank")}
+                onClick={() => setIsSponsorDialogOpen(true)}
                 className="px-6 py-2 text-sm bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-2xl flex items-center transition-all duration-300 group"
               >
                 <span className="mr-2">💖</span>
                 赞助支持
-                <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
           </div>
@@ -852,6 +714,82 @@ export default function GameDownloadSite() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Sponsor Dialog */}
+      <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-2xl rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden">
+          {/* 关闭按钮 */}
+          <button
+            onClick={() => setIsSponsorDialogOpen(false)}
+            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-white transition-colors shadow-lg"
+          >
+            <X className="w-5 h-5 text-gray-600" />
+          </button>
+
+          {/* 头部 */}
+          <div className="bg-gradient-to-r from-pink-500 to-rose-500 p-8 text-center text-white">
+            <h2 className="text-3xl font-bold mb-2">💖 支持我们</h2>
+            <p className="text-pink-100">您的支持是我们前进的动力</p>
+          </div>
+
+          {/* 内容区域 */}
+          <div className="p-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* 爱发电 */}
+              <div className="text-center">
+                <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100 mb-4">
+                  <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+                    <img
+                      src="/placeholder.svg?height=180&width=180&text=爱发电二维码"
+                      alt="爱发电二维码"
+                      className="w-44 h-44 rounded-xl"
+                    />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">爱发电赞助</h3>
+                  <p className="text-gray-600 text-sm mb-4">扫码或点击按钮前往爱发电平台</p>
+                  <Button
+                    onClick={() => window.open("https://afdian.net/a/vegcat", "_blank")}
+                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    前往爱发电
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* 微信赞助 */}
+              <div className="text-center">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100 mb-4">
+                  <div className="w-48 h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+                    <img
+                      src="/placeholder.svg?height=180&width=180&text=微信收款码"
+                      alt="微信收款码"
+                      className="w-44 h-44 rounded-xl"
+                    />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">微信赞助</h3>
+                  <p className="text-gray-600 text-sm mb-4">使用微信扫码直接赞助</p>
+                  <div className="w-full h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-white font-medium shadow-lg">
+                    <span className="mr-2">💰</span>
+                    扫码赞助
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 底部说明 */}
+            <div className="mt-8 text-center">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  感谢您的支持！您的每一份赞助都将用于网站的维护和优化，让我们能够为大家提供更好的服务。
+                  <br />
+                  <span className="text-blue-600 font-medium">所有赞助都是自愿的，我们承诺永远免费提供服务。</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
