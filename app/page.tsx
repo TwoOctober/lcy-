@@ -113,7 +113,7 @@ function useScrollAnimation() {
   return visibleSections
 }
 
-// 页面吸附滚动Hook - 调慢速度
+// 页面吸附滚动Hook - 大幅增加阈值
 function useSnapScroll() {
   useEffect(() => {
     let isScrolling = false
@@ -142,7 +142,8 @@ function useSnapScroll() {
           }
         })
 
-        if (targetSection && minDistance > 100) {
+        // 大幅增加阈值到500px，让吸附更不敏感
+        if (targetSection && minDistance > 500) {
           isScrolling = true
           targetSection.scrollIntoView({
             behavior: "smooth",
@@ -154,7 +155,7 @@ function useSnapScroll() {
             isScrolling = false
           }, 2500)
         }
-      }, 300) // 增加延迟到300ms，让吸附不那么敏感
+      }, 500) // 增加延迟到500ms，让吸附更不敏感
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
@@ -462,7 +463,7 @@ export default function GameDownloadSite() {
           </div>
           <h1 className="text-6xl md:text-7xl font-light text-white mb-8">
             <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
-              6657sb.icu
+              祝贺本站点访问量破1k+
             </span>
           </h1>
           <p className="text-2xl text-white/80 mb-12 font-light">Powered by Vegcat</p>
