@@ -445,7 +445,7 @@ export default function GameDownloadSite() {
         {/* 主要内容 */}
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex-1 flex flex-col justify-center">
           <div className="mb-8">
-            <ImageWithLoader
+            <img
               src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico"
               alt="网站图标"
               className="w-16 h-16 mx-auto mb-6 animate-bounce-slow"
@@ -497,7 +497,7 @@ export default function GameDownloadSite() {
               }`}
             >
               <div className="aspect-video bg-gray-100 relative overflow-hidden">
-                <ImageWithLoader
+                <img
                   src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAALCu2ipcp9DeBbt-awILC5hPQGr_XcPAALuFgAC0_xJVQNDQqrjjUI6NgQ.jpg"
                   alt="大庙杯比赛"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -551,7 +551,7 @@ export default function GameDownloadSite() {
                 }`}
               >
                 <div className="aspect-video bg-gray-100 relative overflow-hidden">
-                  <ImageWithLoader
+                  <img
                     src={game.image || "/placeholder.svg"}
                     alt={game.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
