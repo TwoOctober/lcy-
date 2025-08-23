@@ -17,7 +17,7 @@ const games = [
     size: "94MB",
     downloadLinks: [
       { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
-      { name: "腾讯云线路（试运行）", url: "https://vegcat-1301889594.cos.ap-shanghai.myqcloud.com/cs1.6.7z", type: "fast" },
+      { name: "腾讯云不限速线路（试运行）", url: "https://vegcat-1301889594.cos.ap-shanghai.myqcloud.com/cs1.6.7z", type: "fast" },
     ],
     supplementLinks: [{ name: "补档链接", url: "https://musetransfer.com/s/xyh30d6gs", type: "supplement" }],
   },
@@ -26,7 +26,7 @@ const games = [
 const updateLogs = [
   {
     version: "2025-08-23",
-    changes: ["腾讯云线路上线", "底部赞助上线", "补档线路上线"],
+    changes: ["腾讯云不限速线路上线", "底部赞助上线", "补档线路上线"],
   },
   {
     version: "2025-08-22",
@@ -770,7 +770,7 @@ export default function GameDownloadSite() {
                       url = "https://vegcat-1301889594.cos.ap-shanghai.myqcloud.com/cs1.6.7z"
                     } else if (selectedDownload.linkType === "supplement") {
                       // 补档链接暂时使用示例URL，您可以根据需要修改
-                      url = "https://6657sb.icu"
+                      url = "https://musetransfer.com/s/xyh30d6gs"
                     }
                     window.open(url, "_blank")
                     setIsDownloadDialogOpen(false)
