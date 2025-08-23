@@ -12,8 +12,8 @@ const games = [
     title: "Counter-Strike 1.6",
     description: "一号线路为自解压程序，二号线路为免安装zip压缩包",
     image: "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
-    rating: 1,
-    downloads: "1294",
+    rating: 5,
+    downloads: "14k",
     size: "94MB",
     downloadLinks: [
       { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
