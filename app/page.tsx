@@ -19,10 +19,7 @@ const games = [
       { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
       { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iPmfM30ei60h", type: "fast" },
     ],
-    supplementLinks: [
-      { name: "补档链接1", url: "https://musetransfer.com/s/xyh30d6gs", type: "supplement" },
-      { name: "补档链接2", url: "https://6657sb.icu", type: "supplement" },
-    ],
+    supplementLinks: [{ name: "补档链接", url: "https://musetransfer.com/s/xyh30d6gs", type: "supplement" }],
   },
 ]
 
@@ -492,10 +489,10 @@ export default function GameDownloadSite() {
             <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-10">
+          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* 大庙杯比赛 */}
             <div
-              className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-2 ${
+              className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-2 min-h-[600px] ${
                 visibleSections.has("downloads") ? "visible" : ""
               }`}
             >
@@ -517,7 +514,7 @@ export default function GameDownloadSite() {
                   </Badge>
                 </div>
 
-                <p className="text-gray-600 mb-8 leading-relaxed">热烈祝贺本次福州四中大庙杯圆满结束，点击下方链接可查看详情</p>
+                <p className="text-gray-600 mb-8 leading-relaxed">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
 
                 <div className="space-y-3">
                   <Button
@@ -549,7 +546,7 @@ export default function GameDownloadSite() {
             {games.map((game) => (
               <div
                 key={game.id}
-                className={`group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 scroll-section stagger-3 ${
+                className={`group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 scroll-section stagger-3 min-h-[600px] ${
                   visibleSections.has("downloads") ? "visible" : ""
                 }`}
               >
