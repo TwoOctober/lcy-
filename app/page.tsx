@@ -453,10 +453,10 @@ export default function GameDownloadSite() {
           </div>
           <h1 className="text-6xl md:text-7xl font-light text-white mb-8">
             <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
-              妈的怎么bug这么多啊
+              修完滚轮划不动的问题又来了个图片加载一直转圈的问题
             </span>
           </h1>
-          <p className="text-2xl text-white/80 mb-12 font-light">修都修不完说是</p>
+          <p className="text-2xl text-white/80 mb-12 font-light">关键赞助页面都没这个问题，有完没完</p>
         </div>
 
         {/* 滚动指示器 - 移到最底部 */}
