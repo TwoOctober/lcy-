@@ -11,7 +11,7 @@ const games = [
     id: 1,
     title: "Counter-Strike 1.6",
     description: "一号线路为自解压程序，二号线路为免安装zip压缩包",
-    image: "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
+    image: "game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 1,
     downloads: "1294",
     size: "94MB",
@@ -498,7 +498,7 @@ export default function GameDownloadSite() {
             >
               <div className="aspect-video bg-gray-100 relative overflow-hidden">
                 <ImageWithLoader
-                  src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAJK-GiGU_3oRPUxEP8eTGkmSXROKgXlAAJqGAACQKIxVDZrG7Mq9Q5zNgQ.jpg"
+                  src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAALCu2ipcp9DeBbt-awILC5hPQGr_XcPAALuFgAC0_xJVQNDQqrjjUI6NgQ.jpg"
                   alt="大庙杯比赛"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   loading="lazy"
@@ -842,7 +842,7 @@ export default function GameDownloadSite() {
             {/* 底部说明 */}
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200">
               <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。
+                感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。腾讯云线路的流量有限，请尽可能使用其他线路！谢谢支持。
                 <br />
                 <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
               </p>
