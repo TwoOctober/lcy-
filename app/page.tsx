@@ -451,9 +451,9 @@ export default function GameDownloadSite() {
               className="w-16 h-16 mx-auto mb-6 animate-bounce-slow"
             />
           </div>
-          <h1 className="text-2xl md:text-7xl font-light text-white mb-8">
+          <h1 className="text-4xl md:text-7xl font-light text-white mb-8">
             <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
-              修完滚轮划不动的问题又来了个图片加载一直转圈的问题
+              ↑ 修完滚轮划不动的问题又来了个图片加载一直转圈的问题
             </span>
           </h1>
           <p className="text-2xl text-white/80 mb-12 font-light">关键赞助页面都没这个问题，有完没完</p>
