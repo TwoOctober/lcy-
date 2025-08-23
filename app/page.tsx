@@ -723,7 +723,7 @@ export default function GameDownloadSite() {
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[90vw] sm:max-w-2xl max-h-[90vh] rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4">
           {/* 头部 */}
           <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-8 text-center text-gray-800">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2">支持我们</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2">支持我们</h2> 
           </div>
 
           {/* 内容区域 */}
@@ -743,7 +743,7 @@ export default function GameDownloadSite() {
                     <span className="mr-2 text-xl sm:text-2xl">支付宝支付</span>
                     
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-4">请使用支付宝APP扫码</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
                 </div>
               </div>
 
@@ -761,7 +761,7 @@ export default function GameDownloadSite() {
                     <span className="mr-2 text-xl sm:text-2xl">微信支付</span>
                     
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-4">请使用微信APP扫码</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
                 </div>
               </div>
             </div>
