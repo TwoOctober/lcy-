@@ -37,6 +37,53 @@ const updateLogs = [
   },
 ]
 
+// 图片加载组件
+function ImageWithLoader({
+  src,
+  alt,
+  className,
+  ...props
+}: { src: string; alt: string; className?: string; [key: string]: any }) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+
+  const handleLoad = () => {
+    setIsLoading(false)
+  }
+
+  const handleError = () => {
+    setIsLoading(false)
+    setHasError(true)
+  }
+
+  return (
+    <div className="relative">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-xl">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
+        </div>
+      )}
+      {hasError ? (
+        <div className="flex items-center justify-center bg-gray-100 rounded-xl h-full min-h-[200px]">
+          <div className="text-gray-400 text-center">
+            <div className="text-2xl mb-2">📷</div>
+            <div className="text-sm">图片加载失败</div>
+          </div>
+        </div>
+      ) : (
+        <img
+          src={src || "/placeholder.svg"}
+          alt={alt}
+          className={`${className} ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
+          onLoad={handleLoad}
+          onError={handleError}
+          {...props}
+        />
+      )}
+    </div>
+  )
+}
+
 // 新的动态背景组件
 function DynamicBackground() {
   return (
@@ -397,7 +444,7 @@ export default function GameDownloadSite() {
         {/* 主要内容 */}
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex-1 flex flex-col justify-center">
           <div className="mb-8">
-            <img
+            <ImageWithLoader
               src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico"
               alt="网站图标"
               className="w-16 h-16 mx-auto mb-6 animate-bounce-slow"
@@ -449,7 +496,7 @@ export default function GameDownloadSite() {
               }`}
             >
               <div className="aspect-video bg-gray-100 relative overflow-hidden">
-                <img
+                <ImageWithLoader
                   src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAJK-GiGU_3oRPUxEP8eTGkmSXROKgXlAAJqGAACQKIxVDZrG7Mq9Q5zNgQ.jpg"
                   alt="大庙杯比赛"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -503,7 +550,7 @@ export default function GameDownloadSite() {
                 }`}
               >
                 <div className="aspect-video bg-gray-100 relative overflow-hidden">
-                  <img
+                  <ImageWithLoader
                     src={game.image || "/placeholder.svg"}
                     alt={game.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -723,7 +770,7 @@ export default function GameDownloadSite() {
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[90vw] sm:max-w-2xl max-h-[90vh] rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4">
           {/* 头部 */}
           <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-8 text-center text-gray-800">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2">支持我们</h2> 
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2">支持我们</h2>
           </div>
 
           {/* 内容区域 */}
@@ -733,15 +780,14 @@ export default function GameDownloadSite() {
               <div className="text-center">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
                   <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
-                    <img
-                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAALADWioRindGxgflEtZ0bxcFfJh2VcFAAIUGwAC0_xBVVVLOnPjqDMGNgQ.jpg"
+                    <ImageWithLoader
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK__GioQeYepsP6iVC3bsMxHNIjllKeAALpGgAC0_xBVf9i4oojkhwjNgQ.jpg"
                       alt="支付宝收款码"
                       className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
                     <span className="mr-2 text-xl sm:text-2xl">支付宝支付</span>
-                    
                   </h3>
                   <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
                 </div>
@@ -751,7 +797,7 @@ export default function GameDownloadSite() {
               <div className="text-center">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
                   <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
-                    <img
+                    <ImageWithLoader
                       src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_-2ioQebputS_5HfrVDDM_h32L5HZAALoGgAC0_xBVQ5n_jogCyUONgQ.png"
                       alt="微信收款码"
                       className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
@@ -759,7 +805,6 @@ export default function GameDownloadSite() {
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
                     <span className="mr-2 text-xl sm:text-2xl">微信支付</span>
-                    
                   </h3>
                   <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
                 </div>
