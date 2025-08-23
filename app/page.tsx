@@ -19,6 +19,10 @@ const games = [
       { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
       { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iPmfM30ei60h", type: "fast" },
     ],
+    supplementLinks: [
+      { name: "补档链接1", url: "https://example.com/supplement1", type: "supplement" },
+      { name: "补档链接2", url: "https://example.com/supplement2", type: "supplement" },
+    ],
   },
 ]
 
@@ -577,9 +581,28 @@ export default function GameDownloadSite() {
                   <p className="text-gray-600 mb-8 leading-relaxed">{game.description}</p>
 
                   <div className="space-y-3">
+                    {/* 原有下载链接 */}
                     {game.downloadLinks.map((link, linkIndex) => (
                       <Button
                         key={linkIndex}
+                        onClick={() => handleDownloadClick(game.title, link.name, link.type)}
+                        variant="outline"
+                        className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn"
+                      >
+                        <div className="flex items-center">
+                          <Download className="w-5 h-5 mr-3 group-hover/btn:translate-y-1 transition-transform" />
+                          <span className="font-medium">{link.name}</span>
+                        </div>
+                        <span className="text-sm font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-3 py-1 rounded-full transition-colors">
+                          {game.size}
+                        </span>
+                      </Button>
+                    ))}
+
+                    {/* 补档链接 */}
+                    {game.supplementLinks.map((link, linkIndex) => (
+                      <Button
+                        key={`supplement-${linkIndex}`}
                         onClick={() => handleDownloadClick(game.title, link.name, link.type)}
                         variant="outline"
                         className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn"
@@ -732,25 +755,33 @@ export default function GameDownloadSite() {
                 <h3 className="font-semibold text-xl mb-2 text-gray-900">{selectedDownload.gameName}</h3>
                 <p className="text-gray-600 mb-3 text-base">下载方式: {selectedDownload.linkName}</p>
                 <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
-                  {selectedDownload.linkType === "official" ? "🚀 高速下载" : "📦 免解压"}
+                  {selectedDownload.linkType === "official"
+                    ? "🚀 高速下载"
+                    : selectedDownload.linkType === "fast"
+                      ? "📦 免解压"
+                      : "🔄 补档链接"}
                 </Badge>
               </div>
 
               <div className="flex gap-4">
                 <Button
                   onClick={() => {
-                    window.open(
-                      selectedDownload.linkType === "official"
-                        ? "https://wwuq.lanzouq.com/i9WHN30eisdc"
-                        : "https://wwuq.lanzouq.com/iPmfM30ei60h",
-                      "_blank",
-                    )
+                    let url = ""
+                    if (selectedDownload.linkType === "official") {
+                      url = "https://wwuq.lanzouq.com/i9WHN30eisdc"
+                    } else if (selectedDownload.linkType === "fast") {
+                      url = "https://wwuq.lanzouq.com/iPmfM30ei60h"
+                    } else if (selectedDownload.linkType === "supplement") {
+                      // 补档链接暂时使用示例URL，您可以根据需要修改
+                      url = "https://example.com/supplement"
+                    }
+                    window.open(url, "_blank")
                     setIsDownloadDialogOpen(false)
                   }}
                   className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Download className="w-5 h-5 mr-2" />
-                  开始下载 (提取码: 6657)
+                  {selectedDownload.linkType === "supplement" ? "访问补档链接" : "开始下载 (提取码: 6657)"}
                 </Button>
                 <Button
                   variant="outline"
