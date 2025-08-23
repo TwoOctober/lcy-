@@ -20,8 +20,8 @@ const games = [
       { name: "蓝奏云2号线路（免安装）", url: "https://wwuq.lanzouq.com/iPmfM30ei60h", type: "fast" },
     ],
     supplementLinks: [
-      { name: "补档链接1", url: "https://example.com/supplement1", type: "supplement" },
-      { name: "补档链接2", url: "https://example.com/supplement2", type: "supplement" },
+      { name: "补档链接1", url: "https://musetransfer.com/s/xyh30d6gs", type: "supplement" },
+      { name: "补档链接2", url: "https://6657sb.icu", type: "supplement" },
     ],
   },
 ]
@@ -456,7 +456,7 @@ export default function GameDownloadSite() {
           </div>
           <h1 className="text-6xl md:text-7xl font-light text-white mb-8">
             <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
-              祝贺本站点访问量破1k+
+              CS1.6精简版下载站
             </span>
           </h1>
           <p className="text-2xl text-white/80 mb-12 font-light">Powered by Vegcat</p>
@@ -488,7 +488,7 @@ export default function GameDownloadSite() {
               visibleSections.has("downloads") ? "visible" : ""
             }`}
           >
-            <h2 className="text-5xl font-light text-gray-900 mb-6">精选游戏下载</h2>
+            <h2 className="text-5xl font-light text-gray-900 mb-6">反恐精英相关</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
           </div>
 
@@ -513,11 +513,11 @@ export default function GameDownloadSite() {
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-2xl font-semibold text-gray-900">大庙杯比赛</h3>
                   <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-3 py-1 shadow-lg">
-                    🏆 竞赛活动
+                    竞赛活动
                   </Badge>
                 </div>
 
-                <p className="text-gray-600 mb-8 leading-relaxed">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
+                <p className="text-gray-600 mb-8 leading-relaxed">热烈祝贺本次福州四中大庙杯圆满结束，点击下方链接可查看详情</p>
 
                 <div className="space-y-3">
                   <Button
@@ -526,7 +526,7 @@ export default function GameDownloadSite() {
                   >
                     <div className="flex items-center">
                       <Trophy className="w-5 h-5 mr-3 group-hover/btn:rotate-12 transition-transform" />
-                      <span className="font-medium">查看比赛</span>
+                      <span className="font-medium">赛事回放</span>
                     </div>
                     <ExternalLink className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
@@ -537,7 +537,7 @@ export default function GameDownloadSite() {
                   >
                     <div className="flex items-center">
                       <Globe className="w-5 h-5 mr-3 group-hover/btn:rotate-12 transition-transform" />
-                      <span className="font-medium">比赛通知群</span>
+                      <span className="font-medium">比赛交流群</span>
                     </div>
                     <ExternalLink className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
@@ -773,7 +773,7 @@ export default function GameDownloadSite() {
                       url = "https://wwuq.lanzouq.com/iPmfM30ei60h"
                     } else if (selectedDownload.linkType === "supplement") {
                       // 补档链接暂时使用示例URL，您可以根据需要修改
-                      url = "https://example.com/supplement"
+                      url = "https://musetransfer.com/s/xyh30d6gs"
                     }
                     window.open(url, "_blank")
                     setIsDownloadDialogOpen(false)
@@ -781,7 +781,7 @@ export default function GameDownloadSite() {
                   className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Download className="w-5 h-5 mr-2" />
-                  {selectedDownload.linkType === "supplement" ? "访问补档链接" : "开始下载 (提取码: 6657)"}
+                  {selectedDownload.linkType === "supplement" ? "开始下载 (提取码: 7143b4)" : "开始下载 (提取码: 6657)"}
                 </Button>
                 <Button
                   variant="outline"
@@ -845,9 +845,9 @@ export default function GameDownloadSite() {
             {/* 底部说明 */}
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200">
               <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                感谢您的支持！您的每一份赞助都将用于本公益项目的维护和优化，为大家提供更好的服务。
+                感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。
                 <br />
-                <span className="text-gray-700 font-medium">所有赞助都是自愿的，我们或许会倒闭，但永远不会变质。</span>
+                <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
               </p>
             </div>
           </div>
