@@ -17,7 +17,7 @@ const games = [
     size: "94MB",
     downloadLinks: [
       { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
-      { name: "腾讯云不限速线路（关闭）", url: "", type: "fast" },
+      { name: "腾讯云稳定线路（慢）", url: "http://101.42.25.190:24444/download/e19a8120b2414ac9a2c808730b83fcad1757155976054/cs1.6jj.7z", type: "fast" },
     ],
     supplementLinks: [{ name: "补档链接", url: "https://musetransfer.com/s/xyh30d6gs", type: "supplement" }],
   },
