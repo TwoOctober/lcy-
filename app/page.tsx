@@ -17,13 +17,17 @@ const games = [
     size: "94MB",
     downloadLinks: [
       { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
-      { name: "腾讯云稳定线路（慢）", url: "http://101.42.25.190:24444/download/e19a8120b2414ac9a2c808730b83fcad1757155976054/cs1.6jj.7z", type: "fast" },
+      { name: "腾讯云稳定线路（慢）", url: "http://101.42.25.190:8888/down/KPWgiowxwrar", type: "fast" },
     ],
     supplementLinks: [{ name: "补档链接", url: "https://musetransfer.com/s/xyh30d6gs", type: "supplement" }],
   },
 ]
 
 const updateLogs = [
+  {
+    version: "2025-07-06",
+    changes: ["腾讯云线路下线", "优化加载", "修复游戏漏洞"],
+  },
   {
     version: "2025-08-23",
     changes: ["腾讯云不限速线路上线", "底部赞助上线", "补档线路上线"],
@@ -32,10 +36,7 @@ const updateLogs = [
     version: "2025-08-22",
     changes: ["优化UI", "修复bug", "上线大庙杯比赛"],
   },
-  {
-    version: "2025-07-06",
-    changes: ["正式弃用旧版", "修复严重bug", "上线cs1.6增强版"],
-  },
+
 ]
 
 // 图片加载组件
@@ -767,7 +768,7 @@ export default function GameDownloadSite() {
                     if (selectedDownload.linkType === "official") {
                       url = "https://wwuq.lanzouq.com/i9WHN30eisdc"
                     } else if (selectedDownload.linkType === "fast") {
-                      url = "https://vegcat-1301889594.cos.ap-shanghai.myqcloud.com/cs1.6.7z"
+                      url = "http://101.42.25.190:8888/down/KPWgiowxwrar"
                     } else if (selectedDownload.linkType === "supplement") {
                       // 补档链接暂时使用示例URL，您可以根据需要修改
                       url = "https://musetransfer.com/s/xyh30d6gs"
