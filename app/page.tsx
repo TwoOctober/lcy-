@@ -16,10 +16,10 @@ const games = [
     downloads: "14k",
     size: "94MB",
     downloadLinks: [
-      { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/i9WHN30eisdc", type: "official" },
-      { name: "腾讯云稳定线路（慢）", url: "http://101.42.25.190:8888/down/KPWgiowxwrar", type: "fast" },
+      { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/iwJqc361q42d", type: "official" },
+      { name: "腾讯云稳定线路（慢）", url: "http://101.42.25.190:8888/down/VKduTDvUOnpD", type: "fast" },
     ],
-    supplementLinks: [{ name: "补档链接", url: "https://musetransfer.com/s/xyh30d6gs", type: "supplement" }],
+    supplementLinks: [{ name: "补档链接", url: "https://pan.fcpig.com/s/9RbUy", type: "supplement" }],
   },
 ]
 
@@ -743,7 +743,7 @@ export default function GameDownloadSite() {
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">下载注意事项</DialogTitle>
             <DialogDescription className="text-gray-600 text-base leading-relaxed">
-              双击cdkey_schinese.reg以自动注册和汉化，游戏内H键呼出zbot菜单
+              双击免CDKEY补丁以自动注册和汉化，游戏内H键呼出机器人菜单
             </DialogDescription>
           </DialogHeader>
 
@@ -766,12 +766,12 @@ export default function GameDownloadSite() {
                   onClick={() => {
                     let url = ""
                     if (selectedDownload.linkType === "official") {
-                      url = "https://wwuq.lanzouq.com/i9WHN30eisdc"
+                      url = "https://wwuq.lanzouq.com/iwJqc361q42d"
                     } else if (selectedDownload.linkType === "fast") {
-                      url = "http://101.42.25.190:8888/down/KPWgiowxwrar"
+                      url = "http://101.42.25.190:8888/down/VKduTDvUOnpD"
                     } else if (selectedDownload.linkType === "supplement") {
                       // 补档链接暂时使用示例URL，您可以根据需要修改
-                      url = "https://musetransfer.com/s/xyh30d6gs"
+                      url = "https://pan.fcpig.com/s/9RbUy"
                     }
                     window.open(url, "_blank")
                     setIsDownloadDialogOpen(false)
