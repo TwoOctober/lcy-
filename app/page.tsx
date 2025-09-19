@@ -11,7 +11,7 @@ const games = [
     id: 1,
     title: "Counter-Strike 1.6",
     description: "涵盖十余张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
-    image: "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
+    image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLkhozW1WxGHQtjoDMnepyRsL1IeA4gACdxsAAhwQaVYIRxkAARbi2bg2BA.jpg",
     rating: 5,
     downloads: "14k",
     size: "94MB",
