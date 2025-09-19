@@ -73,31 +73,16 @@ export default function GameDownloadSite() {
   const [isLanzouDialogOpen, setIsLanzouDialogOpen] = useState(false)
   const [isTencentDialogOpen, setIsTencentDialogOpen] = useState(false)
   const [isSupplementDialogOpen, setIsSupplementDialogOpen] = useState(false)
-  const [downloadStats, setDownloadStats] = useState({
-    lanzou: 0,
-    tencent: 0,
-    supplement: 0,
-  })
 
   const visibleSections = useScrollAnimation()
 
-  const trackDownload = (type: "lanzou" | "tencent" | "supplement") => {
-    setDownloadStats((prev) => ({
-      ...prev,
-      [type]: prev[type] + 1,
-    }))
-  }
-
   const handleLanzouClick = () => {
-    trackDownload("lanzou")
     setIsLanzouDialogOpen(true)
   }
   const handleTencentClick = () => {
-    trackDownload("tencent")
     setIsTencentDialogOpen(true)
   }
   const handleSupplementClick = () => {
-    trackDownload("supplement")
     setIsSupplementDialogOpen(true)
   }
 
@@ -254,15 +239,15 @@ export default function GameDownloadSite() {
       <section
         id="downloads"
         data-scroll-section
-        className={`h-screen flex items-center bg-gradient-to-br from-slate-50 via-white to-blue-50 py-0 scroll-section ${
+        className={`h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-blue-50 relative scroll-section ${
           visibleSections.has("downloads") ? "visible" : ""
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6 w-full">
-          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto h-full">
+        <div className="max-w-6xl mx-auto px-6 w-full flex items-center justify-center">
+          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* 大庙杯比赛 */}
             <div
-              className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-1 h-full min-h-[80vh] ${
+              className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-1 ${
                 visibleSections.has("downloads") ? "visible" : ""
               }`}
             >
@@ -316,7 +301,7 @@ export default function GameDownloadSite() {
             {games.map((game) => (
               <div
                 key={game.id}
-                className={`group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 scroll-section stagger-2 h-full min-h-[80vh] ${
+                className={`group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 scroll-section stagger-2 ${
                   visibleSections.has("downloads") ? "visible" : ""
                 }`}
               >
@@ -394,20 +379,20 @@ export default function GameDownloadSite() {
               </div>
             ))}
           </div>
+        </div>
 
-          {/* 继续向下滚动指示器 - 完全居中 */}
-          <div
-            className={`w-full flex justify-center mt-16 scroll-section stagger-3 ${
-              visibleSections.has("downloads") ? "visible" : ""
-            }`}
+        {/* 继续向下滚动指示器 - 移到section底部 */}
+        <div
+          className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 scroll-section stagger-3 ${
+            visibleSections.has("downloads") ? "visible" : ""
+          }`}
+        >
+          <button
+            onClick={() => scrollToSection("about")}
+            className="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors group"
           >
-            <button
-              onClick={() => scrollToSection("about")}
-              className="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors group"
-            >
-              <ChevronDown className="w-6 h-6 animate-bounce-slow group-hover:translate-y-1 transition-transform" />
-            </button>
-          </div>
+            <ChevronDown className="w-6 h-6 animate-bounce-slow group-hover:translate-y-1 transition-transform" />
+          </button>
         </div>
       </section>
 
@@ -510,7 +495,6 @@ export default function GameDownloadSite() {
               请使用蓝奏云下载链接进行下载。
             </DialogDescription>
           </DialogHeader>
-          <div className="text-xs text-gray-500 text-center mb-4">下载次数: {downloadStats.lanzou} 次</div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -552,7 +536,6 @@ export default function GameDownloadSite() {
               请使用腾讯云下载链接进行下载。
             </DialogDescription>
           </DialogHeader>
-          <div className="text-xs text-gray-500 text-center mb-4">下载次数: {downloadStats.tencent} 次</div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -594,7 +577,6 @@ export default function GameDownloadSite() {
               请使用补档链接进行下载。
             </DialogDescription>
           </DialogHeader>
-          <div className="text-xs text-gray-500 text-center mb-4">下载次数: {downloadStats.supplement} 次</div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
