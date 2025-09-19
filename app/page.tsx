@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, ChevronDown } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Download, Star, Users, ExternalLink, Globe, Trophy, Clock, ChevronDown, AlertTriangle } from "lucide-react"
 
 const games = [
   {
@@ -16,14 +16,17 @@ const games = [
     downloads: "14k",
     size: "94MB",
     downloadLinks: [
-      { name: "蓝奏云1号线路", url: "https://wwuq.lanzouq.com/iwJqc361q42d", type: "official" },
-      { name: "腾讯云稳定线路（慢）", url: "http://101.42.25.190:8888/down/VKduTDvUOnpD", type: "fast" },
+      { name: "蓝奏云线路", url: "https://wwuq.lanzouq.com/iwJqc361q42d", type: "official" },
+      { name: "腾讯云线路", url: "http://101.42.25.190:8888/down/VKduTDvUOnpD", type: "fast" },
     ],
-    supplementLinks: [{ name: "补档链接", url: "https://pan.fcpig.com/s/9RbUy", type: "supplement" }],
   },
 ]
 
 const updateLogs = [
+  {
+    version: "2025-08-22",
+    changes: ["UI更新", "修复标题色块bug", "优化加载"],
+  },
   {
     version: "2025-07-06",
     changes: ["腾讯云线路下线", "优化加载", "修复游戏漏洞"],
@@ -31,10 +34,6 @@ const updateLogs = [
   {
     version: "2025-08-23",
     changes: ["腾讯云不限速线路上线", "底部赞助上线", "补档线路上线"],
-  },
-  {
-    version: "2025-08-22",
-    changes: ["优化UI", "修复bug", "上线大庙杯比赛"],
   },
 ]
 
@@ -72,7 +71,6 @@ export default function GameDownloadSite() {
   const [isSponsorDialogOpen, setIsSponsorDialogOpen] = useState(false)
   const [isLanzouDialogOpen, setIsLanzouDialogOpen] = useState(false)
   const [isTencentDialogOpen, setIsTencentDialogOpen] = useState(false)
-  const [isSupplementDialogOpen, setIsSupplementDialogOpen] = useState(false)
 
   const visibleSections = useScrollAnimation()
 
@@ -81,9 +79,6 @@ export default function GameDownloadSite() {
   }
   const handleTencentClick = () => {
     setIsTencentDialogOpen(true)
-  }
-  const handleSupplementClick = () => {
-    setIsSupplementDialogOpen(true)
   }
 
   const scrollToSection = (sectionId: string) => {
@@ -170,6 +165,16 @@ export default function GameDownloadSite() {
             transform: translateY(0);
           }
         }
+        @keyframes pulse-warning {
+          0%, 100% {
+            background-color: rgb(254 242 242);
+            border-color: rgb(252 165 165);
+          }
+          50% {
+            background-color: rgb(254 226 226);
+            border-color: rgb(248 113 113);
+          }
+        }
         .animate-gradient-x {
           animation: gradient-x 2s ease infinite;
         }
@@ -193,6 +198,9 @@ export default function GameDownloadSite() {
         }
         .animate-staggered-fade-in {
           animation: staggeredFadeIn 0.4s ease-out forwards;
+        }
+        .animate-pulse-warning {
+          animation: pulse-warning 2s ease-in-out infinite;
         }
         .bg-300\\% {
           background-size: 300% 300%;
@@ -243,15 +251,15 @@ export default function GameDownloadSite() {
           visibleSections.has("downloads") ? "visible" : ""
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6 w-full flex items-center justify-center">
-          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 w-full flex items-center justify-center">
+          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* 大庙杯比赛 */}
             <div
               className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-1 ${
                 visibleSections.has("downloads") ? "visible" : ""
               }`}
             >
-              <div className="aspect-video bg-gray-100 relative overflow-hidden">
+              <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
                 <img
                   src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAALE52iqkwY0IXNRy2hlI1tuhDu7Ni0DAALcGAACsgpYVfGKLfm8-f_FNgQ.jpg"
                   alt="大庙杯比赛"
@@ -263,35 +271,37 @@ export default function GameDownloadSite() {
 
               <div className="p-8">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-semibold text-gray-900">大庙杯比赛</h3>
-                  <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-3 py-1 shadow-lg">
+                  <h3 className="text-3xl font-semibold text-gray-900">大庙杯比赛</h3>
+                  <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-4 py-2 shadow-lg text-sm">
                     竞赛活动
                   </Badge>
                 </div>
 
-                <p className="text-gray-600 mb-8 leading-relaxed">参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品</p>
+                <p className="text-gray-600 mb-8 leading-relaxed text-lg">
+                  参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品
+                </p>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <Button
                     onClick={() => window.open("https://b23.tv/x5nXHGj", "_blank")}
-                    className="w-full justify-between h-14 px-6 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group/btn"
+                    className="w-full justify-between h-16 px-8 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group/btn text-lg"
                   >
                     <div className="flex items-center">
-                      <Trophy className="w-5 h-5 mr-3 group-hover/btn:rotate-12 transition-transform" />
+                      <Trophy className="w-6 h-6 mr-4 group-hover/btn:rotate-12 transition-transform" />
                       <span className="font-medium">赛事回放</span>
                     </div>
-                    <ExternalLink className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                    <ExternalLink className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
                   <Button
                     onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
                     variant="outline"
-                    className="w-full justify-between h-14 px-6 border-2 border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 rounded-2xl transition-all duration-300 group/btn"
+                    className="w-full justify-between h-16 px-8 border-2 border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 rounded-2xl transition-all duration-300 group/btn text-lg"
                   >
                     <div className="flex items-center">
-                      <Globe className="w-5 h-5 mr-3 group-hover/btn:rotate-12 transition-transform" />
+                      <Globe className="w-6 h-6 mr-4 group-hover/btn:rotate-12 transition-transform" />
                       <span className="font-medium">比赛交流群</span>
                     </div>
-                    <ExternalLink className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                    <ExternalLink className="w-6 h-6 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
                 </div>
               </div>
@@ -305,7 +315,7 @@ export default function GameDownloadSite() {
                   visibleSections.has("downloads") ? "visible" : ""
                 }`}
               >
-                <div className="aspect-video bg-gray-100 relative overflow-hidden">
+                <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
                   <img
                     src={game.image || "/placeholder.svg"}
                     alt={game.title}
@@ -317,23 +327,23 @@ export default function GameDownloadSite() {
 
                 <div className="p-8">
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-2xl font-semibold text-gray-900">{game.title}</h3>
+                    <h3 className="text-3xl font-semibold text-gray-900">{game.title}</h3>
                     <div className="text-sm text-gray-500 text-right">
                       <div className="flex items-center mb-2">
-                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400 mr-2" />
-                        <span className="font-medium">{game.rating}</span>
+                        <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 mr-2" />
+                        <span className="font-medium text-base">{game.rating}</span>
                       </div>
                       <div className="flex items-center">
-                        <Users className="w-4 h-4 mr-2" />
-                        <span className="font-medium">{game.downloads}</span>
+                        <Users className="w-5 h-5 mr-2" />
+                        <span className="font-medium text-base">{game.downloads}</span>
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-gray-600 mb-8 leading-relaxed">{game.description}</p>
+                  <p className="text-gray-600 mb-8 leading-relaxed text-lg">{game.description}</p>
 
-                  <div className="space-y-3">
-                    {/* 原有下载链接 */}
+                  <div className="space-y-4">
+                    {/* 下载链接 */}
                     {game.downloadLinks.map((link, linkIndex) => (
                       <Button
                         key={linkIndex}
@@ -345,31 +355,13 @@ export default function GameDownloadSite() {
                               : undefined
                         }
                         variant="outline"
-                        className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn bg-transparent"
+                        className="w-full justify-between h-16 px-8 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn bg-transparent text-lg"
                       >
                         <div className="flex items-center">
-                          <Download className="w-5 h-5 mr-3 group-hover/btn:translate-y-1 transition-transform" />
+                          <Download className="w-6 h-6 mr-4 group-hover/btn:translate-y-1 transition-transform" />
                           <span className="font-medium">{link.name}</span>
                         </div>
-                        <span className="text-sm font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-3 py-1 rounded-full transition-colors">
-                          {game.size}
-                        </span>
-                      </Button>
-                    ))}
-
-                    {/* 补档链接 */}
-                    {game.supplementLinks.map((link, linkIndex) => (
-                      <Button
-                        key={`supplement-${linkIndex}`}
-                        onClick={handleSupplementClick}
-                        variant="outline"
-                        className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn bg-transparent"
-                      >
-                        <div className="flex items-center">
-                          <Download className="w-5 h-5 mr-3 group-hover/btn:translate-y-1 transition-transform" />
-                          <span className="font-medium">{link.name}</span>
-                        </div>
-                        <span className="text-sm font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-3 py-1 rounded-full transition-colors">
+                        <span className="text-base font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-4 py-2 rounded-full transition-colors">
                           {game.size}
                         </span>
                       </Button>
@@ -488,123 +480,122 @@ export default function GameDownloadSite() {
 
       {/* Lanzou Dialog */}
       <Dialog open={isLanzouDialogOpen} onOpenChange={setIsLanzouDialogOpen}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-lg rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">蓝奏云下载</DialogTitle>
-            <DialogDescription className="text-gray-600 text-base leading-relaxed">
-              请使用蓝奏云下载链接进行下载。
-            </DialogDescription>
+            <DialogTitle className="text-3xl font-bold text-gray-900 mb-4 text-center">重要提醒</DialogTitle>
           </DialogHeader>
-          <div className="pt-6">
-            <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
-              <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
-              <p className="text-gray-600 mb-3 text-base">下载方式: 蓝奏云1号线路</p>
-              <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
-                🚀 高速下载
-              </Badge>
-            </div>
 
-            <div className="flex gap-4">
-              <Button
-                onClick={() => {
-                  window.open("https://wwuq.lanzouq.com/iwJqc361q42d", "_blank")
-                  setIsLanzouDialogOpen(false)
-                }}
-                className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <Download className="w-5 h-5 mr-2" />
-                开始下载 (提取码: 7143b4)
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setIsLanzouDialogOpen(false)}
-                className="flex-1 border-2 border-gray-200 hover:border-gray-300 h-12 rounded-2xl font-medium transition-all duration-300"
-              >
-                取消
-              </Button>
+          {/* 醒目的警告框 */}
+          <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-6 mb-6 animate-pulse-warning">
+            <div className="flex items-start space-x-4">
+              <AlertTriangle className="w-8 h-8 text-red-500 flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="text-xl font-bold text-red-800 mb-3">使用前必读</h4>
+                <ul className="space-y-2 text-red-700 font-medium">
+                  <li className="flex items-start">
+                    <span className="text-red-500 mr-2 mt-1">•</span>
+                    <span>请先运行免CDKEY补丁后再打开游戏</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-500 mr-2 mt-1">•</span>
+                    <span>否则将出现无汉化/序列号异常等问题</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-500 mr-2 mt-1">•</span>
+                    <span>进入游戏后按下H键可以呼出机器人菜单</span>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-blue-200">
+            <h3 className="font-bold text-2xl mb-3 text-gray-900">Counter-Strike 1.6</h3>
+            <p className="text-gray-700 mb-4 text-lg">蓝奏云线路 - 高速稳定</p>
+            <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 shadow-md text-base">
+              🚀 推荐下载
+            </Badge>
+          </div>
+
+          <div className="flex gap-4">
+            <Button
+              onClick={() => {
+                window.open("https://wwuq.lanzouq.com/iwJqc361q42d", "_blank")
+                setIsLanzouDialogOpen(false)
+              }}
+              className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-14 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+            >
+              <Download className="w-6 h-6 mr-3" />
+              开始下载 (提取码: 6657)
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setIsLanzouDialogOpen(false)}
+              className="flex-1 border-2 border-gray-300 hover:border-gray-400 h-14 rounded-2xl font-bold transition-all duration-300 text-lg"
+            >
+              取消
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* Tencent Dialog */}
       <Dialog open={isTencentDialogOpen} onOpenChange={setIsTencentDialogOpen}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-lg rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">腾讯云下载</DialogTitle>
-            <DialogDescription className="text-gray-600 text-base leading-relaxed">
-              请使用腾讯云下载链接进行下载。
-            </DialogDescription>
+            <DialogTitle className="text-3xl font-bold text-gray-900 mb-4 text-center">重要提醒</DialogTitle>
           </DialogHeader>
-          <div className="pt-6">
-            <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
-              <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
-              <p className="text-gray-600 mb-3 text-base">下载方式: 腾讯云稳定线路（慢）</p>
-              <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
-                📦 免解压
-              </Badge>
-            </div>
 
-            <div className="flex gap-4">
-              <Button
-                onClick={() => {
-                  window.open("http://101.42.25.190:8888/down/VKduTDvUOnpD", "_blank")
-                  setIsTencentDialogOpen(false)
-                }}
-                className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <Download className="w-5 h-5 mr-2" />
-                开始下载 (提取码: 6657)
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setIsTencentDialogOpen(false)}
-                className="flex-1 border-2 border-gray-200 hover:border-gray-300 h-12 rounded-2xl font-medium transition-all duration-300"
-              >
-                取消
-              </Button>
+          {/* 醒目的警告框 */}
+          <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-6 mb-6 animate-pulse-warning">
+            <div className="flex items-start space-x-4">
+              <AlertTriangle className="w-8 h-8 text-red-500 flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="text-xl font-bold text-red-800 mb-3">使用前必读</h4>
+                <ul className="space-y-2 text-red-700 font-medium">
+                  <li className="flex items-start">
+                    <span className="text-red-500 mr-2 mt-1">•</span>
+                    <span>请先运行免CDKEY补丁后再打开游戏</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-500 mr-2 mt-1">•</span>
+                    <span>否则将出现无汉化/序列号异常等问题</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-500 mr-2 mt-1">•</span>
+                    <span>进入游戏后按下H键可以呼出机器人菜单</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
 
-      {/* Supplement Dialog */}
-      <Dialog open={isSupplementDialogOpen} onOpenChange={setIsSupplementDialogOpen}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">补档下载</DialogTitle>
-            <DialogDescription className="text-gray-600 text-base leading-relaxed">
-              请使用补档链接进行下载。
-            </DialogDescription>
-          </DialogHeader>
-          <div className="pt-6">
-            <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
-              <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
-              <p className="text-gray-600 mb-3 text-base">下载方式: 补档链接</p>
-              <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
-                🔄 补档链接
-              </Badge>
-            </div>
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 mb-6 border border-green-200">
+            <h3 className="font-bold text-2xl mb-3 text-gray-900">Counter-Strike 1.6</h3>
+            <p className="text-gray-700 mb-4 text-lg">腾讯云线路 - 稳定可靠</p>
+            <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 shadow-md text-base">
+              🌐 备用线路
+            </Badge>
+          </div>
 
-            <div className="flex gap-4">
-              <Button
-                onClick={() => {
-                  window.open("https://pan.fcpig.com/s/9RbUy", "_blank")
-                  setIsSupplementDialogOpen(false)
-                }}
-                className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <Download className="w-5 h-5 mr-2" />
-                开始下载 (提取码: 7143b4)
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setIsSupplementDialogOpen(false)}
-                className="flex-1 border-2 border-gray-200 hover:border-gray-300 h-12 rounded-2xl font-medium transition-all duration-300"
-              >
-                取消
-              </Button>
-            </div>
+          <div className="flex gap-4">
+            <Button
+              onClick={() => {
+                window.open("http://101.42.25.190:8888/down/VKduTDvUOnpD", "_blank")
+                setIsTencentDialogOpen(false)
+              }}
+              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white h-14 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+            >
+              <Download className="w-6 h-6 mr-3" />
+              开始下载
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setIsTencentDialogOpen(false)}
+              className="flex-1 border-2 border-gray-300 hover:border-gray-400 h-14 rounded-2xl font-bold transition-all duration-300 text-lg"
+            >
+              取消
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
