@@ -16,7 +16,7 @@ const games = [
     downloads: "14k",
     size: "94MB",
     downloadLinks: [
-      { name: "蓝奏云线路", url: "https://wwuq.lanzouq.com/iwJqc361q42d", type: "official" },
+      { name: "蓝奏云线路", url: "https://wwuq.lanzouq.com/iNB8r36khb1e", type: "official" },
       { name: "腾讯云线路", url: "http://101.42.25.190:8888/down/VKduTDvUOnpD", type: "fast" },
     ],
   },
@@ -521,7 +521,7 @@ export default function GameDownloadSite() {
           <div className="flex gap-4">
             <Button
               onClick={() => {
-                window.open("https://wwuq.lanzouq.com/iwJqc361q42d", "_blank")
+                window.open("https://wwuq.lanzouq.com/iNB8r36khb1e", "_blank")
                 setIsLanzouDialogOpen(false)
               }}
               className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-14 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
@@ -556,7 +556,7 @@ export default function GameDownloadSite() {
                 <ul className="space-y-2 text-red-700 font-medium">
                   <li className="flex items-start">
                     <span className="text-red-500 mr-2 mt-1">•</span>
-                    <span>请先运行免CDKEY补丁后再打开游戏</span>
+                    <span>请先运行免CDKEY补丁后再打开cstrike.exe</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-red-500 mr-2 mt-1">•</span>
