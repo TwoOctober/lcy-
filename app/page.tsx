@@ -76,28 +76,28 @@ export default function GameDownloadSite() {
   const [downloadStats, setDownloadStats] = useState({
     lanzou: 0,
     tencent: 0,
-    supplement: 0
+    supplement: 0,
   })
 
   const visibleSections = useScrollAnimation()
 
-  const trackDownload = (type: 'lanzou' | 'tencent' | 'supplement') => {
-    setDownloadStats(prev => ({
+  const trackDownload = (type: "lanzou" | "tencent" | "supplement") => {
+    setDownloadStats((prev) => ({
       ...prev,
-      [type]: prev[type] + 1
+      [type]: prev[type] + 1,
     }))
   }
 
   const handleLanzouClick = () => {
-    trackDownload('lanzou')
+    trackDownload("lanzou")
     setIsLanzouDialogOpen(true)
   }
   const handleTencentClick = () => {
-    trackDownload('tencent')
+    trackDownload("tencent")
     setIsTencentDialogOpen(true)
   }
   const handleSupplementClick = () => {
-    trackDownload('supplement')
+    trackDownload("supplement")
     setIsSupplementDialogOpen(true)
   }
 
@@ -501,30 +501,16 @@ export default function GameDownloadSite() {
         </div>
       </section>
 
-      {/* Download Dialog */}
-      <Dialog open={isDownloadDialogOpen} onOpenChange={setIsDownloadDialogOpen} hideClose={true}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">下载注意事项</DialogTitle>
-            <DialogDescription className="text-gray-600 text-base leading-relaxed">
-              双击免CDKEY补丁以自动注册和汉化，游戏内H键呼出机器人菜单
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
       {/* Lanzou Dialog */}
-      <Dialog open={isLanzouDialogOpen} onOpenChange={setIsLanzouDialogOpen} hideClose={true}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
+      <Dialog open={isLanzouDialogOpen} onOpenChange={setIsLanzouDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">蓝奏云下载</DialogTitle>
             <DialogDescription className="text-gray-600 text-base leading-relaxed">
               请使用蓝奏云下载链接进行下载。
             </DialogDescription>
           </DialogHeader>
-          <div className="text-xs text-gray-500 text-center mb-4">
-            下载次数: {downloadStats.lanzou} 次
-          </div>
+          <div className="text-xs text-gray-500 text-center mb-4">下载次数: {downloadStats.lanzou} 次</div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -558,17 +544,15 @@ export default function GameDownloadSite() {
       </Dialog>
 
       {/* Tencent Dialog */}
-      <Dialog open={isTencentDialogOpen} onOpenChange={setIsTencentDialogOpen} hideClose={true}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
+      <Dialog open={isTencentDialogOpen} onOpenChange={setIsTencentDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">腾讯云下载</DialogTitle>
             <DialogDescription className="text-gray-600 text-base leading-relaxed">
               请使用腾讯云下载链接进行下载。
             </DialogDescription>
           </DialogHeader>
-          <div className="text-xs text-gray-500 text-center mb-4">
-            下载次数: {downloadStats.tencent} 次
-          </div>
+          <div className="text-xs text-gray-500 text-center mb-4">下载次数: {downloadStats.tencent} 次</div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -602,17 +586,15 @@ export default function GameDownloadSite() {
       </Dialog>
 
       {/* Supplement Dialog */}
-      <Dialog open={isSupplementDialogOpen} onOpenChange={setIsSupplementDialogOpen} hideClose={true}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
+      <Dialog open={isSupplementDialogOpen} onOpenChange={setIsSupplementDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl [&>button]:hidden">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">补档下载</DialogTitle>
             <DialogDescription className="text-gray-600 text-base leading-relaxed">
               请使用补档链接进行下载。
             </DialogDescription>
           </DialogHeader>
-          <div className="text-xs text-gray-500 text-center mb-4">
-            下载次数: {downloadStats.supplement} 次
-          </div>
+          <div className="text-xs text-gray-500 text-center mb-4">下载次数: {downloadStats.supplement} 次</div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -646,8 +628,8 @@ export default function GameDownloadSite() {
       </Dialog>
 
       {/* Sponsor Dialog */}
-      <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen} hideClose={true}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[90vw] sm:max-w-2xl max-h-[90vh] rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4">
+      <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[90vw] sm:max-w-2xl max-h-[90vh] rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4 [&>button]:hidden">
           {/* 头部 */}
           <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-8 text-center text-gray-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2">支持我们</h2>
@@ -661,4 +643,58 @@ export default function GameDownloadSite() {
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
                   <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
-                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK__GioQeYepsP6iVC3bsMxHNIjllKeAALpGgAC0_xBVf9i4oojkhwjNgQ.\
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK__GioQeYepsP6iVC3bsMxHNIjllKeAALpGgAC0_xBVf9i4oojkhwjNgQ.jpg"
+                      alt="支付宝收款码"
+                      className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
+                    />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="mr-2 text-xl sm:text-2xl">支付宝支付</span>
+                  </h3>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
+                </div>
+              </div>
+
+              {/* 微信赞助 */}
+              <div className="text-center">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
+                  <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+                    <img
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_-2ioQebputS_5HfrVDDM_h32L5HZAALoGgAC0_xBVQ5n_jogCyUONgQ.png"
+                      alt="微信收款码"
+                      className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
+                    />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="mr-2 text-xl sm:text-2xl">微信支付</span>
+                  </h3>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 底部说明 */}
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-6">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+                感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。腾讯云线路的流量有限，请尽可能使用其他线路！谢谢支持。
+                <br />
+                <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
+              </p>
+            </div>
+
+            {/* 关闭按钮 */}
+            <div className="flex justify-center">
+              <Button
+                onClick={() => setIsSponsorDialogOpen(false)}
+                variant="outline"
+                className="px-8 py-2 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-2xl transition-all duration-300"
+              >
+                关闭
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
