@@ -10,6 +10,7 @@ const games = [
   {
     id: 1,
     title: "Counter-Strike 1.6",
+    description: "请认真阅读须知",
     image: "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 5,
     downloads: "14k",
@@ -277,6 +278,7 @@ export default function GameDownloadSite() {
                 </div>
 
                 <p className="text-gray-600 mb-8 leading-relaxed text-lg">
+                  
                   参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品
                 </p>
 
