@@ -36,102 +36,7 @@ const updateLogs = [
     version: "2025-08-22",
     changes: ["优化UI", "修复bug", "上线大庙杯比赛"],
   },
-
 ]
-
-// 图片加载组件
-function ImageWithLoader({
-  src,
-  alt,
-  className,
-  ...props
-}: { src: string; alt: string; className?: string; [key: string]: any }) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
-
-  const handleLoad = () => {
-    setIsLoading(false)
-  }
-
-  const handleError = () => {
-    setIsLoading(false)
-    setHasError(true)
-  }
-
-  return (
-    <div className="relative">
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-xl">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
-        </div>
-      )}
-      {hasError ? (
-        <div className="flex items-center justify-center bg-gray-100 rounded-xl h-full min-h-[200px]">
-          <div className="text-gray-400 text-center">
-            <div className="text-2xl mb-2">📷</div>
-            <div className="text-sm">图片加载失败</div>
-          </div>
-        </div>
-      ) : (
-        <img
-          src={src || "/placeholder.svg"}
-          alt={alt}
-          className={`${className} ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
-          onLoad={handleLoad}
-          onError={handleError}
-          {...props}
-        />
-      )}
-    </div>
-  )
-}
-
-// 新的动态背景组件
-function DynamicBackground() {
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* 流动的波浪效果 */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/10 to-indigo-600/10 animate-wave-1"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tl from-indigo-600/10 to-blue-600/10 animate-wave-2"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-blue-700/10 to-indigo-700/10 animate-wave-3"></div>
-      </div>
-
-      {/* 动态网格 */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-grid-move"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent animate-grid-move-vertical"></div>
-      </div>
-
-      {/* 浮动光点 */}
-      {[...Array(30)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute rounded-full bg-white/20 animate-float-random"
-          style={{
-            width: `${Math.random() * 4 + 2}px`,
-            height: `${Math.random() * 4 + 2}px`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 10}s`,
-            animationDuration: `${Math.random() * 20 + 10}s`,
-          }}
-        />
-      ))}
-
-      {/* 大型装饰圆环 */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 border border-white/5 rounded-full animate-spin-slow"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 border border-white/5 rounded-full animate-spin-reverse"></div>
-
-      {/* 渐变光晕 */}
-      <div className="absolute top-10 right-10 w-72 h-72 bg-gradient-radial from-blue-400/20 via-blue-500/10 to-transparent rounded-full animate-pulse-slow"></div>
-      <div
-        className="absolute bottom-20 left-20 w-64 h-64 bg-gradient-radial from-indigo-400/20 via-indigo-500/10 to-transparent rounded-full animate-pulse-slow"
-        style={{ animationDelay: "3s" }}
-      ></div>
-    </div>
-  )
-}
 
 // 滚动动画Hook
 function useScrollAnimation() {
@@ -165,18 +70,15 @@ function useScrollAnimation() {
 export default function GameDownloadSite() {
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
   const [isSponsorDialogOpen, setIsSponsorDialogOpen] = useState(false)
-  const [selectedDownload, setSelectedDownload] = useState<{
-    gameName: string
-    linkName: string
-    linkType: string
-  } | null>(null)
+  const [isLanzouDialogOpen, setIsLanzouDialogOpen] = useState(false)
+  const [isTencentDialogOpen, setIsTencentDialogOpen] = useState(false)
+  const [isSupplementDialogOpen, setIsSupplementDialogOpen] = useState(false)
 
   const visibleSections = useScrollAnimation()
 
-  const handleDownloadClick = (gameName: string, linkName: string, linkType: string) => {
-    setSelectedDownload({ gameName, linkName, linkType })
-    setIsDownloadDialogOpen(true)
-  }
+  const handleLanzouClick = () => setIsLanzouDialogOpen(true)
+  const handleTencentClick = () => setIsTencentDialogOpen(true)
+  const handleSupplementClick = () => setIsSupplementDialogOpen(true)
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
@@ -194,90 +96,6 @@ export default function GameDownloadSite() {
           }
           50% {
             background-position: 100% 50%;
-          }
-        }
-        @keyframes wave-1 {
-          0%, 100% {
-            transform: translateX(-100%) translateY(-50%) rotate(0deg);
-          }
-          50% {
-            transform: translateX(100%) translateY(-25%) rotate(180deg);
-          }
-        }
-        @keyframes wave-2 {
-          0%, 100% {
-            transform: translateX(100%) translateY(-25%) rotate(180deg);
-          }
-          50% {
-            transform: translateX(-100%) translateY(-75%) rotate(360deg);
-          }
-        }
-        @keyframes wave-3 {
-          0%, 100% {
-            transform: translateX(-50%) translateY(-100%) rotate(90deg);
-          }
-          50% {
-            transform: translateX(-25%) translateY(100%) rotate(270deg);
-          }
-        }
-        @keyframes grid-move {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        @keyframes grid-move-vertical {
-          0% {
-            transform: translateY(-100%);
-          }
-          100% {
-            transform: translateY(100%);
-          }
-        }
-        @keyframes float-random {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px);
-            opacity: 0.3;
-          }
-          25% {
-            transform: translateY(-20px) translateX(10px);
-            opacity: 0.8;
-          }
-          50% {
-            transform: translateY(-10px) translateX(-15px);
-            opacity: 0.5;
-          }
-          75% {
-            transform: translateY(-30px) translateX(5px);
-            opacity: 0.9;
-          }
-        }
-        @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-        @keyframes spin-reverse {
-          from {
-            transform: rotate(360deg);
-          }
-          to {
-            transform: rotate(0deg);
-          }
-        }
-        @keyframes pulse-slow {
-          0%, 100% {
-            opacity: 0.3;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.6;
-            transform: scale(1.1);
           }
         }
         @keyframes bounce-slow {
@@ -349,33 +167,6 @@ export default function GameDownloadSite() {
         .animate-gradient-x {
           animation: gradient-x 2s ease infinite;
         }
-        .animate-wave-1 {
-          animation: wave-1 25s ease-in-out infinite;
-        }
-        .animate-wave-2 {
-          animation: wave-2 30s ease-in-out infinite;
-        }
-        .animate-wave-3 {
-          animation: wave-3 35s ease-in-out infinite;
-        }
-        .animate-grid-move {
-          animation: grid-move 15s linear infinite;
-        }
-        .animate-grid-move-vertical {
-          animation: grid-move-vertical 20s linear infinite;
-        }
-        .animate-float-random {
-          animation: float-random 15s ease-in-out infinite;
-        }
-        .animate-spin-slow {
-          animation: spin-slow 60s linear infinite;
-        }
-        .animate-spin-reverse {
-          animation: spin-reverse 45s linear infinite;
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 8s ease-in-out infinite;
-        }
         .animate-bounce-slow {
           animation: bounce-slow 3s ease-in-out infinite;
         }
@@ -438,45 +229,11 @@ export default function GameDownloadSite() {
         }
       `}</style>
 
-      {/* 全屏Hero Section */}
-      <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 animate-gradient-shift bg-400%">
-        {/* 新的动态背景 */}
-        <DynamicBackground />
-
-        {/* 主要内容 */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex-1 flex flex-col justify-center">
-          <div className="mb-8">
-            <img
-              src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico"
-              alt="网站图标"
-              className="w-16 h-16 mx-auto mb-6 animate-bounce-slow"
-            />
-          </div>
-          <h1 className="text-4xl md:text-7xl font-light text-white mb-8">
-            <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-x bg-300%">
-              CS1.6下载站
-            </span>
-          </h1>
-          <p className="text-2xl text-white/80 mb-12 font-light">由Vegcat强力驱动</p>
-        </div>
-
-        {/* 滚动指示器 - 移到最底部 */}
-        <div className="relative z-10 pb-8">
-          <button
-            onClick={() => scrollToSection("downloads")}
-            className="flex flex-col items-center text-white/60 hover:text-white/80 transition-colors group"
-          >
-            <span className="text-sm mb-2 font-light">向下滚动探索</span>
-            <ChevronDown className="w-6 h-6 animate-bounce-slow group-hover:translate-y-1 transition-transform" />
-          </button>
-        </div>
-      </section>
-
       {/* 下载区域 */}
       <section
         id="downloads"
         data-scroll-section
-        className={`min-h-screen flex items-center bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 scroll-section ${
+        className={`pt-20 flex items-center bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 scroll-section ${
           visibleSections.has("downloads") ? "visible" : ""
         }`}
       >
@@ -583,9 +340,15 @@ export default function GameDownloadSite() {
                     {game.downloadLinks.map((link, linkIndex) => (
                       <Button
                         key={linkIndex}
-                        onClick={() => handleDownloadClick(game.title, link.name, link.type)}
+                        onClick={
+                          link.type === "official"
+                            ? handleLanzouClick
+                            : link.type === "fast"
+                              ? handleTencentClick
+                              : undefined
+                        }
                         variant="outline"
-                        className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn"
+                        className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn bg-transparent"
                       >
                         <div className="flex items-center">
                           <Download className="w-5 h-5 mr-3 group-hover/btn:translate-y-1 transition-transform" />
@@ -601,9 +364,9 @@ export default function GameDownloadSite() {
                     {game.supplementLinks.map((link, linkIndex) => (
                       <Button
                         key={`supplement-${linkIndex}`}
-                        onClick={() => handleDownloadClick(game.title, link.name, link.type)}
+                        onClick={handleSupplementClick}
                         variant="outline"
-                        className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn"
+                        className="w-full justify-between h-14 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn bg-transparent"
                       >
                         <div className="flex items-center">
                           <Download className="w-5 h-5 mr-3 group-hover/btn:translate-y-1 transition-transform" />
@@ -746,51 +509,129 @@ export default function GameDownloadSite() {
               双击免CDKEY补丁以自动注册和汉化，游戏内H键呼出机器人菜单
             </DialogDescription>
           </DialogHeader>
+        </DialogContent>
+      </Dialog>
 
-          {selectedDownload && (
-            <div className="pt-6">
-              <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
-                <h3 className="font-semibold text-xl mb-2 text-gray-900">{selectedDownload.gameName}</h3>
-                <p className="text-gray-600 mb-3 text-base">下载方式: {selectedDownload.linkName}</p>
-                <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
-                  {selectedDownload.linkType === "official"
-                    ? "🚀 高速下载"
-                    : selectedDownload.linkType === "fast"
-                      ? "📦 免解压"
-                      : "🔄 补档链接"}
-                </Badge>
-              </div>
-
-              <div className="flex gap-4">
-                <Button
-                  onClick={() => {
-                    let url = ""
-                    if (selectedDownload.linkType === "official") {
-                      url = "https://wwuq.lanzouq.com/iwJqc361q42d"
-                    } else if (selectedDownload.linkType === "fast") {
-                      url = "http://101.42.25.190:8888/down/VKduTDvUOnpD"
-                    } else if (selectedDownload.linkType === "supplement") {
-                      // 补档链接暂时使用示例URL，您可以根据需要修改
-                      url = "https://pan.fcpig.com/s/9RbUy"
-                    }
-                    window.open(url, "_blank")
-                    setIsDownloadDialogOpen(false)
-                  }}
-                  className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <Download className="w-5 h-5 mr-2" />
-                  {selectedDownload.linkType === "supplement" ? "开始下载 (提取码: 7143b4)" : "开始下载 (提取码: 6657)"}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsDownloadDialogOpen(false)}
-                  className="flex-1 border-2 border-gray-200 hover:border-gray-300 h-12 rounded-2xl font-medium transition-all duration-300"
-                >
-                  取消
-                </Button>
-              </div>
+      {/* Lanzou Dialog */}
+      <Dialog open={isLanzouDialogOpen} onOpenChange={setIsLanzouDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">蓝奏云下载</DialogTitle>
+            <DialogDescription className="text-gray-600 text-base leading-relaxed">
+              请使用蓝奏云下载链接进行下载。
+            </DialogDescription>
+          </DialogHeader>
+          <div className="pt-6">
+            <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
+              <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
+              <p className="text-gray-600 mb-3 text-base">下载方式: 蓝奏云1号线路</p>
+              <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
+                🚀 高速下载
+              </Badge>
             </div>
-          )}
+
+            <div className="flex gap-4">
+              <Button
+                onClick={() => {
+                  window.open("https://wwuq.lanzouq.com/iwJqc361q42d", "_blank")
+                  setIsLanzouDialogOpen(false)
+                }}
+                className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Download className="w-5 h-5 mr-2" />
+                开始下载 (提取码: 7143b4)
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsLanzouDialogOpen(false)}
+                className="flex-1 border-2 border-gray-200 hover:border-gray-300 h-12 rounded-2xl font-medium transition-all duration-300"
+              >
+                取消
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Tencent Dialog */}
+      <Dialog open={isTencentDialogOpen} onOpenChange={setIsTencentDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">腾讯云下载</DialogTitle>
+            <DialogDescription className="text-gray-600 text-base leading-relaxed">
+              请使用腾讯云下载链接进行下载。
+            </DialogDescription>
+          </DialogHeader>
+          <div className="pt-6">
+            <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
+              <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
+              <p className="text-gray-600 mb-3 text-base">下载方式: 腾讯云稳定线路（慢）</p>
+              <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
+                📦 免解压
+              </Badge>
+            </div>
+
+            <div className="flex gap-4">
+              <Button
+                onClick={() => {
+                  window.open("http://101.42.25.190:8888/down/VKduTDvUOnpD", "_blank")
+                  setIsTencentDialogOpen(false)
+                }}
+                className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Download className="w-5 h-5 mr-2" />
+                开始下载 (提取码: 6657)
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsTencentDialogOpen(false)}
+                className="flex-1 border-2 border-gray-200 hover:border-gray-300 h-12 rounded-2xl font-medium transition-all duration-300"
+              >
+                取消
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Supplement Dialog */}
+      <Dialog open={isSupplementDialogOpen} onOpenChange={setIsSupplementDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">补档下载</DialogTitle>
+            <DialogDescription className="text-gray-600 text-base leading-relaxed">
+              请使用补档链接进行下载。
+            </DialogDescription>
+          </DialogHeader>
+          <div className="pt-6">
+            <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
+              <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
+              <p className="text-gray-600 mb-3 text-base">下载方式: 补档链接</p>
+              <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1 shadow-md">
+                🔄 补档链接
+              </Badge>
+            </div>
+
+            <div className="flex gap-4">
+              <Button
+                onClick={() => {
+                  window.open("https://pan.fcpig.com/s/9RbUy", "_blank")
+                  setIsSupplementDialogOpen(false)
+                }}
+                className="flex-1 bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white h-12 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Download className="w-5 h-5 mr-2" />
+                开始下载 (提取码: 7143b4)
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsSupplementDialogOpen(false)}
+                className="flex-1 border-2 border-gray-200 hover:border-gray-300 h-12 rounded-2xl font-medium transition-all duration-300"
+              >
+                取消
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
@@ -809,7 +650,7 @@ export default function GameDownloadSite() {
               <div className="text-center">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
                   <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
-                    <ImageWithLoader
+                    <img
                       src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK__GioQeYepsP6iVC3bsMxHNIjllKeAALpGgAC0_xBVf9i4oojkhwjNgQ.jpg"
                       alt="支付宝收款码"
                       className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
@@ -826,7 +667,7 @@ export default function GameDownloadSite() {
               <div className="text-center">
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
                   <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
-                    <ImageWithLoader
+                    <img
                       src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_-2ioQebputS_5HfrVDDM_h32L5HZAALoGgAC0_xBVQ5n_jogCyUONgQ.png"
                       alt="微信收款码"
                       className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
