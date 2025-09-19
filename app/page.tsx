@@ -24,11 +24,11 @@ const games = [
 
 const updateLogs = [
   {
-    version: "2025-08-22",
+    version: "2025-09-19",
     changes: ["UI更新", "修复标题色块bug", "优化加载"],
   },
   {
-    version: "2025-07-06",
+    version: "2025-08-28",
     changes: ["腾讯云线路下线", "优化加载", "修复游戏漏洞"],
   },
   {
@@ -471,6 +471,7 @@ export default function GameDownloadSite() {
                 variant="outline"
                 className="px-6 py-2 text-sm border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-2xl flex items-center transition-all duration-300"
               >
+              <span className="mr-2">😶‍🌫️</span>
                 赞助支持
               </Button>
             </div>
