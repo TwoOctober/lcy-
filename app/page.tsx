@@ -73,12 +73,33 @@ export default function GameDownloadSite() {
   const [isLanzouDialogOpen, setIsLanzouDialogOpen] = useState(false)
   const [isTencentDialogOpen, setIsTencentDialogOpen] = useState(false)
   const [isSupplementDialogOpen, setIsSupplementDialogOpen] = useState(false)
+  const [downloadStats, setDownloadStats] = useState({
+    lanzou: 0,
+    tencent: 0,
+    supplement: 0
+  })
 
   const visibleSections = useScrollAnimation()
 
-  const handleLanzouClick = () => setIsLanzouDialogOpen(true)
-  const handleTencentClick = () => setIsTencentDialogOpen(true)
-  const handleSupplementClick = () => setIsSupplementDialogOpen(true)
+  const trackDownload = (type: 'lanzou' | 'tencent' | 'supplement') => {
+    setDownloadStats(prev => ({
+      ...prev,
+      [type]: prev[type] + 1
+    }))
+  }
+
+  const handleLanzouClick = () => {
+    trackDownload('lanzou')
+    setIsLanzouDialogOpen(true)
+  }
+  const handleTencentClick = () => {
+    trackDownload('tencent')
+    setIsTencentDialogOpen(true)
+  }
+  const handleSupplementClick = () => {
+    trackDownload('supplement')
+    setIsSupplementDialogOpen(true)
+  }
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
@@ -233,24 +254,15 @@ export default function GameDownloadSite() {
       <section
         id="downloads"
         data-scroll-section
-        className={`pt-20 flex items-center bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 scroll-section ${
+        className={`h-screen flex items-center bg-gradient-to-br from-slate-50 via-white to-blue-50 py-0 scroll-section ${
           visibleSections.has("downloads") ? "visible" : ""
         }`}
       >
         <div className="max-w-6xl mx-auto px-6 w-full">
-          <div
-            className={`text-center mb-16 scroll-section stagger-1 ${
-              visibleSections.has("downloads") ? "visible" : ""
-            }`}
-          >
-            <h2 className="text-5xl font-light text-gray-900 mb-6">反恐精英相关</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto h-full">
             {/* 大庙杯比赛 */}
             <div
-              className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-2 min-h-[600px] ${
+              className={`group bg-gradient-to-br from-indigo-50 to-violet-50 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 hover:border-indigo-200 scroll-section stagger-1 h-full min-h-[80vh] ${
                 visibleSections.has("downloads") ? "visible" : ""
               }`}
             >
@@ -304,7 +316,7 @@ export default function GameDownloadSite() {
             {games.map((game) => (
               <div
                 key={game.id}
-                className={`group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 scroll-section stagger-3 min-h-[600px] ${
+                className={`group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 scroll-section stagger-2 h-full min-h-[80vh] ${
                   visibleSections.has("downloads") ? "visible" : ""
                 }`}
               >
@@ -385,7 +397,7 @@ export default function GameDownloadSite() {
 
           {/* 继续向下滚动指示器 - 完全居中 */}
           <div
-            className={`w-full flex justify-center mt-16 scroll-section stagger-4 ${
+            className={`w-full flex justify-center mt-16 scroll-section stagger-3 ${
               visibleSections.has("downloads") ? "visible" : ""
             }`}
           >
@@ -393,7 +405,6 @@ export default function GameDownloadSite() {
               onClick={() => scrollToSection("about")}
               className="flex flex-col items-center text-gray-400 hover:text-gray-600 transition-colors group"
             >
-              <span className="text-sm mb-2 font-light">了解更多</span>
               <ChevronDown className="w-6 h-6 animate-bounce-slow group-hover:translate-y-1 transition-transform" />
             </button>
           </div>
@@ -409,16 +420,6 @@ export default function GameDownloadSite() {
         }`}
       >
         <div className="max-w-4xl mx-auto px-6 w-full">
-          <div
-            className={`text-center mb-16 scroll-section stagger-1 ${visibleSections.has("about") ? "visible" : ""}`}
-          >
-            <h2 className="text-5xl font-light text-gray-900 mb-6">关于此站点</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full mb-8"></div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              本站点为公益下载站点，用爱发电，下载资源仅供学习交流，严厉禁止商用和盗版软件。
-            </p>
-          </div>
-
           <div
             className={`bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 mb-10 scroll-section stagger-2 ${
               visibleSections.has("about") ? "visible" : ""
@@ -501,7 +502,7 @@ export default function GameDownloadSite() {
       </section>
 
       {/* Download Dialog */}
-      <Dialog open={isDownloadDialogOpen} onOpenChange={setIsDownloadDialogOpen}>
+      <Dialog open={isDownloadDialogOpen} onOpenChange={setIsDownloadDialogOpen} hideClose={true}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">下载注意事项</DialogTitle>
@@ -513,7 +514,7 @@ export default function GameDownloadSite() {
       </Dialog>
 
       {/* Lanzou Dialog */}
-      <Dialog open={isLanzouDialogOpen} onOpenChange={setIsLanzouDialogOpen}>
+      <Dialog open={isLanzouDialogOpen} onOpenChange={setIsLanzouDialogOpen} hideClose={true}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">蓝奏云下载</DialogTitle>
@@ -521,6 +522,9 @@ export default function GameDownloadSite() {
               请使用蓝奏云下载链接进行下载。
             </DialogDescription>
           </DialogHeader>
+          <div className="text-xs text-gray-500 text-center mb-4">
+            下载次数: {downloadStats.lanzou} 次
+          </div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -554,7 +558,7 @@ export default function GameDownloadSite() {
       </Dialog>
 
       {/* Tencent Dialog */}
-      <Dialog open={isTencentDialogOpen} onOpenChange={setIsTencentDialogOpen}>
+      <Dialog open={isTencentDialogOpen} onOpenChange={setIsTencentDialogOpen} hideClose={true}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">腾讯云下载</DialogTitle>
@@ -562,6 +566,9 @@ export default function GameDownloadSite() {
               请使用腾讯云下载链接进行下载。
             </DialogDescription>
           </DialogHeader>
+          <div className="text-xs text-gray-500 text-center mb-4">
+            下载次数: {downloadStats.tencent} 次
+          </div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -595,7 +602,7 @@ export default function GameDownloadSite() {
       </Dialog>
 
       {/* Supplement Dialog */}
-      <Dialog open={isSupplementDialogOpen} onOpenChange={setIsSupplementDialogOpen}>
+      <Dialog open={isSupplementDialogOpen} onOpenChange={setIsSupplementDialogOpen} hideClose={true}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-md rounded-3xl p-8 border border-gray-200 shadow-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-900 mb-2">补档下载</DialogTitle>
@@ -603,6 +610,9 @@ export default function GameDownloadSite() {
               请使用补档链接进行下载。
             </DialogDescription>
           </DialogHeader>
+          <div className="text-xs text-gray-500 text-center mb-4">
+            下载次数: {downloadStats.supplement} 次
+          </div>
           <div className="pt-6">
             <div className="bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-gray-100">
               <h3 className="font-semibold text-xl mb-2 text-gray-900">Counter-Strike 1.6</h3>
@@ -636,7 +646,7 @@ export default function GameDownloadSite() {
       </Dialog>
 
       {/* Sponsor Dialog */}
-      <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen}>
+      <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen} hideClose={true}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[90vw] sm:max-w-2xl max-h-[90vh] rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-4">
           {/* 头部 */}
           <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-8 text-center text-gray-800">
@@ -651,47 +661,4 @@ export default function GameDownloadSite() {
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
                   <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
-                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK__GioQeYepsP6iVC3bsMxHNIjllKeAALpGgAC0_xBVf9i4oojkhwjNgQ.jpg"
-                      alt="支付宝收款码"
-                      className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
-                    />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                    <span className="mr-2 text-xl sm:text-2xl">支付宝支付</span>
-                  </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
-                </div>
-              </div>
-
-              {/* 微信赞助 */}
-              <div className="text-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
-                  <div className="w-32 h-32 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
-                    <img
-                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_-2ioQebputS_5HfrVDDM_h32L5HZAALoGgAC0_xBVQ5n_jogCyUONgQ.png"
-                      alt="微信收款码"
-                      className="w-28 h-28 sm:w-44 sm:h-44 rounded-xl"
-                    />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                    <span className="mr-2 text-xl sm:text-2xl">微信支付</span>
-                  </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-4">加载卡顿，请稍后。</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 底部说明 */}
-            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200">
-              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。腾讯云线路的流量有限，请尽可能使用其他线路！谢谢支持。
-                <br />
-                <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
-              </p>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
-  )
-}
+                      src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK__GioQeYepsP6iVC3bsMxHNIjllKeAALpGgAC0_xBVf9i4oojkhwjNgQ.\
