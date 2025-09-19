@@ -279,7 +279,7 @@ export default function GameDownloadSite() {
 
                 <p className="text-gray-600 mb-8 leading-relaxed text-lg">
                   
-                  参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品
+                  2025届CS2大庙杯比赛已结赛，期待下一次的相遇~
                 </p>
 
                 <div className="space-y-4">
