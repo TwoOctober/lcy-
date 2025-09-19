@@ -261,7 +261,7 @@ export default function GameDownloadSite() {
             >
               <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
                 <img
-                  src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAALE52iqkwY0IXNRy2hlI1tuhDu7Ni0DAALcGAACsgpYVfGKLfm8-f_FNgQ.jpg"
+                  src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLitozWV9kKV-PirYTT51fvOnHzcM1AACURsAAhwQaVbJYXJBdsIbsDYE.jpg"
                   alt="大庙杯比赛"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   loading="lazy"
