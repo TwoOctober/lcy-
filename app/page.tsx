@@ -646,7 +646,14 @@ export default function GameDownloadSite() {
                 </div>
               </div>
             </div>
-
+<style>
+body {
+  background-image: url('https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLc1ozUmrp6qjU6pLLZoqERZY4CxrAgACwBoAAhwQaVa_TfSNG0DDrjYE.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+</style>
             {/* 底部说明 */}
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-6">
               <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
