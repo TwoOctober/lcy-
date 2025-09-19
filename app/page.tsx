@@ -10,7 +10,7 @@ const games = [
   {
     id: 1,
     title: "Counter-Strike 1.6",
-    description: "请认真阅读须知",
+    description: "要爆炸了 要爆炸了 要爆炸了 要爆炸了 要爆炸了",
     image: "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 5,
     downloads: "14k",
@@ -512,9 +512,9 @@ export default function GameDownloadSite() {
 
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 mb-6 border border-blue-200">
             <h3 className="font-bold text-2xl mb-3 text-gray-900">Counter-Strike 1.6</h3>
-            <p className="text-gray-700 mb-4 text-lg">蓝奏云线路 - 高速稳定</p>
+            <p className="text-gray-700 mb-4 text-lg">蓝奏云线路</p>
             <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 shadow-md text-base">
-              🚀 推荐下载
+              推荐下载
             </Badge>
           </div>
 
@@ -573,9 +573,9 @@ export default function GameDownloadSite() {
 
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 mb-6 border border-green-200">
             <h3 className="font-bold text-2xl mb-3 text-gray-900">Counter-Strike 1.6</h3>
-            <p className="text-gray-700 mb-4 text-lg">腾讯云线路 - 稳定可靠</p>
+            <p className="text-gray-700 mb-4 text-lg">腾讯云线路</p>
             <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 shadow-md text-base">
-              🌐 备用线路
+              备用线路
             </Badge>
           </div>
 
