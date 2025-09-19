@@ -471,7 +471,6 @@ export default function GameDownloadSite() {
                 variant="outline"
                 className="px-6 py-2 text-sm border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-2xl flex items-center transition-all duration-300"
               >
-                <span className="mr-2">😶‍🌫️</span>
                 赞助支持
               </Button>
             </div>
