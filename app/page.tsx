@@ -10,7 +10,6 @@ const games = [
   {
     id: 1,
     title: "Counter-Strike 1.6",
-    description: "要爆炸了 要爆炸了 要爆炸了 要爆炸了 要爆炸了",
     image: "https://game.mhcdkey.com/image/ask/238818/qpvrwk1jwqb.jpg",
     rating: 5,
     downloads: "14k",
@@ -279,7 +278,7 @@ export default function GameDownloadSite() {
 
                 <p className="text-gray-600 mb-8 leading-relaxed text-lg">
                   
-                  参与CS2大庙杯比赛，与高手过招，赢取丰厚奖品
+
                 </p>
 
                 <div className="space-y-4">
@@ -646,14 +645,6 @@ export default function GameDownloadSite() {
                 </div>
               </div>
             </div>
-<style>
-body {
-  background-image: url('https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLc1ozUmrp6qjU6pLLZoqERZY4CxrAgACwBoAAhwQaVa_TfSNG0DDrjYE.png');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-}
-</style>
             {/* 底部说明 */}
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-6">
               <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
