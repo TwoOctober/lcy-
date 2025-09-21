@@ -12,7 +12,7 @@ const games = [
     title: "Counter-Strike 1.6",
     description: "涵盖十余张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
     image:
-      "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLkhozW1WxGHQtjoDMnepyRsL1IeA4gACdxsAAhwQaVYIRxkAARbi2bg2BA.jpg",
+      "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
     rating: 5,
     downloads: "14k",
     size: "94MB",
@@ -124,7 +124,7 @@ export default function GameDownloadSite() {
               >
                 <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                   <img
-                    src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECc91o0AR4-yAX_bP8VOxpp7aCmgABkeYAAhokAAKyroBWF02IBWGJyCE2BA.jpg"
+                    src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdApo0AWh23SX_Bj3NzCgiSV8AAHT8rUAAlckAAKyroBWB_fpxvgP_OU2BA.jpg"
                     alt="大庙杯比赛"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     loading="lazy"
