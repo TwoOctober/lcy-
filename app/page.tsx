@@ -4,8 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { Download, ExternalLink, Globe, Trophy, Clock, AlertTriangle, ChevronRight } from "lucide-react"
+import { Download, ExternalLink, Globe, Trophy, AlertTriangle, Heart } from "lucide-react"
 
 const games = [
   {
@@ -21,21 +20,6 @@ const games = [
       { name: "蓝奏云线路", url: "https://wwuq.lanzouq.com/iNB8r36khb1e", type: "official" },
       { name: "腾讯云线路", url: "http://101.42.25.190:8888/down/VKduTDvUOnpD", type: "fast" },
     ],
-  },
-]
-
-const updateLogs = [
-  {
-    version: "2025-09-19",
-    changes: ["UI更新", "修复标题色块bug", "优化加载"],
-  },
-  {
-    version: "2025-08-28",
-    changes: ["腾讯云线路下线", "优化加载", "修复游戏漏洞"],
-  },
-  {
-    version: "2025-08-23",
-    changes: ["腾讯云不限速线路上线", "底部赞助上线", "补档线路上线"],
   },
 ]
 
@@ -73,7 +57,6 @@ export default function GameDownloadSite() {
   const [isSponsorDialogOpen, setIsSponsorDialogOpen] = useState(false)
   const [isLanzouDialogOpen, setIsLanzouDialogOpen] = useState(false)
   const [isTencentDialogOpen, setIsTencentDialogOpen] = useState(false)
-  const [isUpdateLogOpen, setIsUpdateLogOpen] = useState(false)
 
   const visibleSections = useScrollAnimation()
 
@@ -247,11 +230,11 @@ export default function GameDownloadSite() {
 
             {/* 底部信息区域 */}
             <div className="grid lg:grid-cols-2 gap-6">
-              {/* Vegcat.icu - 当更新日志展开时会上移 */}
+              {/* Vegcat.icu */}
               <div
                 className={`bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50 scroll-section stagger-3 transition-all duration-500 ${
                   visibleSections.has("main") ? "visible" : ""
-                } ${isUpdateLogOpen ? "transform -translate-y-2" : ""}`}
+                }`}
               >
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div>
@@ -269,85 +252,40 @@ export default function GameDownloadSite() {
                 </div>
               </div>
 
-              {/* 可折叠的更新日志 - 长方形 */}
+              {/* 赞助支持 - 与vegcat.icu相同风格 */}
               <div
-                className={`bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 scroll-section stagger-4 ${
+                className={`bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50 scroll-section stagger-4 transition-all duration-500 ${
                   visibleSections.has("main") ? "visible" : ""
                 }`}
               >
-                <Collapsible open={isUpdateLogOpen} onOpenChange={setIsUpdateLogOpen}>
-                  <CollapsibleTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="w-full p-6 h-auto justify-between hover:bg-transparent rounded-3xl"
-                    >
-                      <div className="flex items-center">
-                        <Clock className="w-5 h-5 mr-3 text-gray-600" />
-                        <h3 className="text-xl font-semibold text-gray-900">更新日志</h3>
-                      </div>
-                      <ChevronRight
-                        className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
-                          isUpdateLogOpen ? "rotate-90" : ""
-                        }`}
-                      />
-                    </Button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="px-6 pb-6">
-                    <div className="space-y-4">
-                      {updateLogs.map((log, index) => (
-                        <div key={index} className="border-l-4 border-indigo-200 pl-4 relative">
-                          <div className="absolute w-3 h-3 bg-indigo-500 rounded-full -left-1.5 top-3"></div>
-                          <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white mb-2 px-3 py-1 text-sm shadow-md">
-                            {log.version}
-                          </Badge>
-                          <ul className="space-y-1 text-gray-600">
-                            {log.changes.map((change, changeIndex) => (
-                              <li key={changeIndex} className="flex items-start text-sm">
-                                <span className="text-indigo-400 mr-2 mt-1">•</span>
-                                <span className="leading-relaxed">{change}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">赞助支持</h3>
+                    <p className="text-gray-600 text-base">支持我们的项目发展，帮助维护服务器和优化体验。</p>
+                  </div>
+                  <Button
+                    onClick={() => setIsSponsorDialogOpen(true)}
+                    className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white px-6 py-2 rounded-2xl flex items-center shadow-lg hover:shadow-xl transition-all duration-300 group text-base whitespace-nowrap"
+                  >
+                    <Heart className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+                    支持我们
+                    <span className="ml-2 text-sm">💝</span>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Footer - 全新设计风格 */}
+        {/* Footer - 改为白色背景 */}
         <div className={`relative z-10 scroll-section stagger-6 ${visibleSections.has("main") ? "visible" : ""}`}>
-          <div className="bg-gradient-to-r from-slate-900 via-gray-900 to-slate-900 text-white py-8">
+          <div className="bg-white/60 backdrop-blur-sm border-t border-white/50 py-6">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
-              <div className="flex flex-col items-center space-y-6">
-                {/* 主要按钮区域 */}
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <Button
-                    onClick={() => window.open("https://cs.lcynb.icu", "_blank")}
-                    className="bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30 px-6 py-3 rounded-2xl flex items-center transition-all duration-300 group backdrop-blur-sm"
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-                    跳转旧版
-                  </Button>
-                  <Button
-                    onClick={() => setIsSponsorDialogOpen(true)}
-                    className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 text-white border border-amber-400/30 hover:border-amber-400/50 px-6 py-3 rounded-2xl flex items-center transition-all duration-300 backdrop-blur-sm"
-                  >
-                    <span className="mr-2 text-lg">💝</span>
-                    赞助支持
-                  </Button>
-                </div>
-
-                {/* 分割线 */}
-                <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-
+              <div className="flex flex-col items-center space-y-4">
                 {/* 版权信息 */}
                 <div className="text-center space-y-2">
-                  <p className="text-white/80 text-sm">© 2025 Vegcat. All rights reserved.</p>
-                  <p className="text-white/60 text-xs">我们或许会倒闭，但永远不会变质。</p>
+                  <p className="text-gray-600 text-sm">© 2025 Vegcat. All rights reserved.</p>
+                  <p className="text-gray-500 text-xs">我们或许会倒闭，但永远不会变质。</p>
                 </div>
               </div>
             </div>
