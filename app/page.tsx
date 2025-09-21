@@ -85,7 +85,7 @@ export default function GameDownloadSite() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">
       <style jsx>{`
         html {
           scroll-behavior: smooth;
@@ -127,24 +127,14 @@ export default function GameDownloadSite() {
         id="main"
         data-scroll-section
         className={`min-h-screen flex flex-col relative scroll-section ${visibleSections.has("main") ? "visible" : ""}`}
-        style={{
-          backgroundImage:
-            'url("https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECMIJozhi1lj_PXR73780RH7S8gMcXrgACPRcAAtUHcVbxGwABwtZqaJU2BA.jpg")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
       >
-        {/* 背景遮罩 */}
-        <div className="absolute inset-0 bg-black/20"></div>
-
         {/* 主要内容 */}
-        <div className="flex-1 flex items-center justify-center relative z-10 py-8">
+        <div className="flex-1 flex items-center justify-center py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
-            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto h-full">
               {/* 左侧：大庙杯比赛 */}
               <div
-                className={`group bg-gradient-to-br from-indigo-50/95 to-violet-50/95 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100/50 hover:border-indigo-200/50 scroll-section stagger-1 ${
+                className={`group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-indigo-200/50 scroll-section stagger-1 flex flex-col ${
                   visibleSections.has("main") ? "visible" : ""
                 }`}
               >
@@ -158,7 +148,7 @@ export default function GameDownloadSite() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </div>
 
-                <div className="p-6">
+                <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-2xl font-semibold text-gray-900">大庙杯比赛</h3>
                     <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-3 py-1 shadow-lg text-sm">
@@ -172,7 +162,7 @@ export default function GameDownloadSite() {
                     </p>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-3 mt-auto">
                     <Button
                       onClick={() => window.open("https://b23.tv/x5nXHGj", "_blank")}
                       className="w-full justify-between h-12 px-6 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group/btn text-base"
@@ -198,74 +188,74 @@ export default function GameDownloadSite() {
                 </div>
               </div>
 
-              {/* 右侧：CS 1.6 + 更新日志 + Vegcat */}
-              <div className="space-y-6">
-                {/* CS 1.6 Game */}
-                {games.map((game) => (
-                  <div
-                    key={game.id}
-                    className={`group bg-gradient-to-br from-gray-50/95 to-blue-50/95 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100/50 hover:border-gray-200/50 scroll-section stagger-2 ${
-                      visibleSections.has("main") ? "visible" : ""
-                    }`}
-                  >
-                    <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
-                      <img
-                        src={game.image || "/placeholder.svg"}
-                        alt={game.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                    </div>
-
-                    <div className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-2xl font-semibold text-gray-900">{game.title}</h3>
-                        <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-3 py-1 shadow-lg text-sm">
-                          经典游戏
-                        </Badge>
-                      </div>
-
-                      <div className="h-[48px] flex items-center mb-6">
-                        <p className="text-gray-600 leading-relaxed text-base">{game.description}</p>
-                      </div>
-
-                      <div className="space-y-3">
-                        {/* 下载链接 */}
-                        {game.downloadLinks.map((link, linkIndex) => (
-                          <Button
-                            key={linkIndex}
-                            onClick={
-                              link.type === "official"
-                                ? handleLanzouClick
-                                : link.type === "fast"
-                                  ? handleTencentClick
-                                  : undefined
-                            }
-                            variant="outline"
-                            className="w-full justify-between h-12 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn bg-transparent text-base"
-                          >
-                            <div className="flex items-center">
-                              <Download className="w-5 h-5 mr-3 group-hover/btn:translate-y-1 transition-transform" />
-                              <span className="font-medium">{link.name}</span>
-                            </div>
-                            <span className="text-sm font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-3 py-1 rounded-full transition-colors">
-                              {game.size}
-                            </span>
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                {/* Vegcat.icu */}
+              {/* 中间：CS 1.6 Game */}
+              {games.map((game) => (
                 <div
-                  className={`bg-gradient-to-br from-gray-50/95 to-indigo-50/95 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-gray-100/50 scroll-section stagger-3 ${
+                  key={game.id}
+                  className={`group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-gray-200/50 scroll-section stagger-2 flex flex-col ${
                     visibleSections.has("main") ? "visible" : ""
                   }`}
                 >
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
+                    <img
+                      src={game.image || "/placeholder.svg"}
+                      alt={game.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  </div>
+
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-2xl font-semibold text-gray-900">{game.title}</h3>
+                      <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-3 py-1 shadow-lg text-sm">
+                        经典游戏
+                      </Badge>
+                    </div>
+
+                    <div className="h-[48px] flex items-center mb-6">
+                      <p className="text-gray-600 leading-relaxed text-base">{game.description}</p>
+                    </div>
+
+                    <div className="space-y-3 mt-auto">
+                      {/* 下载链接 */}
+                      {game.downloadLinks.map((link, linkIndex) => (
+                        <Button
+                          key={linkIndex}
+                          onClick={
+                            link.type === "official"
+                              ? handleLanzouClick
+                              : link.type === "fast"
+                                ? handleTencentClick
+                                : undefined
+                          }
+                          variant="outline"
+                          className="w-full justify-between h-12 px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-2xl transition-all duration-300 group/btn bg-transparent text-base"
+                        >
+                          <div className="flex items-center">
+                            <Download className="w-5 h-5 mr-3 group-hover/btn:translate-y-1 transition-transform" />
+                            <span className="font-medium">{link.name}</span>
+                          </div>
+                          <span className="text-sm font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-3 py-1 rounded-full transition-colors">
+                            {game.size}
+                          </span>
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {/* 右侧：Vegcat.icu + 更新日志 */}
+              <div className="flex flex-col space-y-6">
+                {/* Vegcat.icu - 当更新日志展开时会上移 */}
+                <div
+                  className={`bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50 scroll-section stagger-3 transition-all duration-500 ${
+                    visibleSections.has("main") ? "visible" : ""
+                  } ${isUpdateLogOpen ? "transform -translate-y-2" : ""}`}
+                >
+                  <div className="flex flex-col items-center text-center space-y-4">
                     <div>
                       <h3 className="text-xl font-semibold text-gray-900 mb-2">Vegcat.icu</h3>
                       <p className="text-gray-600 text-base">探索关于站点和站长的信息以及接下来的更新计划。</p>
@@ -283,7 +273,7 @@ export default function GameDownloadSite() {
 
                 {/* 可折叠的更新日志 */}
                 <div
-                  className={`bg-gradient-to-br from-gray-50/95 to-indigo-50/95 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-100/50 scroll-section stagger-4 ${
+                  className={`bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 scroll-section stagger-4 flex-1 ${
                     visibleSections.has("main") ? "visible" : ""
                   }`}
                 >
@@ -305,7 +295,7 @@ export default function GameDownloadSite() {
                       </Button>
                     </CollapsibleTrigger>
                     <CollapsibleContent className="px-6 pb-6">
-                      <div className="space-y-4">
+                      <div className="space-y-4 max-h-64 overflow-y-auto">
                         {updateLogs.map((log, index) => (
                           <div key={index} className="border-l-4 border-indigo-200 pl-4 relative">
                             <div className="absolute w-3 h-3 bg-indigo-500 rounded-full -left-1.5 top-3"></div>
@@ -331,9 +321,9 @@ export default function GameDownloadSite() {
           </div>
         </div>
 
-        {/* Footer - 统一风格 */}
+        {/* Footer - 自适应位置 */}
         <div
-          className={`bg-gradient-to-br from-gray-50/95 to-indigo-50/95 backdrop-blur-sm border-t border-gray-100/50 py-4 relative z-10 scroll-section stagger-6 ${visibleSections.has("main") ? "visible" : ""}`}
+          className={`bg-white/60 backdrop-blur-sm border-t border-white/50 py-4 relative z-10 scroll-section stagger-6 ${visibleSections.has("main") ? "visible" : ""}`}
         >
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-3">
