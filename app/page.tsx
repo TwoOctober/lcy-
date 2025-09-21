@@ -261,7 +261,7 @@ export default function GameDownloadSite() {
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">赞助支持</h3>
-                    <p className="text-gray-600 text-base">支持我们的项目发展，帮助维护服务器和优化体验。</p>
+                    <p className="text-gray-600 text-base">支持我们的更好的发展和优化体验。</p>
                   </div>
                   <Button
                     onClick={() => setIsSponsorDialogOpen(true)}
@@ -269,7 +269,7 @@ export default function GameDownloadSite() {
                   >
                     <Heart className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                     支持我们
-                    <span className="ml-2 text-sm">💝</span>
+                                        <ExternalLink className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
               </div>
