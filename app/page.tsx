@@ -129,16 +129,17 @@ export default function GameDownloadSite() {
         className={`min-h-screen flex flex-col relative scroll-section ${visibleSections.has("main") ? "visible" : ""}`}
       >
         {/* 主要内容 */}
-        <div className="flex-1 flex items-center justify-center py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
-            <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto h-full">
-              {/* 左侧：大庙杯比赛 */}
+        <div className="flex-1 flex items-center justify-center py-8 px-4 sm:px-6">
+          <div className="w-full max-w-7xl mx-auto">
+            {/* 主要游戏卡片区域 */}
+            <div className="grid lg:grid-cols-2 gap-8 mb-8">
+              {/* 大庙杯比赛 */}
               <div
-                className={`group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-indigo-200/50 scroll-section stagger-1 flex flex-col ${
+                className={`group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-indigo-200/50 scroll-section stagger-1 ${
                   visibleSections.has("main") ? "visible" : ""
                 }`}
               >
-                <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
+                <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                   <img
                     src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLjJozWeRpWl0VnbyMLVoRgKTeQd42QACWxsAAhwQaVb3hh5-ygueMDYE.jpg"
                     alt="大庙杯比赛"
@@ -148,7 +149,7 @@ export default function GameDownloadSite() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </div>
 
-                <div className="p-6 flex-1 flex flex-col">
+                <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-2xl font-semibold text-gray-900">大庙杯比赛</h3>
                     <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-3 py-1 shadow-lg text-sm">
@@ -156,13 +157,11 @@ export default function GameDownloadSite() {
                     </Badge>
                   </div>
 
-                  <div className="h-[48px] flex items-center mb-6">
-                    <p className="text-gray-600 leading-relaxed text-base">
-                      2025届CS2大庙杯比赛已结赛，期待下一次的相遇~
-                    </p>
-                  </div>
+                  <p className="text-gray-600 leading-relaxed text-base mb-6">
+                    2025届CS2大庙杯比赛已结赛，期待下一次的相遇~
+                  </p>
 
-                  <div className="space-y-3 mt-auto">
+                  <div className="space-y-3">
                     <Button
                       onClick={() => window.open("https://b23.tv/x5nXHGj", "_blank")}
                       className="w-full justify-between h-12 px-6 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group/btn text-base"
@@ -188,15 +187,15 @@ export default function GameDownloadSite() {
                 </div>
               </div>
 
-              {/* 中间：CS 1.6 Game */}
+              {/* CS 1.6 Game */}
               {games.map((game) => (
                 <div
                   key={game.id}
-                  className={`group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-gray-200/50 scroll-section stagger-2 flex flex-col ${
+                  className={`group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-gray-200/50 scroll-section stagger-2 ${
                     visibleSections.has("main") ? "visible" : ""
                   }`}
                 >
-                  <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
+                  <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                     <img
                       src={game.image || "/placeholder.svg"}
                       alt={game.title}
@@ -206,7 +205,7 @@ export default function GameDownloadSite() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                   </div>
 
-                  <div className="p-6 flex-1 flex flex-col">
+                  <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
                       <h3 className="text-2xl font-semibold text-gray-900">{game.title}</h3>
                       <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-3 py-1 shadow-lg text-sm">
@@ -214,11 +213,9 @@ export default function GameDownloadSite() {
                       </Badge>
                     </div>
 
-                    <div className="h-[48px] flex items-center mb-6">
-                      <p className="text-gray-600 leading-relaxed text-base">{game.description}</p>
-                    </div>
+                    <p className="text-gray-600 leading-relaxed text-base mb-6">{game.description}</p>
 
-                    <div className="space-y-3 mt-auto">
+                    <div className="space-y-3">
                       {/* 下载链接 */}
                       {game.downloadLinks.map((link, linkIndex) => (
                         <Button
@@ -246,105 +243,114 @@ export default function GameDownloadSite() {
                   </div>
                 </div>
               ))}
+            </div>
 
-              {/* 右侧：Vegcat.icu + 更新日志 */}
-              <div className="flex flex-col space-y-6">
-                {/* Vegcat.icu - 当更新日志展开时会上移 */}
-                <div
-                  className={`bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50 scroll-section stagger-3 transition-all duration-500 ${
-                    visibleSections.has("main") ? "visible" : ""
-                  } ${isUpdateLogOpen ? "transform -translate-y-2" : ""}`}
-                >
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Vegcat.icu</h3>
-                      <p className="text-gray-600 text-base">探索关于站点和站长的信息以及接下来的更新计划。</p>
-                    </div>
-                    <Button
-                      onClick={() => window.open("https://vegcat.icu", "_blank")}
-                      className="bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white px-6 py-2 rounded-2xl flex items-center shadow-lg hover:shadow-xl transition-all duration-300 group text-base"
-                    >
-                      <Globe className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
-                      点击跳转
-                      <ExternalLink className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+            {/* 底部信息区域 */}
+            <div className="grid lg:grid-cols-2 gap-6">
+              {/* Vegcat.icu - 当更新日志展开时会上移 */}
+              <div
+                className={`bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50 scroll-section stagger-3 transition-all duration-500 ${
+                  visibleSections.has("main") ? "visible" : ""
+                } ${isUpdateLogOpen ? "transform -translate-y-2" : ""}`}
+              >
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Vegcat.icu</h3>
+                    <p className="text-gray-600 text-base">探索关于站点和站长的信息以及接下来的更新计划。</p>
                   </div>
+                  <Button
+                    onClick={() => window.open("https://vegcat.icu", "_blank")}
+                    className="bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white px-6 py-2 rounded-2xl flex items-center shadow-lg hover:shadow-xl transition-all duration-300 group text-base whitespace-nowrap"
+                  >
+                    <Globe className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+                    点击跳转
+                    <ExternalLink className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
                 </div>
+              </div>
 
-                {/* 可折叠的更新日志 */}
-                <div
-                  className={`bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 scroll-section stagger-4 flex-1 ${
-                    visibleSections.has("main") ? "visible" : ""
-                  }`}
-                >
-                  <Collapsible open={isUpdateLogOpen} onOpenChange={setIsUpdateLogOpen}>
-                    <CollapsibleTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="w-full p-6 h-auto justify-between hover:bg-transparent rounded-3xl"
-                      >
-                        <div className="flex items-center">
-                          <Clock className="w-5 h-5 mr-3 text-gray-600" />
-                          <h3 className="text-xl font-semibold text-gray-900">更新日志</h3>
-                        </div>
-                        <ChevronRight
-                          className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
-                            isUpdateLogOpen ? "rotate-90" : ""
-                          }`}
-                        />
-                      </Button>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="px-6 pb-6">
-                      <div className="space-y-4 max-h-64 overflow-y-auto">
-                        {updateLogs.map((log, index) => (
-                          <div key={index} className="border-l-4 border-indigo-200 pl-4 relative">
-                            <div className="absolute w-3 h-3 bg-indigo-500 rounded-full -left-1.5 top-3"></div>
-                            <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white mb-2 px-3 py-1 text-sm shadow-md">
-                              {log.version}
-                            </Badge>
-                            <ul className="space-y-1 text-gray-600">
-                              {log.changes.map((change, changeIndex) => (
-                                <li key={changeIndex} className="flex items-start text-sm">
-                                  <span className="text-indigo-400 mr-2 mt-1">•</span>
-                                  <span className="leading-relaxed">{change}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+              {/* 可折叠的更新日志 - 长方形 */}
+              <div
+                className={`bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 scroll-section stagger-4 ${
+                  visibleSections.has("main") ? "visible" : ""
+                }`}
+              >
+                <Collapsible open={isUpdateLogOpen} onOpenChange={setIsUpdateLogOpen}>
+                  <CollapsibleTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full p-6 h-auto justify-between hover:bg-transparent rounded-3xl"
+                    >
+                      <div className="flex items-center">
+                        <Clock className="w-5 h-5 mr-3 text-gray-600" />
+                        <h3 className="text-xl font-semibold text-gray-900">更新日志</h3>
                       </div>
-                    </CollapsibleContent>
-                  </Collapsible>
-                </div>
+                      <ChevronRight
+                        className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
+                          isUpdateLogOpen ? "rotate-90" : ""
+                        }`}
+                      />
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="px-6 pb-6">
+                    <div className="space-y-4">
+                      {updateLogs.map((log, index) => (
+                        <div key={index} className="border-l-4 border-indigo-200 pl-4 relative">
+                          <div className="absolute w-3 h-3 bg-indigo-500 rounded-full -left-1.5 top-3"></div>
+                          <Badge className="bg-gradient-to-r from-gray-900 to-gray-700 text-white mb-2 px-3 py-1 text-sm shadow-md">
+                            {log.version}
+                          </Badge>
+                          <ul className="space-y-1 text-gray-600">
+                            {log.changes.map((change, changeIndex) => (
+                              <li key={changeIndex} className="flex items-start text-sm">
+                                <span className="text-indigo-400 mr-2 mt-1">•</span>
+                                <span className="leading-relaxed">{change}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Footer - 自适应位置 */}
-        <div
-          className={`bg-white/60 backdrop-blur-sm border-t border-white/50 py-4 relative z-10 scroll-section stagger-6 ${visibleSections.has("main") ? "visible" : ""}`}
-        >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-3">
-              <Button
-                onClick={() => window.open("https://cs.lcynb.icu", "_blank")}
-                variant="outline"
-                className="px-4 py-2 text-sm border-2 border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 rounded-2xl flex items-center transition-all duration-300 group"
-              >
-                <ExternalLink className="w-3 h-3 mr-2 group-hover:translate-x-1 transition-transform" />
-                跳转旧版
-              </Button>
-              <Button
-                onClick={() => setIsSponsorDialogOpen(true)}
-                variant="outline"
-                className="px-4 py-2 text-sm border-2 border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 rounded-2xl flex items-center transition-all duration-300"
-              >
-                <span className="mr-2 text-base">😶‍🌫️</span>
-                赞助支持
-              </Button>
+        {/* Footer - 全新设计风格 */}
+        <div className={`relative z-10 scroll-section stagger-6 ${visibleSections.has("main") ? "visible" : ""}`}>
+          <div className="bg-gradient-to-r from-slate-900 via-gray-900 to-slate-900 text-white py-8">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+              <div className="flex flex-col items-center space-y-6">
+                {/* 主要按钮区域 */}
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  <Button
+                    onClick={() => window.open("https://cs.lcynb.icu", "_blank")}
+                    className="bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30 px-6 py-3 rounded-2xl flex items-center transition-all duration-300 group backdrop-blur-sm"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
+                    跳转旧版
+                  </Button>
+                  <Button
+                    onClick={() => setIsSponsorDialogOpen(true)}
+                    className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 text-white border border-amber-400/30 hover:border-amber-400/50 px-6 py-3 rounded-2xl flex items-center transition-all duration-300 backdrop-blur-sm"
+                  >
+                    <span className="mr-2 text-lg">💝</span>
+                    赞助支持
+                  </Button>
+                </div>
+
+                {/* 分割线 */}
+                <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+                {/* 版权信息 */}
+                <div className="text-center space-y-2">
+                  <p className="text-white/80 text-sm">© 2025 Vegcat. All rights reserved.</p>
+                  <p className="text-white/60 text-xs">我们或许会倒闭，但永远不会变质。</p>
+                </div>
+              </div>
             </div>
-            <p className="text-gray-500 text-sm text-center">© 2025 Vegcat. All rights reserved.</p>
           </div>
         </div>
       </section>
