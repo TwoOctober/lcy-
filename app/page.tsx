@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, ExternalLink, Globe, Trophy, AlertTriangle, Heart, Loader2 } from "lucide-react"
+import { Download, ExternalLink, Globe, Trophy, AlertTriangle, Heart } from "lucide-react"
 
 const games = [
   {
@@ -25,11 +25,10 @@ const games = [
 
 // 滚动动画Hook - 优化移动端性能
 function useScrollAnimation() {
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(["main"])) // 初始化时就显示main
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    // 检测移动端
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
@@ -43,6 +42,9 @@ function useScrollAnimation() {
       return () => window.removeEventListener("resize", checkMobile)
     }
 
+    // 桌面端也确保内容可见
+    setVisibleSections(new Set(["main"]))
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -52,12 +54,12 @@ function useScrollAnimation() {
         })
       },
       {
-        threshold: 0.1, // 降低阈值，更容易触发
-        rootMargin: "-10% 0px -10% 0px", // 减少边距
+        threshold: 0.1,
+        rootMargin: "-10% 0px -10% 0px",
       },
     )
 
-    // 延迟观察以避免初始化问题
+    // 延迟观察以避免初始化问题，但确保内容已经可见
     const timer = setTimeout(() => {
       const sections = document.querySelectorAll("[data-scroll-section]")
       sections.forEach((section) => observer.observe(section))
@@ -78,19 +80,9 @@ export default function GameDownloadSite() {
   const [isSponsorDialogOpen, setIsSponsorDialogOpen] = useState(false)
   const [isLanzouDialogOpen, setIsLanzouDialogOpen] = useState(false)
   const [isTencentDialogOpen, setIsTencentDialogOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
 
   const { visibleSections, isMobile } = useScrollAnimation()
-
-  // 页面加载完成处理
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [])
 
   // 图片加载错误处理
   const handleImageError = (imageUrl: string) => {
@@ -103,18 +95,6 @@ export default function GameDownloadSite() {
 
   const handleTencentClick = () => {
     setIsTencentDialogOpen(true)
-  }
-
-  // 加载屏幕
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-indigo-600 mx-auto mb-4" />
-          <p className="text-gray-600">加载中...</p>
-        </div>
-      </div>
-    )
   }
 
   return (
