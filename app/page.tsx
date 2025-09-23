@@ -23,9 +23,9 @@ const games = [
   },
 ]
 
-// 滚动动画Hook - 优化移动端性能
+// 优化的滚动动画Hook - 减少性能开销
 function useScrollAnimation() {
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(["main"])) // 初始化时就显示main
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(["main"]))
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -34,41 +34,46 @@ function useScrollAnimation() {
     }
 
     checkMobile()
-    window.addEventListener("resize", checkMobile)
 
-    // 移动端禁用复杂动画以提升性能
+    // 使用 passive 监听器优化性能
+    const handleResize = () => checkMobile()
+    window.addEventListener("resize", handleResize, { passive: true })
+
+    // 移动端直接显示所有内容，不使用动画
     if (isMobile) {
       setVisibleSections(new Set(["main"]))
-      return () => window.removeEventListener("resize", checkMobile)
+      return () => window.removeEventListener("resize", handleResize)
     }
 
-    // 桌面端也确保内容可见
     setVisibleSections(new Set(["main"]))
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections((prev) => new Set([...prev, entry.target.id]))
-          }
-        })
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "-10% 0px -10% 0px",
-      },
-    )
+    // 使用 requestIdleCallback 优化性能
+    const initObserver = () => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisibleSections((prev) => new Set([...prev, entry.target.id]))
+            }
+          })
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "-10% 0px -10% 0px",
+        },
+      )
 
-    // 延迟观察以避免初始化问题，但确保内容已经可见
-    const timer = setTimeout(() => {
       const sections = document.querySelectorAll("[data-scroll-section]")
       sections.forEach((section) => observer.observe(section))
-    }, 100)
+
+      return observer
+    }
+
+    const timer = setTimeout(initObserver, 100)
 
     return () => {
       clearTimeout(timer)
-      observer.disconnect()
-      window.removeEventListener("resize", checkMobile)
+      window.removeEventListener("resize", handleResize)
     }
   }, [isMobile])
 
@@ -76,7 +81,6 @@ function useScrollAnimation() {
 }
 
 export default function GameDownloadSite() {
-  const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false)
   const [isSponsorDialogOpen, setIsSponsorDialogOpen] = useState(false)
   const [isLanzouDialogOpen, setIsLanzouDialogOpen] = useState(false)
   const [isTencentDialogOpen, setIsTencentDialogOpen] = useState(false)
@@ -84,7 +88,7 @@ export default function GameDownloadSite() {
 
   const { visibleSections, isMobile } = useScrollAnimation()
 
-  // 图片加载错误处理
+  // 优化的图片错误处理
   const handleImageError = (imageUrl: string) => {
     setImageErrors((prev) => new Set([...prev, imageUrl]))
   }
@@ -104,11 +108,15 @@ export default function GameDownloadSite() {
           scroll-behavior: smooth;
         }
         
-        /* 移动端优化 */
+        /* 移动端优化 - 禁用动画提升性能 */
         @media (max-width: 768px) {
           .scroll-section {
             opacity: 1 !important;
             transform: translateY(0) !important;
+          }
+          * {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
           }
         }
         
@@ -127,47 +135,57 @@ export default function GameDownloadSite() {
           .stagger-2 { transition-delay: 0.1s; }
           .stagger-3 { transition-delay: 0.15s; }
           .stagger-4 { transition-delay: 0.2s; }
-          .stagger-5 { transition-delay: 0.25s; }
           .stagger-6 { transition-delay: 0.3s; }
         }
         
         /* 优化滚动条 */
         ::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
         ::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.1);
+          background: rgba(0, 0, 0, 0.05);
         }
         ::-webkit-scrollbar-thumb {
-          background: rgba(59, 130, 246, 0.5);
-          border-radius: 4px;
+          background: rgba(59, 130, 246, 0.3);
+          border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-          background: rgba(59, 130, 246, 0.7);
+          background: rgba(59, 130, 246, 0.5);
         }
         
-        /* 图片加载优化 */
+        /* 图片优化 */
         .image-container {
           background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-          background-size: 20px 20px;
-          background-image: 
-            linear-gradient(45deg, rgba(255,255,255,.1) 25%, transparent 25%), 
-            linear-gradient(-45deg, rgba(255,255,255,.1) 25%, transparent 25%), 
-            linear-gradient(45deg, transparent 75%, rgba(255,255,255,.1) 75%), 
-            linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.1) 75%);
         }
         
         /* 触摸优化 */
         @media (hover: none) and (pointer: coarse) {
-          .group:hover .group-hover\\:scale-105 {
+          .group:hover .group-hover\\:scale-105,
+          .group:hover .group-hover\\:rotate-12,
+          .group:hover .group-hover\\:translate-x-1,
+          .group:hover .group-hover\\:translate-y-1,
+          .group:hover .group-hover\\:scale-110 {
             transform: none;
           }
-          .group:hover .group-hover\\:rotate-12 {
-            transform: none;
-          }
-          .group:hover .group-hover\\:translate-x-1 {
-            transform: none;
-          }
+        }
+        
+        /* 蓝奏云按钮特殊样式 */
+        .lanzou-highlight {
+          position: relative;
+          overflow: hidden;
+        }
+        .lanzou-highlight::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: left 0.5s;
+        }
+        .lanzou-highlight:hover::before {
+          left: 100%;
         }
       `}</style>
 
@@ -224,27 +242,28 @@ export default function GameDownloadSite() {
                     2025届CS2大庙杯比赛已结赛，期待下一次的相遇~
                   </p>
 
+                  {/* 修复按钮垂直对齐问题 */}
                   <div className="space-y-2 sm:space-y-3">
                     <Button
                       onClick={() => window.open("https://b23.tv/x5nXHGj", "_blank")}
                       className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white border-0 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group/btn text-sm sm:text-base"
                     >
-                      <div className="flex items-center">
-                        <Trophy className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover/btn:rotate-12 transition-transform" />
-                        <span className="font-medium">赛事回放</span>
+                      <div className="flex items-center min-w-0 flex-1">
+                        <Trophy className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover/btn:rotate-12 transition-transform flex-shrink-0" />
+                        <span className="font-medium truncate">赛事回放</span>
                       </div>
-                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform" />
+                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform flex-shrink-0 ml-2" />
                     </Button>
                     <Button
                       onClick={() => window.open("https://qm.qq.com/q/1NHb1tygHy", "_blank")}
                       variant="outline"
                       className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 border-2 border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 rounded-xl sm:rounded-2xl transition-all duration-300 group/btn text-sm sm:text-base"
                     >
-                      <div className="flex items-center">
-                        <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover/btn:rotate-12 transition-transform" />
-                        <span className="font-medium">比赛交流群</span>
+                      <div className="flex items-center min-w-0 flex-1">
+                        <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover/btn:rotate-12 transition-transform flex-shrink-0" />
+                        <span className="font-medium truncate">比赛交流群</span>
                       </div>
-                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform" />
+                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform flex-shrink-0 ml-2" />
                     </Button>
                   </div>
                 </div>
@@ -293,29 +312,37 @@ export default function GameDownloadSite() {
                     </p>
 
                     <div className="space-y-2 sm:space-y-3">
-                      {/* 下载链接 */}
-                      {game.downloadLinks.map((link, linkIndex) => (
-                        <Button
-                          key={linkIndex}
-                          onClick={
-                            link.type === "official"
-                              ? handleLanzouClick
-                              : link.type === "fast"
-                                ? handleTencentClick
-                                : undefined
-                          }
-                          variant="outline"
-                          className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-xl sm:rounded-2xl transition-all duration-300 group/btn bg-transparent text-sm sm:text-base"
-                        >
-                          <div className="flex items-center">
-                            <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover/btn:translate-y-1 transition-transform" />
-                            <span className="font-medium">{link.name}</span>
-                          </div>
-                          <span className="text-xs sm:text-sm font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-2 sm:px-3 py-1 rounded-full transition-colors">
+                      {/* 蓝奏云线路 - 更醒目但不过分 */}
+                      <Button
+                        onClick={handleLanzouClick}
+                        className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group/btn text-sm sm:text-base lanzou-highlight"
+                      >
+                        <div className="flex items-center min-w-0 flex-1">
+                          <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover/btn:translate-y-1 transition-transform flex-shrink-0" />
+                          <span className="font-medium truncate">蓝奏云线路</span>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <Badge className="bg-white/20 text-white px-2 py-0.5 text-xs">推荐</Badge>
+                          <span className="text-xs sm:text-sm font-medium bg-white/20 px-2 sm:px-3 py-1 rounded-full">
                             {game.size}
                           </span>
-                        </Button>
-                      ))}
+                        </div>
+                      </Button>
+
+                      {/* 腾讯云线路 */}
+                      <Button
+                        onClick={handleTencentClick}
+                        variant="outline"
+                        className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-xl sm:rounded-2xl transition-all duration-300 group/btn bg-transparent text-sm sm:text-base"
+                      >
+                        <div className="flex items-center min-w-0 flex-1">
+                          <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover/btn:translate-y-1 transition-transform flex-shrink-0" />
+                          <span className="font-medium truncate">腾讯云线路</span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-medium bg-gray-100 group-hover/btn:bg-gray-800 px-2 sm:px-3 py-1 rounded-full transition-colors flex-shrink-0">
+                          {game.size}
+                        </span>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -388,7 +415,7 @@ export default function GameDownloadSite() {
         </div>
       </section>
 
-      {/* 对话框保持不变但优化移动端 */}
+      {/* 优化的对话框 */}
       {/* Lanzou Dialog */}
       <Dialog open={isLanzouDialogOpen} onOpenChange={setIsLanzouDialogOpen}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 shadow-2xl [&>button]:hidden mx-2 sm:mx-4">
@@ -522,63 +549,68 @@ export default function GameDownloadSite() {
         </DialogContent>
       </Dialog>
 
-      {/* Sponsor Dialog */}
+      {/* 优化的赞助对话框 - 移动端居中和图片大小优化 */}
       <Dialog open={isSponsorDialogOpen} onOpenChange={setIsSponsorDialogOpen}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl max-h-[90vh] rounded-2xl sm:rounded-3xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-2 sm:mx-4 [&>button]:hidden">
-          <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-3 sm:p-4 md:p-8 text-center text-gray-800">
-            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2">支持我们</h2>
+          <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-6 md:p-8 text-center text-gray-800">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">支持我们</h2>
           </div>
 
-          <div className="p-3 sm:p-4 md:p-8 overflow-y-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
+          <div className="p-4 sm:p-6 md:p-8 overflow-y-auto">
+            {/* 移动端优化的支付码布局 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+              {/* 支付宝 */}
               <div className="text-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-4 lg:p-6 border border-gray-200 mb-3 sm:mb-4">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-48 lg:h-48 mx-auto bg-white rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center mb-2 sm:mb-3 md:mb-4">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
+                  <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
                       src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLjdozWkx_Tzf8tD4ovL6_zNKtFBJhQACYBsAAhwQaVZk35uDBd5K1TYE.jpg"
                       alt="支付宝收款码"
-                      className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 lg:w-44 lg:h-44 rounded-lg sm:rounded-xl"
+                      className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-xl object-contain"
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-gray-900 mb-1 sm:mb-2 flex items-center justify-center">
-                    <span className="mr-1 sm:mr-2 text-base sm:text-lg md:text-xl lg:text-2xl">支付宝支付</span>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="text-xl sm:text-2xl">支付宝支付</span>
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-4">加载卡顿，请稍后。</p>
+                  <p className="text-gray-600 text-sm">扫码支持我们</p>
                 </div>
               </div>
 
+              {/* 微信 */}
               <div className="text-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-4 lg:p-6 border border-gray-200 mb-3 sm:mb-4">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-48 lg:h-48 mx-auto bg-white rounded-xl sm:rounded-2xl shadow-lg flex items-center justify-center mb-2 sm:mb-3 md:mb-4">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4">
+                  <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
                     <img
                       src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECLjZozWkxKgi3DGDBEcVBrOxW6vQpEAACXxsAAhwQaVYo2_9lfUr8GDYE.png"
                       alt="微信收款码"
-                      className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 lg:w-44 lg:h-44 rounded-lg sm:rounded-xl"
+                      className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-xl object-contain"
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-gray-900 mb-1 sm:mb-2 flex items-center justify-center">
-                    <span className="mr-1 sm:mr-2 text-base sm:text-lg md:text-xl lg:text-2xl">微信支付</span>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                    <span className="text-xl sm:text-2xl">微信支付</span>
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-4">加载卡顿，请稍后。</p>
+                  <p className="text-gray-600 text-sm">扫码支持我们</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-4 lg:p-6 border border-gray-200 mb-3 sm:mb-4 md:mb-6">
-              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+            {/* 说明文字 */}
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-6 border border-gray-200 mb-6">
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed text-center">
                 感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。腾讯云线路的流量有限，请尽可能使用其他线路！谢谢支持。
                 <br />
                 <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
               </p>
             </div>
 
+            {/* 关闭按钮 */}
             <div className="flex justify-center">
               <Button
                 onClick={() => setIsSponsorDialogOpen(false)}
                 variant="outline"
-                className="px-4 sm:px-6 md:px-8 py-2 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-xl sm:rounded-2xl transition-all duration-300 text-xs sm:text-sm md:text-base"
+                className="px-8 py-2 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 rounded-2xl transition-all duration-300 text-base"
               >
                 关闭
               </Button>
