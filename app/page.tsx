@@ -16,7 +16,7 @@ const gameData = {
   lanzouUrl: "https://wwuq.lanzouq.com/iNB8r36khb1e",
   tencentUrl: "http://101.42.25.190:8888/down/VKduTDvUOnpD",
 }
-
+import { Analytics } from "@vercel/analytics/next"
 // 外部链接数据
 const links = {
   damiao:
