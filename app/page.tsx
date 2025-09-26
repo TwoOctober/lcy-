@@ -329,7 +329,7 @@ export default function GameDownloadSite() {
             >
               <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">开始下载 (提取码: 6657)</span>
-              <span className="sm:hidden">下载 (6657)</span>
+              <span className="sm:hidden">下载 (提取码：6657)</span>
             </Button>
             <Button
               variant="outline"
