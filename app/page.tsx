@@ -9,12 +9,12 @@ import { Download, ExternalLink, Globe, Trophy, AlertTriangle, Heart } from "luc
 // 精简的游戏数据
 const gameData = {
   title: "Counter-Strike 1.6",
-  description: "涵盖十余张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
+  description: "涵盖十二张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
   image:
     "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
-  size: "94MB",
-  lanzouUrl: "https://wwuq.lanzouq.com/iNB8r36khb1e",
-  tencentUrl: "http://101.42.25.190:8888/down/VKduTDvUOnpD",
+  size: "",
+  lanzouUrl: "https://wwuq.lanzouq.com/iTIcl373faed",
+  tencentUrl: "https://wwuq.lanzouq.com/iZOWT373f6id",
 }
 import { Analytics } from "@vercel/analytics/next"
 // 外部链接数据
@@ -211,7 +211,7 @@ export default function GameDownloadSite() {
                   >
                     <div className="flex items-center min-w-0 flex-1">
                       <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">蓝奏云线路</span>
+                      <span className="font-medium">正式版下载</span>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <Badge className="bg-white/20 text-white px-2 py-0.5 text-xs">推荐</Badge>
@@ -229,7 +229,7 @@ export default function GameDownloadSite() {
                   >
                     <div className="flex items-center min-w-0 flex-1">
                       <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">腾讯云线路</span>
+                      <span className="font-medium">测试版下载</span>
                     </div>
                     <span className="text-xs sm:text-sm bg-gray-100 px-2 sm:px-3 py-1 rounded-full flex-shrink-0">
                       {gameData.size}
@@ -313,7 +313,7 @@ export default function GameDownloadSite() {
 
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 sm:p-4 mb-3 sm:mb-4 border border-blue-200">
             <h3 className="font-bold text-lg sm:text-xl mb-1 sm:mb-2 text-gray-900">Counter-Strike 1.6</h3>
-            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">蓝奏云线路</p>
+            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">正式版线路</p>
             <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
               推荐下载
             </Badge>
@@ -367,9 +367,9 @@ export default function GameDownloadSite() {
 
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-3 sm:p-4 mb-3 sm:mb-4 border border-green-200">
             <h3 className="font-bold text-lg sm:text-xl mb-1 sm:mb-2 text-gray-900">Counter-Strike 1.6</h3>
-            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">腾讯云线路</p>
+            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">武器模型测试版</p>
             <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
-              备用线路
+              测试用
             </Badge>
           </div>
 
@@ -382,7 +382,7 @@ export default function GameDownloadSite() {
               className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white h-10 sm:h-12 rounded-xl font-bold text-xs sm:text-sm"
             >
               <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              开始下载
+              开始下载（提取码：6657）
             </Button>
             <Button
               variant="outline"
@@ -415,7 +415,7 @@ export default function GameDownloadSite() {
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">支付宝支付</h3>
-                  <p className="text-gray-600 text-sm">扫码支持我们</p>
+                  <p className="text-gray-600 text-sm">赞助支持永久无理由退款</p>
                 </div>
               </div>
 
@@ -430,7 +430,7 @@ export default function GameDownloadSite() {
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">微信支付</h3>
-                  <p className="text-gray-600 text-sm">扫码支持我们</p>
+                  <p className="text-gray-600 text-sm">大于十元捐款将联系退回</p>
                 </div>
               </div>
             </div>
