@@ -12,7 +12,7 @@ const gameData = {
   description: "涵盖十二张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
   image:
     "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
-  size: "",
+  size: "92MB",
   lanzouUrl: "https://wwuq.lanzouq.com/iTIcl373faed",
   tencentUrl: "https://wwuq.lanzouq.com/iZOWT373f6id",
 }
