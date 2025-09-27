@@ -12,9 +12,9 @@ const gameData = {
   description: "涵盖十二张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
   image:
     "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
-  size: "92MB",
-  lanzouUrl: "https://wwuq.lanzouq.com/iTIcl373faed",
-  tencentUrl: "https://wwuq.lanzouq.com/iZOWT373f6id",
+  size: "99MB",
+  lanzouUrl: "https://wwuq.lanzouq.com/iPjCn3740ach",
+  tencentUrl: "https://wwuq.lanzouq.com/im61b37408xg",
 }
 import { Analytics } from "@vercel/analytics/next"
 // 外部链接数据
@@ -329,7 +329,7 @@ export default function GameDownloadSite() {
             >
               <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">开始下载 (提取码: 6657)</span>
-              <span className="sm:hidden">下载 (提取码：6657)</span>
+              <span className="sm:hidden">下载 (6657)</span>
             </Button>
             <Button
               variant="outline"
