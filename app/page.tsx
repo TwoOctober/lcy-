@@ -415,7 +415,7 @@ export default function GameDownloadSite() {
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">支付宝支付</h3>
-                  <p className="text-gray-600 text-sm">赞助支持永久无理由退款</p>
+                  <p className="text-gray-600 text-sm">赞助支持打造共享家园</p>
                 </div>
               </div>
 
@@ -430,7 +430,7 @@ export default function GameDownloadSite() {
                     />
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">微信支付</h3>
-                  <p className="text-gray-600 text-sm">大于十元捐款将联系退回</p>
+                  <p className="text-gray-600 text-sm">公开所有赞助收入 不可能不交。！</p>
                 </div>
               </div>
             </div>
