@@ -13,8 +13,8 @@ const gameData = {
   image:
     "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
   size: "99MB",
-  lanzouUrl: "https://wwuq.lanzouq.com/iZDYB3743kkd",
-  tencentUrl: "https://wwuq.lanzouq.com/i4zob3743l1a",
+  lanzouUrl: "https://wwuq.lanzouq.com/i06NX38qzmte",
+  tencentUrl: "https://wwuq.lanzouq.com/iRWg338qznij",
 }
 import { Analytics } from "@vercel/analytics/next"
 // 外部链接数据
