@@ -313,7 +313,7 @@ export default function GameDownloadSite() {
 
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 sm:p-4 mb-3 sm:mb-4 border border-blue-200">
             <h3 className="font-bold text-lg sm:text-xl mb-1 sm:mb-2 text-gray-900">Counter-Strike 1.6</h3>
-            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">正式版线路</p>
+            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">稳定线路</p>
             <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
               推荐下载
             </Badge>
