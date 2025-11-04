@@ -245,7 +245,7 @@ export default function GameDownloadSite() {
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
                 <div className="text-center sm:text-left">
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">Vegcat.icu</h3>
-                  <p className="text-gray-600 text-sm sm:text-base">探索关于站点和站长的信息以及接下来的更新计划。</p>
+                  <p className="text-gray-600 text-sm sm:text-base">探索关于站点和站长的信息和接下来的更新计划。</p>
                 </div>
                 <Button
                   onClick={() => openLink(links.vegcat)}
