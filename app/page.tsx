@@ -13,8 +13,8 @@ const gameData = {
   image:
     "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
   size: "99MB",
-  lanzouUrl: "https://wwuq.lanzouq.com/iOLmc39hkuyj",
-  tencentUrl: "https://wwuq.lanzouq.com/iSEcv39hkrqd",
+  lanzouUrl: "https://wwuq.lanzouq.com/iHl9w3a4ub0j",
+  tencentUrl: "https://wwuq.lanzouq.com/i2GZD3a4uxri",
 }
 // 外部链接数据
 const links = {
@@ -228,7 +228,7 @@ export default function GameDownloadSite() {
                   >
                     <div className="flex items-center min-w-0 flex-1">
                       <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">测试版下载</span>
+                      <span className="font-medium">暂停下载</span>
                     </div>
                     <span className="text-xs sm:text-sm bg-gray-100 px-2 sm:px-3 py-1 rounded-full flex-shrink-0">
                       {gameData.size}
