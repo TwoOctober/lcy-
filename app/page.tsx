@@ -16,7 +16,6 @@ const gameData = {
   lanzouUrl: "https://wwuq.lanzouq.com/iOLmc39hkuyj",
   tencentUrl: "https://wwuq.lanzouq.com/iSEcv39hkrqd",
 }
-import { Analytics } from "@vercel/analytics/next"
 // 外部链接数据
 const links = {
   damiao:
@@ -290,7 +289,7 @@ export default function GameDownloadSite() {
       {/* 精简的对话框 */}
       {/* 蓝奏云对话框 */}
       <Dialog open={dialogs.lanzou} onOpenChange={(open) => toggleDialog("lanzou", open)}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-lg rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-2xl [&>button]:hidden mx-2 sm:mx-4">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-lg rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-2xl mx-2 sm:mx-4">
           <DialogHeader>
             <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 text-center">
               重要提醒
@@ -344,7 +343,7 @@ export default function GameDownloadSite() {
 
       {/* 腾讯云对话框 */}
       <Dialog open={dialogs.tencent} onOpenChange={(open) => toggleDialog("tencent", open)}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-lg rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-2xl [&>button]:hidden mx-2 sm:mx-4">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-lg rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-2xl mx-2 sm:mx-4">
           <DialogHeader>
             <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 text-center">
               重要提醒
@@ -397,46 +396,50 @@ export default function GameDownloadSite() {
 
       {/* 赞助对话框 */}
       <Dialog open={dialogs.sponsor} onOpenChange={(open) => toggleDialog("sponsor", open)}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl max-h-[90vh] rounded-2xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-2 sm:mx-4 [&>button]:hidden">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl max-h-[90vh] rounded-2xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-2 sm:mx-4">
           <div className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 sm:p-6 text-center text-gray-800">
             <h2 className="text-xl sm:text-2xl font-bold">支持我们</h2>
           </div>
 
-          <div className="p-4 sm:p-6 overflow-y-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="text-center">
-                <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200 mb-4">
-                  <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+          <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="flex flex-col items-center justify-center">
+                <div className="bg-gray-50 rounded-2xl p-3 sm:p-4 border border-gray-200 w-full max-w-xs">
+                  <div className="w-48 h-48 sm:w-56 sm:h-56 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-3 sm:mb-4">
                     <img
                       src={links.alipay || "/placeholder.svg"}
                       alt="支付宝收款码"
-                      className="w-36 h-36 sm:w-44 sm:h-44 rounded-xl object-contain"
+                      className="w-44 h-44 sm:w-52 sm:h-52 rounded-xl object-contain"
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">支付宝支付</h3>
-                  <p className="text-gray-600 text-sm">赞助支持打造共享家园</p>
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2 text-center">
+                    支付宝支付
+                  </h3>
+                  <p className="text-gray-600 text-xs sm:text-sm text-center">赞助支持打造共享家园</p>
                 </div>
               </div>
 
-              <div className="text-center">
-                <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200 mb-4">
-                  <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-4">
+              <div className="flex flex-col items-center justify-center">
+                <div className="bg-gray-50 rounded-2xl p-3 sm:p-4 border border-gray-200 w-full max-w-xs">
+                  <div className="w-48 h-48 sm:w-56 sm:h-56 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-3 sm:mb-4">
                     <img
                       src={links.wechat || "/placeholder.svg"}
                       alt="微信收款码"
-                      className="w-36 h-36 sm:w-44 sm:h-44 rounded-xl object-contain"
+                      className="w-44 h-44 sm:w-52 sm:h-52 rounded-xl object-contain"
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">微信支付</h3>
-                  <p className="text-gray-600 text-sm">公开所有赞助收入 不可能不交。！</p>
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2 text-center">
+                    微信支付
+                  </h3>
+                  <p className="text-gray-600 text-xs sm:text-sm text-center">公开所有赞助收入 不可能不交。！</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200 mb-6">
-              <p className="text-gray-600 text-sm leading-relaxed text-center">
+            <div className="bg-gray-50 rounded-2xl p-3 sm:p-4 border border-gray-200 mb-4 mt-4 sm:mt-6">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed text-center">
                 感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。腾讯云线路的流量有限，请尽可能使用其他线路！谢谢支持。
                 <br />
                 <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
@@ -447,7 +450,7 @@ export default function GameDownloadSite() {
               <Button
                 onClick={() => toggleDialog("sponsor", false)}
                 variant="outline"
-                className="px-8 py-2 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 rounded-2xl"
+                className="px-6 sm:px-8 py-2 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 rounded-2xl text-sm sm:text-base"
               >
                 关闭
               </Button>
