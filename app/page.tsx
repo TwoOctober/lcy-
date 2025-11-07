@@ -13,8 +13,8 @@ const gameData = {
   image:
     "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
   size: "99MB",
-  lanzouUrl: "https://wwuq.lanzouq.com/iHl9w3a4ub0j",
-  tencentUrl: "https://wwuq.lanzouq.com/i2GZD3a4uxri",
+  lanzouUrl: "https://wwuq.lanzouq.com/igRVU3adwlyj",
+  tencentUrl: "https://wwuq.lanzouq.com/ia9Ic3adwp4d",
 }
 // 外部链接数据
 const links = {
@@ -305,6 +305,7 @@ export default function GameDownloadSite() {
                   <li>• 请先运行免CDKEY补丁后再打开游戏</li>
                   <li>• 否则将出现无汉化/序列号异常等问题</li>
                   <li>• 进入游戏后按下H键可以呼出机器人菜单</li>
+                  <li>• 无法使用请回退版本至wwuq.lanzouq.com/iHl9w3a4ub0j</li>
                 </ul>
               </div>
             </div>
