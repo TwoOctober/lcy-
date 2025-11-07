@@ -228,7 +228,7 @@ export default function GameDownloadSite() {
                   >
                     <div className="flex items-center min-w-0 flex-1">
                       <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">暂停下载</span>
+                      <span className="font-medium">先行版下载</span>
                     </div>
                     <span className="text-xs sm:text-sm bg-gray-100 px-2 sm:px-3 py-1 rounded-full flex-shrink-0">
                       {gameData.size}
@@ -367,9 +367,9 @@ export default function GameDownloadSite() {
 
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-3 sm:p-4 mb-3 sm:mb-4 border border-green-200">
             <h3 className="font-bold text-lg sm:text-xl mb-1 sm:mb-2 text-gray-900">Counter-Strike 1.6</h3>
-            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">武器模型测试版</p>
+            <p className="text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base">先行版</p>
             <Badge className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
-              测试用
+              最新版本
             </Badge>
           </div>
 
