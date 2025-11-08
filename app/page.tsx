@@ -177,7 +177,7 @@ export default function GameDownloadSite() {
               <div className="p-4 sm:p-6">
                 <div className="flex justify-between items-start mb-3 sm:mb-4">
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">大庙杯比赛</h2>
-                  <Badge className="bg-gradient-to-r from-red-500 to-green-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
+                  <Badge className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
                     竞赛活动
                   </Badge>
                 </div>
@@ -189,7 +189,7 @@ export default function GameDownloadSite() {
                 <div className="space-y-2 sm:space-y-3">
                   <Button
                     onClick={() => openLink(links.replay)}
-                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl sm:rounded-2xl text-sm sm:text-base"
+                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-xl sm:rounded-2xl text-sm sm:text-base"
                   >
                     <div className="flex items-center min-w-0 flex-1">
                       <Trophy className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
@@ -200,7 +200,7 @@ export default function GameDownloadSite() {
                   <Button
                     onClick={() => openLink(links.qq)}
                     variant="outline"
-                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 border-2 border-green-200 text-green-700 hover:bg-green-50 rounded-xl sm:rounded-2xl text-sm sm:text-base"
+                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 border-2 border-cyan-200 text-cyan-700 hover:bg-cyan-50 rounded-xl sm:rounded-2xl text-sm sm:text-base"
                   >
                     <div className="flex items-center min-w-0 flex-1">
                       <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
@@ -434,7 +434,7 @@ export default function GameDownloadSite() {
       </Dialog>
 
       <Dialog open={dialogs.sponsor} onOpenChange={(open) => toggleDialog("sponsor", open)}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl max-h-[90vh] rounded-2xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-2 sm:mx-4">
+        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl max-h-[90vh] rounded-2xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-2 sm:mx-4 [&>button]:hidden">
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6 text-center text-gray-800">
             <h2 className="text-xl sm:text-2xl font-bold">支持我们</h2>
           </div>
@@ -451,10 +451,7 @@ export default function GameDownloadSite() {
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2 text-center">
-                    支付宝支付
-                  </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm text-center">赞助支持打造共享家园</p>
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-center">支付宝支付</h3>
                 </div>
               </div>
 
@@ -468,10 +465,7 @@ export default function GameDownloadSite() {
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2 text-center">
-                    微信支付
-                  </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm text-center">公开所有赞助收入 不可能不交。！</p>
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-center">微信支付</h3>
                 </div>
               </div>
             </div>
@@ -482,16 +476,6 @@ export default function GameDownloadSite() {
                 <br />
                 <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
               </p>
-            </div>
-
-            <div className="flex justify-center">
-              <Button
-                onClick={() => toggleDialog("sponsor", false)}
-                variant="outline"
-                className="px-6 sm:px-8 py-2 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 rounded-2xl text-sm sm:text-base"
-              >
-                关闭
-              </Button>
             </div>
           </div>
         </DialogContent>
