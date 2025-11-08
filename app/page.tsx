@@ -96,51 +96,25 @@ export default function GameDownloadSite() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-50 relative overflow-hidden">
       <style jsx>{`
-        /* 冬季圣诞动画 - 轻量级CSS */
+        /* 移除所有复杂动画，只保留冰雪飘落效果 */
         html { scroll-behavior: smooth; }
         
-        /* 飘雪动画 */
+        /* 轻量级飘雪动画 - 唯一的冬季效果 */
         @keyframes snowfall {
           0% {
             transform: translateY(-100px) translateX(0);
             opacity: 0;
           }
           10% {
-            opacity: 0.8;
+            opacity: 0.5;
           }
           90% {
-            opacity: 0.8;
+            opacity: 0.5;
           }
           100% {
             transform: translateY(calc(100vh + 100px)) translateX(100px);
             opacity: 0;
           }
-        }
-        
-        /* 闪烁灯光效果 */
-        @keyframes twinkle {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-        
-        /* 圣诞红色闪烁 */
-        @keyframes christmasGlow {
-          0%, 100% { 
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5), 0 0 40px rgba(34, 197, 94, 0.3);
-          }
-          50% { 
-            box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), 0 0 60px rgba(34, 197, 94, 0.5);
-          }
-        }
-        
-        /* 微妙的浮动动画 */
-        @keyframes floatSnow {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-5px); }
-        }
-        
-        @media (max-width: 768px) {
-          * { -webkit-transform: translateZ(0); transform: translateZ(0); }
         }
         
         ::-webkit-scrollbar { width: 6px; }
@@ -165,21 +139,13 @@ export default function GameDownloadSite() {
           left: 100%;
         }
         
-        .christmas-badge {
-          animation: twinkle 1.5s ease-in-out infinite;
-        }
-        
-        .snow-card {
-          animation: floatSnow 3s ease-in-out infinite;
-        }
-        
         @media (hover: none) {
           .lanzou-btn:hover::before { left: -100%; }
         }
       `}</style>
 
       <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden">
-        {[...Array(15)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <SnowflakeParticle key={i} id={i} />
         ))}
       </div>
@@ -187,20 +153,10 @@ export default function GameDownloadSite() {
       {/* 主内容 - 单一section减少DOM */}
       <main className="min-h-screen flex flex-col justify-center py-4 sm:py-8 px-4 sm:px-6 relative z-10">
         <div className="w-full max-w-7xl mx-auto">
-          <div className="mb-6 sm:mb-8 text-center">
-            <div className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-red-500/10 to-green-500/10 backdrop-blur-sm border border-red-200/50 rounded-full">
-              <p className="text-sm sm:text-base font-medium text-gray-700">
-                <span className="inline-block mr-2">🎄</span>
-                冬日圣诞特别版本
-                <span className="inline-block ml-2">❄</span>
-              </p>
-            </div>
-          </div>
-
           {/* 主卡片区域 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-4 sm:mb-8">
             {/* 大庙杯比赛 */}
-            <article className="group bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-white/50 snow-card">
+            <article className="group bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-white/50">
               <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                 {!imageErrors.has("damiao") ? (
                   <img
@@ -216,14 +172,13 @@ export default function GameDownloadSite() {
                   </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 text-lg sm:text-2xl christmas-badge">🎅</div>
               </div>
 
               <div className="p-4 sm:p-6">
                 <div className="flex justify-between items-start mb-3 sm:mb-4">
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">大庙杯比赛</h2>
-                  <Badge className="bg-gradient-to-r from-red-500 to-green-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm christmas-badge">
-                    🎁
+                  <Badge className="bg-gradient-to-r from-red-500 to-green-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
+                    竞赛活动
                   </Badge>
                 </div>
 
@@ -258,7 +213,7 @@ export default function GameDownloadSite() {
             </article>
 
             {/* CS 1.6 游戏 */}
-            <article className="group bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-white/50 snow-card">
+            <article className="group bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-white/50">
               <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                 {!imageErrors.has("cs16") ? (
                   <img
@@ -274,21 +229,19 @@ export default function GameDownloadSite() {
                   </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 text-lg sm:text-2xl christmas-badge">⛄</div>
               </div>
 
               <div className="p-4 sm:p-6">
                 <div className="flex justify-between items-start mb-3 sm:mb-4">
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{gameData.title}</h2>
-                  <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm christmas-badge">
-                    ❄
+                  <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
+                    经典游戏
                   </Badge>
                 </div>
 
                 <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">{gameData.description}</p>
 
                 <div className="space-y-2 sm:space-y-3">
-                  {/* 蓝奏云 - 醒目但平衡 */}
                   <Button
                     onClick={() => handleDownload("lanzou")}
                     className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-xl sm:rounded-2xl text-sm sm:text-base lanzou-btn"
@@ -325,13 +278,11 @@ export default function GameDownloadSite() {
           </div>
 
           {/* 底部信息 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 snow-card">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-lg border border-white/50">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
                 <div className="text-center sm:text-left">
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">
-                    <span className="mr-2">🌐</span>Vegcat.icu
-                  </h3>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">Vegcat.icu</h3>
                   <p className="text-gray-600 text-sm sm:text-base">探索关于站点和站长的信息和接下来的更新计划。</p>
                 </div>
                 <Button
@@ -348,9 +299,7 @@ export default function GameDownloadSite() {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-lg border border-white/50">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
                 <div className="text-center sm:text-left">
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">
-                    <span className="mr-2">🎄</span>赞助支持
-                  </h3>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">赞助支持</h3>
                   <p className="text-gray-600 text-sm sm:text-base">支持我们的更好的优化体验和尽量不倒闭。</p>
                 </div>
                 <Button
@@ -368,7 +317,7 @@ export default function GameDownloadSite() {
           {/* Footer */}
           <footer className="bg-white/60 backdrop-blur-sm border-t border-white/50 py-4 sm:py-6 rounded-2xl">
             <div className="text-center space-y-1 sm:space-y-2">
-              <p className="text-gray-600 text-xs sm:text-sm">© 2025 Vegcat. All rights reserved. ❄️ Happy Holidays ❄️</p>
+              <p className="text-gray-600 text-xs sm:text-sm">© 2025 Vegcat. All rights reserved.</p>
               <p className="text-gray-500 text-xs">我们或许会倒闭，但永远不会变质。</p>
             </div>
           </footer>
@@ -484,13 +433,10 @@ export default function GameDownloadSite() {
         </DialogContent>
       </Dialog>
 
-      {/* 赞助对话框 */}
       <Dialog open={dialogs.sponsor} onOpenChange={(open) => toggleDialog("sponsor", open)}>
         <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl max-h-[90vh] rounded-2xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-2 sm:mx-4">
-          <div className="bg-gradient-to-r from-red-50 to-green-50 p-4 sm:p-6 text-center text-gray-800">
-            <h2 className="text-xl sm:text-2xl font-bold">
-              <span className="mr-2">🎄</span>支持我们<span className="ml-2">❄</span>
-            </h2>
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6 text-center text-gray-800">
+            <h2 className="text-xl sm:text-2xl font-bold">支持我们</h2>
           </div>
 
           <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
