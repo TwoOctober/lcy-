@@ -46,6 +46,7 @@ export default function GameDownloadSite() {
   })
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
   const [isMobile, setIsMobile] = useState(false)
+  const [showSideAd, setShowSideAd] = useState(true)
 
   // 简化的移动端检测
   useEffect(() => {
@@ -73,6 +74,8 @@ export default function GameDownloadSite() {
       toggleDialog("tencent", true)
     }
   }
+
+  const contactUrl = "https://qm.qq.com/q/iEXZkvW1pK"
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
@@ -118,23 +121,23 @@ export default function GameDownloadSite() {
               {/* Decorative shine effect */}
               <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:250%_250%] animate-[shimmer_3s_infinite_linear] opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-              <div className="relative flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 py-4 text-white">
-                <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-0 w-full sm:w-auto justify-center sm:justify-start">
-                  <div className="bg-white/20 p-2 rounded-xl backdrop-blur-md flex-shrink-0">
-                    <Megaphone className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-300" />
+              <div className="relative flex flex-col sm:flex-row items-center justify-between px-5 py-5 sm:px-8 sm:py-6 text-white gap-4 sm:gap-0">
+                <div className="flex items-center gap-4 w-full sm:w-auto justify-start">
+                  <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-md flex-shrink-0 shadow-inner">
+                    <Megaphone className="w-6 h-6 text-yellow-300" />
                   </div>
-                  <div className="text-center sm:text-left">
-                    <h3 className="font-bold text-base sm:text-lg leading-tight">这里是广告位 / Ad Banner</h3>
-                    <p className="text-indigo-100 text-xs sm:text-sm mt-0.5">联系站长投放您的精彩内容，让更多人看到</p>
+                  <div className="text-left flex-1 sm:flex-none">
+                    <h3 className="font-bold text-lg leading-tight mb-1">见字如面明信片购买</h3>
+                    <p className="text-indigo-100 text-sm opacity-90">添加QQ 1145145797 咨询</p>
                   </div>
                 </div>
 
                 <Button
+                  onClick={() => openLink(contactUrl)}
                   variant="secondary"
-                  size="sm"
-                  className="bg-white text-indigo-600 hover:bg-indigo-50 border-0 font-bold rounded-xl px-6 shadow-sm transition-transform active:scale-95"
+                  className="w-full sm:w-auto bg-white text-indigo-600 hover:bg-indigo-50 border-0 font-bold rounded-xl px-8 py-6 sm:py-2 h-auto shadow-sm transition-all hover:scale-105 active:scale-95 text-base"
                 >
-                  联系投放
+                  联系我们
                 </Button>
               </div>
             </div>
@@ -148,7 +151,7 @@ export default function GameDownloadSite() {
                 {!imageErrors.has("damiao") ? (
                   <img
                     src={links.damiao || "/placeholder.svg"}
-                    alt="大庙杯比赛"
+                    alt="福州四中反恐精英联赛"
                     className="w-full h-full object-cover"
                     loading="lazy"
                     onError={() => handleImageError("damiao")}
@@ -165,12 +168,12 @@ export default function GameDownloadSite() {
                 <div className="flex justify-between items-start mb-3 sm:mb-4">
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">大庙杯比赛</h2>
                   <Badge className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
-                    竞赛活动
+                    电竞赛事
                   </Badge>
                 </div>
 
                 <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">
-                  2025届CS2大庙杯比赛已结赛，期待下一次的相遇~
+                  2026届CS2大庙杯比赛开始报名，请加群咨询
                 </p>
 
                 <div className="space-y-2 sm:space-y-3">
@@ -191,7 +194,7 @@ export default function GameDownloadSite() {
                   >
                     <div className="flex items-center min-w-0 flex-1">
                       <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">比赛交流群</span>
+                      <span className="font-medium">交流Q群</span>
                     </div>
                     <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                   </Button>
@@ -310,6 +313,46 @@ export default function GameDownloadSite() {
           </footer>
         </div>
       </main>
+
+      {showSideAd && (
+        <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 hidden xl:block transition-all duration-300 hover:translate-x-0 translate-x-[calc(100%-40px)] hover:translate-x-[-10px] group">
+          <div className="relative">
+            <button
+              onClick={() => setShowSideAd(false)}
+              className="absolute -top-3 -left-3 bg-gray-900/80 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-800"
+              aria-label="关闭广告"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+            <div
+              className="bg-white/10 backdrop-blur-md p-2 rounded-l-2xl shadow-2xl border-l border-t border-b border-white/20 cursor-pointer"
+              onClick={() => openLink(contactUrl)}
+            >
+              <div className="writing-mode-vertical text-white font-bold py-4 px-1 absolute left-2 top-1/2 -translate-y-1/2 text-sm tracking-widest drop-shadow-md">
+                联系客服
+              </div>
+              <img
+                src="https://img.cdn1.vip/i/6922bac33b11e_1763883715.webp"
+                alt="广告"
+                className="w-[180px] h-auto rounded-xl shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 精简的对话框 */}
       {/* 蓝奏云对话框 */}
