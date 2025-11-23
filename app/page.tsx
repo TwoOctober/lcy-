@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Download, ExternalLink, Globe, Trophy, AlertTriangle, Heart } from "lucide-react"
+import { Download, ExternalLink, Globe, Trophy, AlertTriangle, Heart, Megaphone } from "lucide-react"
 
 // 精简的游戏数据
 const gameData = {
@@ -36,25 +36,6 @@ const openLink = (url: string) => {
   } catch (e) {
     window.location.href = url
   }
-}
-
-const SnowflakeParticle = ({ id }: { id: number }) => {
-  const delay = (id % 5) * 0.5
-  const duration = 8 + (id % 4) * 2
-  const left = (id * 17) % 100
-
-  return (
-    <div
-      className="absolute top-0 text-white opacity-80 pointer-events-none"
-      style={{
-        left: `${left}%`,
-        animation: `snowfall ${duration}s linear ${delay}s infinite`,
-        fontSize: `${8 + (id % 3) * 4}px`,
-      }}
-    >
-      ❄
-    </div>
-  )
 }
 
 export default function GameDownloadSite() {
@@ -94,28 +75,10 @@ export default function GameDownloadSite() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
       <style jsx>{`
         /* 移除所有复杂动画，只保留冰雪飘落效果 */
         html { scroll-behavior: smooth; }
-        
-        /* 轻量级飘雪动画 - 唯一的冬季效果 */
-        @keyframes snowfall {
-          0% {
-            transform: translateY(-100px) translateX(0);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.5;
-          }
-          90% {
-            opacity: 0.5;
-          }
-          100% {
-            transform: translateY(calc(100vh + 100px)) translateX(100px);
-            opacity: 0;
-          }
-        }
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
@@ -144,15 +107,39 @@ export default function GameDownloadSite() {
         }
       `}</style>
 
-      <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden">
-        {[...Array(12)].map((_, i) => (
-          <SnowflakeParticle key={i} id={i} />
-        ))}
-      </div>
-
-      {/* 主内容 - 单一section减少DOM */}
       <main className="min-h-screen flex flex-col justify-center py-4 sm:py-8 px-4 sm:px-6 relative z-10">
         <div className="w-full max-w-7xl mx-auto">
+          {/* 广告位 */}
+          <div className="w-full mb-6 sm:mb-8">
+            <div className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 group">
+              {/* Background with a distinct but harmonious gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600"></div>
+
+              {/* Decorative shine effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:250%_250%] animate-[shimmer_3s_infinite_linear] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+              <div className="relative flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 py-4 text-white">
+                <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-0 w-full sm:w-auto justify-center sm:justify-start">
+                  <div className="bg-white/20 p-2 rounded-xl backdrop-blur-md flex-shrink-0">
+                    <Megaphone className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-300" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <h3 className="font-bold text-base sm:text-lg leading-tight">这里是广告位 / Ad Banner</h3>
+                    <p className="text-indigo-100 text-xs sm:text-sm mt-0.5">联系站长投放您的精彩内容，让更多人看到</p>
+                  </div>
+                </div>
+
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-white text-indigo-600 hover:bg-indigo-50 border-0 font-bold rounded-xl px-6 shadow-sm transition-transform active:scale-95"
+                >
+                  联系投放
+                </Button>
+              </div>
+            </div>
+          </div>
+
           {/* 主卡片区域 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-4 sm:mb-8">
             {/* 大庙杯比赛 */}
