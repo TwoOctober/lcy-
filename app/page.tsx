@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Download, ExternalLink, Globe, Trophy, AlertTriangle, Heart, Megaphone } from "lucide-react"
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 // 精简的游戏数据
 const gameData = {
   title: "Counter-Strike 1.6",
