@@ -46,7 +46,6 @@ export default function GameDownloadSite() {
   })
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
   const [isMobile, setIsMobile] = useState(false)
-  const [showSideAd, setShowSideAd] = useState(true)
 
   // 简化的移动端检测
   useEffect(() => {
@@ -78,14 +77,14 @@ export default function GameDownloadSite() {
   const contactUrl = "https://qm.qq.com/q/iEXZkvW1pK"
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F5F5F7] relative overflow-hidden font-sans selection:bg-black/10">
       <style jsx>{`
         /* 移除所有复杂动画，只保留冰雪飘落效果 */
         html { scroll-behavior: smooth; }
         
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-        ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
         
         .lanzou-btn {
           position: relative;
@@ -98,7 +97,7 @@ export default function GameDownloadSite() {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
           transition: left 0.5s;
         }
         .lanzou-btn:hover::before {
@@ -110,49 +109,45 @@ export default function GameDownloadSite() {
         }
       `}</style>
 
-      <main className="min-h-screen flex flex-col justify-center py-4 sm:py-8 px-4 sm:px-6 relative z-10">
-        <div className="w-full max-w-7xl mx-auto">
+      <main className="min-h-screen flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6 relative z-10">
+        <div className="w-full max-w-6xl mx-auto">
           {/* 广告位 */}
-          <div className="w-full mb-6 sm:mb-8">
-            <div className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 group">
-              {/* Background with a distinct but harmonious gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600"></div>
+          <div className="w-full mb-8 sm:mb-12">
+            <div
+              onClick={() => openLink(contactUrl)}
+              className="cursor-pointer relative w-full overflow-hidden rounded-2xl bg-white shadow-sm border border-black/5 hover:shadow-md transition-all duration-300 group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 opacity-50"></div>
 
-              {/* Decorative shine effect */}
-              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:250%_250%] animate-[shimmer_3s_infinite_linear] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-
-              <div className="relative flex flex-col sm:flex-row items-center justify-between px-5 py-5 sm:px-8 sm:py-6 text-white gap-4 sm:gap-0">
-                <div className="flex items-center gap-4 w-full sm:w-auto justify-start">
-                  <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-md flex-shrink-0 shadow-inner">
-                    <Megaphone className="w-6 h-6 text-yellow-300" />
+              <div className="relative flex flex-col sm:flex-row items-center justify-between px-6 py-5 sm:px-8 sm:py-6 gap-4 sm:gap-0">
+                <div className="flex items-center gap-5 w-full sm:w-auto justify-start">
+                  <div className="bg-white p-3 rounded-2xl shadow-sm border border-black/5 flex-shrink-0">
+                    <Megaphone className="w-6 h-6 text-indigo-600" />
                   </div>
                   <div className="text-left flex-1 sm:flex-none">
-                    <h3 className="font-bold text-lg leading-tight mb-1">见字如面明信片购买</h3>
-                    <p className="text-indigo-100 text-sm opacity-90">添加QQ 1145145797 咨询</p>
+                    <h3 className="font-bold text-lg text-gray-900 leading-tight mb-1">见字如面明信片购买</h3>
+                    <p className="text-gray-500 text-sm font-medium">添加QQ 1145145797 咨询</p>
                   </div>
                 </div>
 
-                <Button
-                  onClick={() => openLink(contactUrl)}
-                  variant="secondary"
-                  className="w-full sm:w-auto bg-white text-indigo-600 hover:bg-indigo-50 border-0 font-bold rounded-xl px-8 py-6 sm:py-2 h-auto shadow-sm transition-all hover:scale-105 active:scale-95 text-base"
-                >
-                  联系我们
-                </Button>
+                <div className="flex items-center gap-2 text-indigo-600 font-bold bg-indigo-50 px-5 py-2.5 rounded-xl group-hover:bg-indigo-100 transition-colors w-full sm:w-auto justify-center sm:justify-start">
+                  <span>联系我们</span>
+                  <ExternalLink className="w-4 h-4" />
+                </div>
               </div>
             </div>
           </div>
 
           {/* 主卡片区域 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-4 sm:mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8 mb-6 sm:mb-10">
             {/* 大庙杯比赛 */}
-            <article className="group bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-white/50">
+            <article className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-black/5 hover:-translate-y-1">
               <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                 {!imageErrors.has("damiao") ? (
                   <img
                     src={links.damiao || "/placeholder.svg"}
                     alt="福州四中反恐精英联赛"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                     onError={() => handleImageError("damiao")}
                   />
@@ -161,55 +156,54 @@ export default function GameDownloadSite() {
                     <Trophy className="w-16 h-16" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
 
-              <div className="p-4 sm:p-6">
-                <div className="flex justify-between items-start mb-3 sm:mb-4">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">大庙杯比赛</h2>
-                  <Badge className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
+              <div className="p-6 sm:p-8">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">大庙杯比赛</h2>
+                  <Badge className="bg-black text-white hover:bg-gray-800 px-3 py-1.5 text-xs font-medium rounded-full border-0">
                     电竞赛事
                   </Badge>
                 </div>
 
-                <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">
+                <p className="text-gray-500 text-sm sm:text-base mb-6 sm:mb-8 font-medium leading-relaxed">
                   2026届CS2大庙杯比赛开始报名，请加群咨询
                 </p>
 
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-3">
                   <Button
                     onClick={() => openLink(links.replay)}
-                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-xl sm:rounded-2xl text-sm sm:text-base"
+                    className="w-full justify-between h-12 sm:h-14 px-6 bg-gray-900 hover:bg-black text-white rounded-2xl text-sm sm:text-base font-bold shadow-lg shadow-gray-200"
                   >
                     <div className="flex items-center min-w-0 flex-1">
-                      <Trophy className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">赛事回放</span>
+                      <Trophy className="w-5 h-5 mr-3 flex-shrink-0" />
+                      <span className="truncate">赛事回放</span>
                     </div>
-                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                    <ExternalLink className="w-5 h-5 flex-shrink-0 opacity-50" />
                   </Button>
                   <Button
                     onClick={() => openLink(links.qq)}
                     variant="outline"
-                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 border-2 border-cyan-200 text-cyan-700 hover:bg-cyan-50 rounded-xl sm:rounded-2xl text-sm sm:text-base"
+                    className="w-full justify-between h-12 sm:h-14 px-6 border-2 border-gray-100 bg-white text-gray-900 hover:bg-gray-50 hover:border-gray-200 rounded-2xl text-sm sm:text-base font-bold"
                   >
                     <div className="flex items-center min-w-0 flex-1">
-                      <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">交流Q群</span>
+                      <Globe className="w-5 h-5 mr-3 flex-shrink-0" />
+                      <span className="truncate">交流Q群</span>
                     </div>
-                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                    <ExternalLink className="w-5 h-5 flex-shrink-0 text-gray-400" />
                   </Button>
                 </div>
               </div>
             </article>
 
             {/* CS 1.6 游戏 */}
-            <article className="group bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-white/50">
+            <article className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-black/5 hover:-translate-y-1">
               <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                 {!imageErrors.has("cs16") ? (
                   <img
                     src={gameData.image || "/placeholder.svg"}
                     alt={gameData.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                     onError={() => handleImageError("cs16")}
                   />
@@ -218,31 +212,34 @@ export default function GameDownloadSite() {
                     <Download className="w-16 h-16" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
 
-              <div className="p-4 sm:p-6">
-                <div className="flex justify-between items-start mb-3 sm:mb-4">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{gameData.title}</h2>
-                  <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm">
+              <div className="p-6 sm:p-8">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">{gameData.title}</h2>
+                  <Badge className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-1.5 text-xs font-medium rounded-full border-0">
                     经典游戏
                   </Badge>
                 </div>
 
-                <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">{gameData.description}</p>
+                <p className="text-gray-500 text-sm sm:text-base mb-6 sm:mb-8 font-medium leading-relaxed">
+                  {gameData.description}
+                </p>
 
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-3">
                   <Button
                     onClick={() => handleDownload("lanzou")}
-                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-xl sm:rounded-2xl text-sm sm:text-base lanzou-btn"
+                    className="w-full justify-between h-12 sm:h-14 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-sm sm:text-base font-bold shadow-lg shadow-indigo-100 lanzou-btn"
                   >
                     <div className="flex items-center min-w-0 flex-1">
-                      <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">正式版下载</span>
+                      <Download className="w-5 h-5 mr-3 flex-shrink-0" />
+                      <span className="truncate">正式版下载</span>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <Badge className="bg-white/20 text-white px-2 py-0.5 text-xs">推荐</Badge>
-                      <span className="text-xs sm:text-sm bg-white/20 px-2 sm:px-3 py-1 rounded-full">
+                      <Badge className="bg-white/20 text-white px-2 py-0.5 text-xs border-0 backdrop-blur-sm">
+                        推荐
+                      </Badge>
+                      <span className="text-xs sm:text-sm bg-black/10 px-3 py-1 rounded-full backdrop-blur-sm font-mono">
                         {gameData.size}
                       </span>
                     </div>
@@ -252,13 +249,13 @@ export default function GameDownloadSite() {
                   <Button
                     onClick={() => handleDownload("tencent")}
                     variant="outline"
-                    className="w-full justify-between h-10 sm:h-12 px-4 sm:px-6 border-2 border-gray-200 hover:bg-gray-900 hover:text-white rounded-xl sm:rounded-2xl text-sm sm:text-base"
+                    className="w-full justify-between h-12 sm:h-14 px-6 border-2 border-gray-100 bg-white text-gray-900 hover:bg-gray-50 hover:border-gray-200 rounded-2xl text-sm sm:text-base font-bold"
                   >
                     <div className="flex items-center min-w-0 flex-1">
-                      <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-shrink-0" />
-                      <span className="font-medium">先行版下载</span>
+                      <Download className="w-5 h-5 mr-3 flex-shrink-0" />
+                      <span className="truncate">先行版下载</span>
                     </div>
-                    <span className="text-xs sm:text-sm bg-gray-100 px-2 sm:px-3 py-1 rounded-full flex-shrink-0">
+                    <span className="text-xs sm:text-sm bg-gray-50 px-3 py-1 rounded-full flex-shrink-0 text-gray-500 font-mono border border-gray-100">
                       {gameData.size}
                     </span>
                   </Button>
@@ -268,96 +265,81 @@ export default function GameDownloadSite() {
           </div>
 
           {/* 底部信息 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-lg border border-white/50">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-black/5 hover:shadow-md transition-all">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-center sm:text-left">
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">Vegcat.icu</h3>
-                  <p className="text-gray-600 text-sm sm:text-base">探索关于站点和站长的信息和接下来的更新计划。</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">Vegcat.icu</h3>
+                  <p className="text-gray-500 text-sm font-medium">探索关于站点和站长的信息。</p>
                 </div>
                 <Button
                   onClick={() => openLink(links.vegcat)}
-                  className="bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white px-4 sm:px-6 py-2 rounded-xl sm:rounded-2xl text-sm sm:text-base whitespace-nowrap"
+                  variant="secondary"
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-6 py-2 rounded-xl"
                 >
-                  <Globe className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                  <Globe className="w-4 h-4 mr-2" />
                   点击跳转
-                  <ExternalLink className="w-3 h-3 ml-1 sm:ml-2" />
                 </Button>
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-lg border border-white/50">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-black/5 hover:shadow-md transition-all">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-center sm:text-left">
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">赞助支持</h3>
-                  <p className="text-gray-600 text-sm sm:text-base">支持我们的更好的优化体验和尽量不倒闭。</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">赞助支持</h3>
+                  <p className="text-gray-500 text-sm font-medium">支持我们的优化体验。</p>
                 </div>
                 <Button
                   onClick={() => toggleDialog("sponsor", true)}
-                  className="bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white px-4 sm:px-6 py-2 rounded-xl sm:rounded-2xl text-sm sm:text-base whitespace-nowrap"
+                  className="bg-rose-500 hover:bg-rose-600 text-white font-bold px-6 py-2 rounded-xl shadow-lg shadow-rose-100"
                 >
-                  <Heart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                  <Heart className="w-4 h-4 mr-2" />
                   支持我们
-                  <ExternalLink className="w-3 h-3 ml-1 sm:ml-2" />
                 </Button>
               </div>
             </div>
           </div>
 
           {/* Footer */}
-          <footer className="bg-white/60 backdrop-blur-sm border-t border-white/50 py-4 sm:py-6 rounded-2xl">
-            <div className="text-center space-y-1 sm:space-y-2">
-              <p className="text-gray-600 text-xs sm:text-sm">© 2025 Vegcat. All rights reserved.</p>
-              <p className="text-gray-500 text-xs">我们或许会倒闭，但永远不会变质。</p>
-            </div>
+          <footer className="border-t border-gray-200 pt-8 sm:pt-12 pb-8 text-center">
+            <p className="text-gray-900 font-bold text-sm mb-2">© 2025 Vegcat. All rights reserved.</p>
+            <p className="text-gray-500 text-xs font-medium">我们或许会倒闭，但永远不会变质。</p>
           </footer>
         </div>
       </main>
 
-      {showSideAd && (
-        <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 hidden xl:block transition-all duration-300 hover:translate-x-0 translate-x-[calc(100%-40px)] hover:translate-x-[-10px] group">
-          <div className="relative">
-            <button
-              onClick={() => setShowSideAd(false)}
-              className="absolute -top-3 -left-3 bg-gray-900/80 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-800"
-              aria-label="关闭广告"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
-            </button>
-            <div
-              className="bg-white/10 backdrop-blur-md p-2 rounded-l-2xl shadow-2xl border-l border-t border-b border-white/20 cursor-pointer"
-              onClick={() => openLink(contactUrl)}
-            >
-              <div className="writing-mode-vertical text-white font-bold py-4 px-1 absolute left-2 top-1/2 -translate-y-1/2 text-sm tracking-widest drop-shadow-md">
-                联系客服
-              </div>
-              <img
-                src="https://img.cdn1.vip/i/6922bac33b11e_1763883715.webp"
-                alt="广告"
-                className="w-[180px] h-auto rounded-xl shadow-lg"
-              />
-            </div>
-          </div>
+      {/* 左侧广告 */}
+      <div className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden 2xl:block hover:-translate-y-[calc(50%+5px)] transition-transform duration-300">
+        <div
+          onClick={() => openLink(contactUrl)}
+          className="cursor-pointer bg-white p-2 rounded-2xl shadow-xl border border-black/5"
+        >
+          <img
+            src="https://img.cdn1.vip/i/6922bac33b11e_1763883715.webp"
+            alt="广告"
+            className="w-[160px] h-auto rounded-xl"
+          />
         </div>
-      )}
+      </div>
+
+      {/* 右侧广告 */}
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden 2xl:block hover:-translate-y-[calc(50%+5px)] transition-transform duration-300">
+        <div
+          onClick={() => openLink(contactUrl)}
+          className="cursor-pointer bg-white p-2 rounded-2xl shadow-xl border border-black/5"
+        >
+          <img
+            src="https://img.cdn1.vip/i/6922bac33b11e_1763883715.webp"
+            alt="广告"
+            className="w-[160px] h-auto rounded-xl"
+          />
+        </div>
+      </div>
 
       {/* 精简的对话框 */}
       {/* 蓝奏云对话框 */}
       <Dialog open={dialogs.lanzou} onOpenChange={(open) => toggleDialog("lanzou", open)}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-lg rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-2xl mx-2 sm:mx-4">
+        <DialogContent className="bg-white max-w-[95vw] sm:max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl mx-2">
           <DialogHeader>
             <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 text-center">
               重要提醒
@@ -387,22 +369,22 @@ export default function GameDownloadSite() {
             </Badge>
           </div>
 
-          <div className="flex gap-2 sm:gap-3">
+          <div className="flex gap-3">
             <Button
               onClick={() => {
                 openLink(gameData.lanzouUrl)
                 toggleDialog("lanzou", false)
               }}
-              className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-10 sm:h-12 rounded-xl font-bold text-xs sm:text-sm"
+              className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white h-12 rounded-xl font-bold text-sm"
             >
-              <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <Download className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">开始下载 (提取码: 6657)</span>
               <span className="sm:hidden">下载 (6657)</span>
             </Button>
             <Button
               variant="outline"
               onClick={() => toggleDialog("lanzou", false)}
-              className="flex-1 border-2 border-gray-300 h-10 sm:h-12 rounded-xl font-bold text-xs sm:text-sm"
+              className="flex-1 border-2 border-gray-100 h-12 rounded-xl font-bold text-sm hover:bg-gray-50"
             >
               取消
             </Button>
@@ -412,7 +394,7 @@ export default function GameDownloadSite() {
 
       {/* 腾讯云对话框 */}
       <Dialog open={dialogs.tencent} onOpenChange={(open) => toggleDialog("tencent", open)}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-lg rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-2xl mx-2 sm:mx-4">
+        <DialogContent className="bg-white max-w-[95vw] sm:max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl mx-2">
           <DialogHeader>
             <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 text-center">
               重要提醒
@@ -441,21 +423,21 @@ export default function GameDownloadSite() {
             </Badge>
           </div>
 
-          <div className="flex gap-2 sm:gap-3">
+          <div className="flex gap-3">
             <Button
               onClick={() => {
                 openLink(gameData.tencentUrl)
                 toggleDialog("tencent", false)
               }}
-              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white h-10 sm:h-12 rounded-xl font-bold text-xs sm:text-sm"
+              className="flex-1 bg-gray-900 hover:bg-black text-white h-12 rounded-xl font-bold text-sm"
             >
-              <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              开始下载（提取码：6657）
+              <Download className="w-4 h-4 mr-2" />
+              <span>前往下载</span>
             </Button>
             <Button
               variant="outline"
               onClick={() => toggleDialog("tencent", false)}
-              className="flex-1 border-2 border-gray-300 h-10 sm:h-12 rounded-xl font-bold text-xs sm:text-sm"
+              className="flex-1 border-2 border-gray-100 h-12 rounded-xl font-bold text-sm hover:bg-gray-50"
             >
               取消
             </Button>
@@ -463,50 +445,65 @@ export default function GameDownloadSite() {
         </DialogContent>
       </Dialog>
 
+      {/* 赞助对话框 */}
       <Dialog open={dialogs.sponsor} onOpenChange={(open) => toggleDialog("sponsor", open)}>
-        <DialogContent className="bg-white/95 backdrop-blur-sm max-w-[95vw] sm:max-w-2xl max-h-[90vh] rounded-2xl p-0 border border-gray-200 shadow-2xl overflow-hidden mx-2 sm:mx-4 [&>button]:hidden">
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6 text-center text-gray-800">
-            <h2 className="text-xl sm:text-2xl font-bold">支持我们</h2>
+        <DialogContent className="bg-white max-w-[95vw] sm:max-w-md rounded-3xl p-0 overflow-hidden border-0 shadow-2xl [&>button]:hidden mx-2">
+          <div className="bg-gradient-to-br from-rose-500 to-pink-600 p-6 text-center">
+            <h2 className="text-2xl font-bold text-white mb-2">赞助支持</h2>
+            <p className="text-pink-100 text-sm">您的支持是我们更新的动力</p>
           </div>
 
-          <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div className="flex flex-col items-center justify-center">
-                <div className="bg-gray-50 rounded-2xl p-3 sm:p-4 border border-gray-200 w-full max-w-xs">
-                  <div className="w-48 h-48 sm:w-56 sm:h-56 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-3 sm:mb-4">
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="flex flex-col items-center justify-center gap-6">
+              <div className="text-center w-full">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl mb-3">
+                  <span className="font-bold text-xl">支付宝</span>
+                </div>
+                <div className="bg-white p-2 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm mx-auto w-fit">
+                  {!imageErrors.has("alipay") ? (
                     <img
                       src={links.alipay || "/placeholder.svg"}
-                      alt="支付宝收款码"
-                      className="w-44 h-44 sm:w-52 sm:h-52 rounded-xl object-contain"
-                      loading="lazy"
+                      alt="Alipay"
+                      className="w-44 h-44 sm:w-52 sm:h-52 object-contain rounded-xl"
+                      onError={() => handleImageError("alipay")}
                     />
-                  </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-center">支付宝支付</h3>
+                  ) : (
+                    <div className="w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400">
+                      二维码加载失败
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="flex flex-col items-center justify-center">
-                <div className="bg-gray-50 rounded-2xl p-3 sm:p-4 border border-gray-200 w-full max-w-xs">
-                  <div className="w-48 h-48 sm:w-56 sm:h-56 mx-auto bg-white rounded-2xl shadow-lg flex items-center justify-center mb-3 sm:mb-4">
+              <div className="w-full h-px bg-gray-100"></div>
+
+              <div className="text-center w-full">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-green-50 text-green-500 rounded-2xl mb-3">
+                  <span className="font-bold text-xl">微信</span>
+                </div>
+                <div className="bg-white p-2 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm mx-auto w-fit">
+                  {!imageErrors.has("wechat") ? (
                     <img
                       src={links.wechat || "/placeholder.svg"}
-                      alt="微信收款码"
-                      className="w-44 h-44 sm:w-52 sm:h-52 rounded-xl object-contain"
-                      loading="lazy"
+                      alt="WeChat"
+                      className="w-44 h-44 sm:w-52 sm:h-52 object-contain rounded-xl"
+                      onError={() => handleImageError("wechat")}
                     />
-                  </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-center">微信支付</h3>
+                  ) : (
+                    <div className="w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400">
+                      二维码加载失败
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-2xl p-3 sm:p-4 border border-gray-200 mb-4 mt-4 sm:mt-6">
-              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed text-center">
-                感谢您的支持！每一份赞助都将用于后续优化网站加载速度和云存储服务，本公益项目的维护和优化离不开大家的支持，希望能为大家提供更好的服务。腾讯云线路的流量有限，请尽可能使用其他线路！谢谢支持。
-                <br />
-                <span className="text-gray-700 font-medium">我们或许会倒闭，但永远不会变质。</span>
-              </p>
-            </div>
+            <Button
+              onClick={() => toggleDialog("sponsor", false)}
+              className="w-full h-12 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-xl font-bold text-sm"
+            >
+              关闭
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
