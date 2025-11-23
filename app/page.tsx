@@ -11,7 +11,7 @@ const gameData = {
   title: "Counter-Strike 1.6",
   description: "涵盖十二张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
   image:
-    "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdAxo0AWk02omTDjQjLlLVnt0ZVbQiQACWSQAArKugFbNcleb5oROKDYE.jpg",
+    "https://p.sda1.dev/29/52ed7e91cfdc21910a6c8e0aa8e1a608/BQACAgUAAyEGAASHRsPbAAECLkhozW1WxGHQtjoDMnepyRsL1IeA4gACdxsAAhwQaVYIRxkAARbi2bg2BA.jpg",
   size: "99MB",
   lanzouUrl: "https://wwuq.lanzouq.com/igRVU3adwlyj",
   tencentUrl: "https://wwuq.lanzouq.com/ia9Ic3adwp4d",
@@ -19,7 +19,7 @@ const gameData = {
 // 外部链接数据
 const links = {
   damiao:
-    "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECdApo0AWh23SX_Bj3NzCgiSV8AAHT8rUAAlckAAKyroBWB_fpxvgP_OU2BA.jpg",
+    "https://p.sda1.dev/29/e974df0c40e6aaeadcb43080f24cbd42/BQACAgUAAyEGAASHRsPbAAECc91o0AR4-yAX_bP8VOxpp7aCmgABkeYAAhokAAKyroBWF02IBWGJyCE2BA.jpg",
   replay: "https://b23.tv/x5nXHGj",
   qq: "https://qm.qq.com/q/1NHb1tygHy",
   vegcat: "https://vegcat.icu",
