@@ -13,8 +13,8 @@ const gameData = {
   image:
     "https://p.sda1.dev/29/52ed7e91cfdc21910a6c8e0aa8e1a608/BQACAgUAAyEGAASHRsPbAAECLkhozW1WxGHQtjoDMnepyRsL1IeA4gACdxsAAhwQaVYIRxkAARbi2bg2BA.jpg",
   size: "99MB",
-  lanzouUrl: "https://wwuq.lanzouq.com/igRVU3adwlyj",
-  tencentUrl: "https://wwuq.lanzouq.com/ia9Ic3adwp4d",
+  lanzouUrl: "https://wwuq.lanzouq.com/iPJwq3c5582b",
+  tencentUrl: "https://wwuq.lanzouq.com/ipRcq3c554je",
 }
 // 外部链接数据
 const links = {
