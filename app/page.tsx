@@ -393,7 +393,7 @@ export default function GameDownloadSite() {
 
           {/* Footer */}
           <footer className="border-t border-gray-200 pt-6 pb-4 text-center">
-            <p className="text-gray-900 font-bold text-sm mb-1">© 2025 Vegcat</p>
+            <p className="text-gray-900 font-bold text-sm mb-1">© 2025 Vegcat. All rights reserved.</p>
             <p className="text-gray-400 text-xs">我们或许会倒闭，但永远不会变质。</p>
           </footer>
         </div>
