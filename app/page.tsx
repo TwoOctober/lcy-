@@ -19,21 +19,23 @@ import {
 const CONFIG = {
   // 先行版预览图片
   betaImages: [
-    "https://pic1.imgdb.cn/item/69354350cf7f60a517599330.png",
-    "https://pic1.imgdb.cn/item/69354350cf7f60a517599333.png",
-    "https://pic1.imgdb.cn/item/69354350cf7f60a517599335.png",
-    "https://pic1.imgdb.cn/item/69354350cf7f60a517599331.png",
-    "https://pic1.imgdb.cn/item/69354350cf7f60a517599332.png",
-    "https://pic1.imgdb.cn/item/6935412acf7f60a517598dc7.png",
+    "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
+    "https://www.helloimg.com/i/2025/12/07/6935568643d85.png",
+    "https://www.helloimg.com/i/2025/12/07/69355671aa484.png",
+    "https://www.helloimg.com/i/2025/12/07/6935567f1d400.png",
+    "https://www.helloimg.com/i/2025/12/07/693556778ce92.png",
+    "https://www.helloimg.com/i/2025/12/07/6935567fc5605.png",
+    "https://www.helloimg.com/i/2025/12/07/6935567167b08.png",
+    "https://www.helloimg.com/i/2025/12/07/69355676f0020.png",
   ],
   // 正式版预览图片
   stableImages: [
-    "https://www.helloimg.com/i/2025/12/07/6935432ca8ef3.png",
-    "https://www.helloimg.com/i/2025/12/07/6935432d2d2ee.png",
-    "https://www.helloimg.com/i/2025/12/07/6935434cc0181.png",
-    "https://www.helloimg.com/i/2025/12/07/693543508b97b.png",
-    "https://www.helloimg.com/i/2025/12/07/6935435ae05ae.png",
-    "https://www.helloimg.com/i/2025/12/07/6935435f045d9.png",
+    "https://www.helloimg.com/i/2025/12/07/6935600331d46.png",
+    "https://www.helloimg.com/i/2025/12/07/69356001e31aa.png",
+    "https://www.helloimg.com/i/2025/12/07/69355ff9b1be4.png",
+    "https://www.helloimg.com/i/2025/12/07/693560077fa0b.png",
+    "https://www.helloimg.com/i/2025/12/07/6935600165e75.png",
+    "https://www.helloimg.com/i/2025/12/07/69355ffa227b9.png",
   ],
   // 游戏信息
   game: {
