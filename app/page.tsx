@@ -43,8 +43,8 @@ const CONFIG = {
     desc: "涵盖十二张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
     cover: "https://www.helloimg.com/i/2025/12/06/693451359f546.jpg",
     size: "99MB",
-    lanzouUrl: "https://wwuq.lanzouq.com/ikXH33c7q0cb",
-    tencentUrl: "https://wwuq.lanzouq.com/ipRcq3c554je",
+    lanzouUrl: "https://wwbhc.lanzouq.com/iH3lZ3d23v2f",
+    tencentUrl: "https://wwbhc.lanzouq.com/i2e3i3d23waj",
   },
   // 外部链接
   links: {
