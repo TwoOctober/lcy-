@@ -52,7 +52,7 @@ const CONFIG = {
     damiaoCover: "https://www.helloimg.com/i/2025/12/06/6934513ba9943.jpg",
     replay: "https://b23.tv/x5nXHGj",
     qq: "https://qm.qq.com/q/1NHb1tygHy",
-    vegcat: "https://vegcat.icu",
+    vegcat: "https://vegcat.cn",
     alipay: "https://www.helloimg.com/i/2025/12/06/693451356dbd5.jpg",
     wechat: "https://www.helloimg.com/i/2025/12/06/69345135bddd8.png",
     feedback: "https://qm.qq.com/q/1tHqgp8OK8",
@@ -362,7 +362,7 @@ export default function GameDownloadSite() {
             <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-black/5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-1">Vegcat.icu</h3>
+                  <h3 className="font-bold text-gray-900 mb-1">Vegcat.cn</h3>
                   <p className="text-gray-500 text-sm">探索关于站点和站长的信息</p>
                 </div>
                 <Button
