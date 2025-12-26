@@ -49,7 +49,7 @@ const CONFIG = {
     title: "死神vs火影",
     desc: "经典的动漫格斗游戏，深度融合了死神和火影两大动漫角色",
     cover: "/bleach-vs-naruto-anime-fighting-game.jpg",
-    size: "50MB",
+    size: "380MB",
     downloadUrl: "https://vegcat-1301889594.cos.ap-shanghai.myqcloud.com/Bleach vs. Naruto",
     previewImages: ["https://image.9game.cn/2020/11/9/185773507.jpg"],
   },
