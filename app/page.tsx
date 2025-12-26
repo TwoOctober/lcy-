@@ -50,12 +50,12 @@ const CONFIG = {
   },
   // 死神vs火影游戏信息
   bvn: {
-    title: "死神vs火影",
-    desc: "经典的动漫格斗游戏，涵盖死神和火影两大动漫角色，双人对战必玩",
+    title: "死神vs火影（测试下载）",
+    desc: "经典的动漫格斗游戏，深度融合了死神和火影两大动漫角色，目前为测试下载",
     cover: "/bleach-vs-naruto-anime-fighting-game.jpg",
     size: "50MB",
-    downloadUrl: "https://example.com/bvn-download", // 替换为实际下载链接
-    previewImages: [], // 死神vs火影预览图片，后续可添加
+    downloadUrl: "https://vegcat-1301889594.cos.ap-shanghai.myqcloud.com/Bleach vs. Naruto", // 替换为实际下载链接
+    previewImages: ["https://image.9game.cn/2020/11/9/185773507.jpg"], // 死神vs火影预览图片，后续可添加
   },
   // 大庙杯信息
   damiao: {
@@ -563,11 +563,11 @@ export default function GameDownloadSite() {
             <div className="flex gap-3">
               <AlertTriangle className="w-6 h-6 text-orange-600 flex-shrink-0" />
               <div>
-                <h4 className="text-base font-bold text-orange-800 mb-2">游戏说明</h4>
+                <h4 className="text-base font-bold text-orange-800 mb-2">下载须知</h4>
                 <ul className="text-orange-700 text-sm space-y-1 font-medium">
-                  <li>• 解压后直接运行游戏即可开始</li>
-                  <li>• 支持键盘双人对战模式</li>
-                  <li>• 包含多个版本角色和技能</li>
+                  <li>• 仅供下载测试参考学习</li>
+                  <li>• 直链下载，流量很贵很少请珍惜</li>
+                  <li>• 有问题联系QQ1145145797</li>
                 </ul>
               </div>
             </div>
