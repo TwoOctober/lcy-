@@ -180,36 +180,37 @@ export default function GameDownloadSite() {
   const onImgErr = useCallback((id: string) => setImgErr((p) => new Set([...p, id])), [])
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] font-sans selection:bg-black/10 flex flex-col">
+    <div className="min-h-screen bg-[#FAF8F5] font-sans selection:bg-indigo-100/50 flex flex-col">
       <style jsx>{`
-        ::-webkit-scrollbar{width:6px}
-        ::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:3px}
-        ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25)}
+        ::-webkit-scrollbar{width:8px;height:8px}
+        ::-webkit-scrollbar-track{background:rgba(0,0,0,.02)}
+        ::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:4px}
+        ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.2)}
         .lanzou-btn{position:relative;overflow:hidden}
-        .lanzou-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s}
+        .lanzou-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s ease}
         .lanzou-btn:hover::before{left:100%}
         @media(hover:none){.lanzou-btn:hover::before{left:-100%}}
       `}</style>
 
-      <main className="flex-1 flex flex-col justify-center py-6 sm:py-8 px-4 sm:px-6">
-        <div className="w-full max-w-6xl mx-auto space-y-6">
+      <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
+        <div className="w-full max-w-6xl mx-auto space-y-7">
           {/* 公告栏 - 缩小尺寸 */}
           <div
             onClick={() => openLink(CONFIG.links.feedback)}
-            className="cursor-pointer rounded-xl bg-white shadow-sm border border-black/5 hover:shadow-md transition-all overflow-hidden"
+            className="cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group"
           >
-            <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-3 sm:px-5 sm:py-4">
+            <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-3.5 sm:px-6 sm:py-4">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 rounded-lg shadow-sm">
-                    <Bug className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
+                  <div className="bg-white p-2 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-300">
+                    <Bug className="w-5 h-5 text-amber-600" />
                   </div>
                   <div>
                     <h3 className="font-bold text-sm sm:text-base text-gray-900">报告游戏漏洞 / 期望添加功能</h3>
                     <p className="text-gray-500 text-xs hidden sm:block mt-0.5">点击加入QQ群反馈问题或建议</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1.5 text-amber-600 font-bold text-xs sm:text-sm bg-amber-100/50 px-3 py-1.5 rounded-lg">
+                <div className="flex items-center gap-1.5 text-amber-600 font-bold text-xs sm:text-sm bg-amber-100/60 px-3 py-1.5 rounded-xl group-hover:bg-amber-200/60 transition-colors">
                   <span className="hidden sm:inline">立即反馈</span>
                   <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
@@ -218,15 +219,15 @@ export default function GameDownloadSite() {
           </div>
 
           {/* 游戏卡片 - 缩小尺寸，优化间距 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
             {/* 大庙杯 */}
-            <article className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-black/5">
-              <div className="aspect-[16/9] bg-gray-100 overflow-hidden">
+            <article className="group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80">
+              <div className="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
                 {!imgErr.has("damiao") ? (
                   <img
                     src={CONFIG.damiao.cover || "/placeholder.svg"}
                     alt="大庙杯比赛"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
                     loading="eager"
                     onError={() => onImgErr("damiao")}
                   />
@@ -236,30 +237,30 @@ export default function GameDownloadSite() {
                   </div>
                 )}
               </div>
-              <div className="p-5 sm:p-6">
-                <div className="flex justify-between items-center mb-3">
-                  <h2 className="text-xl sm:text-2xl font-bold text-slate-800">{CONFIG.damiao.title}</h2>
-                  <Badge className="bg-slate-700 text-white text-xs px-2.5 py-1 rounded-full">电竞赛事</Badge>
+              <div className="p-6 sm:p-7">
+                <div className="flex justify-between items-start mb-3.5">
+                  <h2 className="text-xl sm:text-2xl font-bold text-slate-800 leading-tight">{CONFIG.damiao.title}</h2>
+                  <Badge className="bg-slate-700 text-white text-xs px-3 py-1.5 rounded-full shadow-sm">电竞赛事</Badge>
                 </div>
-                <p className="text-gray-500 text-sm sm:text-base mb-4 leading-relaxed">{CONFIG.damiao.desc}</p>
+                <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.damiao.desc}</p>
                 <div className="space-y-3">
                   <Button
                     onClick={() => openLink(CONFIG.damiao.replayUrl)}
-                    className="w-full justify-between h-11 sm:h-12 bg-slate-700 hover:bg-slate-800 text-white rounded-lg font-bold text-sm sm:text-base"
+                    className="w-full justify-between h-12 sm:h-13 bg-slate-700 hover:bg-slate-800 text-white rounded-xl font-bold text-sm sm:text-base shadow-sm hover:shadow-md transition-all duration-300"
                   >
                     <span className="flex items-center">
-                      <Trophy className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      <Trophy className="w-5 h-5 mr-2" />
                       赛事回放
                     </span>
-                    <ExternalLink className="w-4 h-4 opacity-50" />
+                    <ExternalLink className="w-4 h-4 opacity-60" />
                   </Button>
                   <Button
                     onClick={() => openLink(CONFIG.damiao.qqUrl)}
                     variant="outline"
-                    className="w-full justify-between h-11 sm:h-12 border-2 border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg font-bold text-sm sm:text-base"
+                    className="w-full justify-between h-12 sm:h-13 border-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
                   >
                     <span className="flex items-center">
-                      <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      <Globe className="w-5 h-5 mr-2" />
                       交流Q群
                     </span>
                     <ExternalLink className="w-4 h-4 text-slate-400" />
@@ -269,13 +270,13 @@ export default function GameDownloadSite() {
             </article>
 
             {/* CS1.6 */}
-            <article className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-black/5">
-              <div className="aspect-[16/9] bg-gray-100 overflow-hidden">
+            <article className="group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80">
+              <div className="aspect-[16/9] bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
                 {!imgErr.has("cs16") ? (
                   <img
                     src={CONFIG.cs16.cover || "/placeholder.svg"}
                     alt="Counter-Strike 1.6 中文版下载"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
                     loading="eager"
                     onError={() => onImgErr("cs16")}
                   />
@@ -285,24 +286,26 @@ export default function GameDownloadSite() {
                   </div>
                 )}
               </div>
-              <div className="p-5 sm:p-6">
-                <div className="flex justify-between items-center mb-3">
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{CONFIG.cs16.title}</h1>
-                  <Badge className="bg-indigo-600 text-white text-xs px-2.5 py-1 rounded-full">经典游戏</Badge>
+              <div className="p-6 sm:p-7">
+                <div className="flex justify-between items-start mb-3.5">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">{CONFIG.cs16.title}</h1>
+                  <Badge className="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-full shadow-sm">
+                    经典游戏
+                  </Badge>
                 </div>
-                <p className="text-gray-500 text-sm sm:text-base mb-4 leading-relaxed">{CONFIG.cs16.desc}</p>
+                <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.cs16.desc}</p>
                 <div className="space-y-3">
                   <Button
                     onClick={() => toggle("lanzou", true)}
-                    className="w-full justify-between h-11 sm:h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm sm:text-base lanzou-btn"
+                    className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base lanzou-btn shadow-md hover:shadow-lg transition-all duration-300"
                   >
                     <span className="flex items-center">
-                      <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      <Download className="w-5 h-5 mr-2" />
                       正式版下载
                     </span>
                     <div className="flex items-center gap-2">
-                      <Badge className="bg-white/20 text-white text-xs px-2 py-0.5">推荐</Badge>
-                      <span className="text-xs bg-black/10 px-2 py-1 rounded-full font-mono">
+                      <Badge className="bg-white/25 text-white text-xs px-2.5 py-0.5 shadow-sm">推荐</Badge>
+                      <span className="text-xs bg-black/15 px-2.5 py-1 rounded-full font-mono">
                         {CONFIG.cs16.stableSize}
                       </span>
                     </div>
@@ -310,13 +313,13 @@ export default function GameDownloadSite() {
                   <Button
                     onClick={() => toggle("tencent", true)}
                     variant="outline"
-                    className="w-full justify-between h-11 sm:h-12 border-2 border-gray-100 text-gray-900 hover:bg-gray-50 rounded-lg font-bold text-sm sm:text-base"
+                    className="w-full justify-between h-12 sm:h-13 border-2 border-indigo-100 text-gray-900 hover:bg-indigo-50 hover:border-indigo-200 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
                   >
                     <span className="flex items-center">
-                      <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      <Download className="w-5 h-5 mr-2" />
                       先行版下载
                     </span>
-                    <span className="text-xs bg-gray-50 px-2 py-1 rounded-full text-gray-500 font-mono border">
+                    <span className="text-xs bg-gray-100 px-2.5 py-1 rounded-full text-gray-600 font-mono border border-gray-200">
                       {CONFIG.cs16.betaSize}
                     </span>
                   </Button>
@@ -326,8 +329,8 @@ export default function GameDownloadSite() {
           </div>
 
           {/* 底部板块 - 缩小间距 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <div className="bg-white rounded-xl p-5 sm:p-6 shadow-sm border border-black/5 hover:shadow-md transition-shadow">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(0,0,0,.1)] hover:border-gray-200/80 transition-all duration-300">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">Vegcat.cn</h3>
@@ -336,22 +339,22 @@ export default function GameDownloadSite() {
                 <Button
                   onClick={() => openLink(CONFIG.links.vegcat)}
                   variant="secondary"
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-4 sm:px-5 h-10 sm:h-11 rounded-lg text-sm sm:text-base"
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-5 h-11 sm:h-12 rounded-xl text-sm sm:text-base shadow-sm transition-all duration-300"
                 >
                   <Globe className="w-4 h-4 mr-1.5" />
                   跳转
                 </Button>
               </div>
             </div>
-            <div className="bg-white rounded-xl p-5 sm:p-6 shadow-sm border border-black/5 hover:shadow-md transition-shadow">
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(244,63,94,.15)] hover:border-rose-200/60 transition-all duration-300">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">赞助支持</h3>
-                  <p className="text-gray-500 text-sm sm:text-base">支持我们的优化体验</p>
+                  <p className="text-gray-500 text-sm sm:text-base">支持我们持续优化体验</p>
                 </div>
                 <Button
                   onClick={() => toggle("sponsor", true)}
-                  className="bg-rose-500 hover:bg-rose-600 text-white font-bold px-4 sm:px-5 h-10 sm:h-11 rounded-lg shadow-sm text-sm sm:text-base"
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold px-5 h-11 sm:h-12 rounded-xl shadow-md hover:shadow-lg text-sm sm:text-base transition-all duration-300"
                 >
                   <Heart className="w-4 h-4 mr-1.5" />
                   支持
@@ -362,25 +365,24 @@ export default function GameDownloadSite() {
         </div>
       </main>
 
-      <footer className="mt-auto border-t border-black/5 py-6 text-center bg-[#FAF8F5]">
+      <footer className="mt-auto border-t border-black/[0.06] py-6 text-center bg-[#FAF8F5]">
         <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 Vegcat. All rights reserved.</p>
         <p className="text-gray-400 text-xs sm:text-sm">我们或许会倒闭，但永远不会变质。</p>
       </footer>
 
-      {/* 正式版下载弹窗 */}
       <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-2xl p-5 sm:p-7 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-5">
+            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
               正式版下载
             </DialogTitle>
           </DialogHeader>
-          <div className="bg-red-100 border-[3px] border-red-500 rounded-xl p-6 mb-6 shadow-sm">
+          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
             <div className="flex gap-4">
-              <AlertTriangle className="w-8 h-8 text-red-600 flex-shrink-0" />
+              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
               <div>
                 <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
-                <ul className="text-red-700 text-base sm:text-lg space-y-2 font-semibold">
+                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
                   <li>• 请先运行免CDKEY补丁后再打开游戏</li>
                   <li>• 否则将出现无汉化/序列号异常等问题</li>
                   <li>• 进入游戏后按下H键可以呼出客户端菜单</li>
@@ -397,15 +399,15 @@ export default function GameDownloadSite() {
                 openLink(CONFIG.cs16.lanzouUrl)
                 toggle("lanzou", false)
               }}
-              className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white h-12 sm:h-14 rounded-xl font-bold text-sm sm:text-base"
+              className="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
             >
-              <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              <Download className="w-5 h-5 mr-2" />
               前往下载（提取码:6657）
             </Button>
             <Button
               variant="outline"
               onClick={() => toggle("lanzou", false)}
-              className="px-5 sm:px-6 border-2 border-gray-100 h-12 sm:h-14 rounded-xl font-bold text-sm sm:text-base"
+              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
             >
               取消
             </Button>
@@ -415,18 +417,18 @@ export default function GameDownloadSite() {
 
       {/* 先行版下载弹窗 */}
       <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-2xl p-5 sm:p-7 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-5">
+            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
               先行版下载
             </DialogTitle>
           </DialogHeader>
-          <div className="bg-red-100 border-[3px] border-red-500 rounded-xl p-6 mb-6 shadow-sm">
+          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
             <div className="flex gap-4">
-              <AlertTriangle className="w-8 h-8 text-red-600 flex-shrink-0" />
+              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
               <div>
                 <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
-                <ul className="text-red-700 text-base sm:text-lg space-y-2 font-semibold">
+                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
                   <li>• 请先运行免CDKEY补丁后再打开cstrike.exe</li>
                   <li>• 否则将出现无汉化/序列号异常等问题</li>
                   <li>• 进入游戏后按下H键可以呼出客户端菜单</li>
@@ -443,15 +445,15 @@ export default function GameDownloadSite() {
                 openLink(CONFIG.cs16.tencentUrl)
                 toggle("tencent", false)
               }}
-              className="flex-1 bg-gray-900 hover:bg-black text-white h-12 sm:h-14 rounded-xl font-bold text-sm sm:text-base"
+              className="flex-1 bg-gray-900 hover:bg-black text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
             >
-              <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              <Download className="w-5 h-5 mr-2" />
               前往下载（提取码:6657）
             </Button>
             <Button
               variant="outline"
               onClick={() => toggle("tencent", false)}
-              className="px-5 sm:px-6 border-2 border-gray-100 h-12 sm:h-14 rounded-xl font-bold text-sm sm:text-base"
+              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
             >
               取消
             </Button>
@@ -459,50 +461,49 @@ export default function GameDownloadSite() {
         </DialogContent>
       </Dialog>
 
-      {/* 赞助弹窗 */}
       <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-2xl rounded-2xl p-0 overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-rose-500 to-pink-600 p-6 sm:p-7 text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">赞助支持</h2>
+        <DialogContent className="bg-white w-[95vw] max-w-2xl rounded-3xl p-0 overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 [&>button]:hidden">
+          <div className="bg-gradient-to-r from-rose-500 to-pink-600 p-7 sm:p-8 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">赞助支持</h2>
             <p className="text-pink-100 text-sm sm:text-base">您的支持是我们更新的动力</p>
           </div>
-          <div className="p-6 sm:p-8">
-            <div className="grid grid-cols-2 gap-6 sm:gap-10 mb-6">
+          <div className="p-7 sm:p-10">
+            <div className="grid grid-cols-2 gap-8 sm:gap-12 mb-8">
               <div className="flex flex-col items-center">
-                <span className="bg-blue-50 text-blue-600 font-bold text-sm sm:text-base px-4 py-2 rounded-lg mb-4 whitespace-nowrap">
+                <span className="bg-blue-50 text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
                   支付宝
                 </span>
-                <div className="bg-white p-3 rounded-xl border-2 border-dashed border-gray-200">
+                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
                   {!imgErr.has("alipay") ? (
                     <img
                       src={CONFIG.links.alipay || "/placeholder.svg"}
                       alt="支付宝收款码"
-                      className="w-36 h-36 sm:w-48 sm:h-48 object-contain rounded-lg"
+                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
                       onError={() => onImgErr("alipay")}
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center bg-gray-50 rounded-lg text-gray-400 text-sm">
+                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
                       加载失败
                     </div>
                   )}
                 </div>
               </div>
               <div className="flex flex-col items-center">
-                <span className="bg-green-50 text-green-600 font-bold text-sm sm:text-base px-4 py-2 rounded-lg mb-4 whitespace-nowrap">
+                <span className="bg-green-50 text-green-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
                   微信支付
                 </span>
-                <div className="bg-white p-3 rounded-xl border-2 border-dashed border-gray-200">
+                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
                   {!imgErr.has("wechat") ? (
                     <img
                       src={CONFIG.links.wechat || "/placeholder.svg"}
                       alt="微信收款码"
-                      className="w-36 h-36 sm:w-48 sm:h-48 object-contain rounded-lg"
+                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
                       onError={() => onImgErr("wechat")}
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center bg-gray-50 rounded-lg text-gray-400 text-sm">
+                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
                       加载失败
                     </div>
                   )}
@@ -511,7 +512,7 @@ export default function GameDownloadSite() {
             </div>
             <Button
               onClick={() => toggle("sponsor", false)}
-              className="w-full h-12 sm:h-14 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-xl font-bold text-sm sm:text-base"
+              className="w-full h-13 sm:h-14 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
             >
               关闭
             </Button>
