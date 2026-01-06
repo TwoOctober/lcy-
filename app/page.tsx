@@ -59,11 +59,8 @@ const CONFIG = {
   },
   rotatingTexts: {
     vegcat: ["探索关于站点和站长的信息"],
-    sponsor: ["务必支持我们持续优化体验", "死神下载两天流量欠费10块"],
+    sponsor: ["务必支持我们持续优化体验", "死神上线两天流量欠费10块"],
   },
-  friendLinks: [
-    { name: "Yandere.cn", url: "https://Yandere.cn" }
-  ],
 }
 
 const openLink = (url: string) => {
@@ -402,22 +399,6 @@ export default function GameDownloadSite() {
               <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 Vegcat. All rights reserved.</p>
               <p className="text-gray-400 text-xs sm:text-sm">我们或许会倒闭，但永远不会变质。</p>
             </div>
-            {CONFIG.friendLinks.length > 0 && (
-              <div className="flex items-center gap-2 text-xs sm:text-sm">
-                <span className="text-gray-400">友站:</span>
-                {CONFIG.friendLinks.map((link, i) => (
-                  <span key={i}>
-                    <button
-                      onClick={() => openLink(link.url)}
-                      className="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors"
-                    >
-                      {link.name}
-                    </button>
-                    {i < CONFIG.friendLinks.length - 1 && <span className="text-gray-300 mx-1.5">|</span>}
-                  </span>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </footer>
