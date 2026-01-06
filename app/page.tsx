@@ -58,12 +58,11 @@ const CONFIG = {
     feedback: "https://qm.qq.com/q/1tHqgp8OK8",
   },
   rotatingTexts: {
-    vegcat: ["探索关于站点和站长的信息", "了解更多关于我们的故事", "发现更多精彩内容"],
-    sponsor: ["支持我们持续优化体验", "您的支持是最大动力", "帮助我们做得更好"],
+    vegcat: ["探索关于站点和站长的信息"],
+    sponsor: ["务必支持我们持续优化体验", "死神下载两天流量欠费10块"],
   },
   friendLinks: [
-    // 预留友站链接，格式：{ name: "站点名", url: "https://..." }
-    // 示例：{ name: "游戏之家", url: "https://example.com" }
+    { name: "Yandere.cn", url: "https://Yandere.cn" }
   ],
 }
 
