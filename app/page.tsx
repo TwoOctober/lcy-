@@ -57,6 +57,14 @@ const CONFIG = {
     wechat: "https://www.helloimg.com/i/2025/12/06/69345135bddd8.png",
     feedback: "https://qm.qq.com/q/1tHqgp8OK8",
   },
+  rotatingTexts: {
+    vegcat: ["探索关于站点和站长的信息", "了解更多关于我们的故事", "发现更多精彩内容"],
+    sponsor: ["支持我们持续优化体验", "您的支持是最大动力", "帮助我们做得更好"],
+  },
+  friendLinks: [
+    // 预留友站链接，格式：{ name: "站点名", url: "https://..." }
+    // 示例：{ name: "游戏之家", url: "https://example.com" }
+  ],
 }
 
 const openLink = (url: string) => {
@@ -169,6 +177,34 @@ const ImageCarousel = memo(({ images }: { images: string[] }) => {
 })
 ImageCarousel.displayName = "ImageCarousel"
 
+const RotatingText = memo(({ texts }: { texts: string[] }) => {
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    if (texts.length <= 1) return
+    const timer = setInterval(() => {
+      setIdx((prev) => (prev + 1) % texts.length)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [texts.length])
+
+  return (
+    <div className="relative h-5 sm:h-6 overflow-hidden">
+      {texts.map((text, i) => (
+        <p
+          key={i}
+          className={`absolute inset-0 text-gray-500 text-sm sm:text-base transition-all duration-500 ${
+            i === idx ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+        >
+          {text}
+        </p>
+      ))}
+    </div>
+  )
+})
+RotatingText.displayName = "RotatingText"
+
 export default function GameDownloadSite() {
   const [dialogs, setDialogs] = useState({ sponsor: false, lanzou: false, tencent: false })
   const [imgErr, setImgErr] = useState<Set<string>>(new Set())
@@ -194,7 +230,6 @@ export default function GameDownloadSite() {
 
       <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
         <div className="w-full max-w-6xl mx-auto space-y-7">
-          {/* 公告栏 - 缩小尺寸 */}
           <div
             onClick={() => openLink(CONFIG.links.feedback)}
             className="cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group"
@@ -218,9 +253,7 @@ export default function GameDownloadSite() {
             </div>
           </div>
 
-          {/* 游戏卡片 - 缩小尺寸，优化间距 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
-            {/* 大庙杯 */}
             <article className="group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80">
               <div className="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
                 {!imgErr.has("damiao") ? (
@@ -269,7 +302,6 @@ export default function GameDownloadSite() {
               </div>
             </article>
 
-            {/* CS1.6 */}
             <article className="group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80">
               <div className="aspect-[16/9] bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
                 {!imgErr.has("cs16") ? (
@@ -328,18 +360,17 @@ export default function GameDownloadSite() {
             </article>
           </div>
 
-          {/* 底部板块 - 缩小间距 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
             <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(0,0,0,.1)] hover:border-gray-200/80 transition-all duration-300">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">Vegcat.cn</h3>
-                  <p className="text-gray-500 text-sm sm:text-base">探索关于站点和站长的信息</p>
+                  <RotatingText texts={CONFIG.rotatingTexts.vegcat} />
                 </div>
                 <Button
                   onClick={() => openLink(CONFIG.links.vegcat)}
                   variant="secondary"
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-5 h-11 sm:h-12 rounded-xl text-sm sm:text-base shadow-sm transition-all duration-300"
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-5 h-11 sm:h-12 rounded-xl text-sm sm:text-base shadow-sm transition-all duration-300 ml-4 flex-shrink-0"
                 >
                   <Globe className="w-4 h-4 mr-1.5" />
                   跳转
@@ -348,13 +379,13 @@ export default function GameDownloadSite() {
             </div>
             <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(244,63,94,.15)] hover:border-rose-200/60 transition-all duration-300">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">赞助支持</h3>
-                  <p className="text-gray-500 text-sm sm:text-base">支持我们持续优化体验</p>
+                  <RotatingText texts={CONFIG.rotatingTexts.sponsor} />
                 </div>
                 <Button
                   onClick={() => toggle("sponsor", true)}
-                  className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold px-5 h-11 sm:h-12 rounded-xl shadow-md hover:shadow-lg text-sm sm:text-base transition-all duration-300"
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold px-5 h-11 sm:h-12 rounded-xl shadow-md hover:shadow-lg text-sm sm:text-base transition-all duration-300 ml-4 flex-shrink-0"
                 >
                   <Heart className="w-4 h-4 mr-1.5" />
                   支持
@@ -365,9 +396,31 @@ export default function GameDownloadSite() {
         </div>
       </main>
 
-      <footer className="mt-auto border-t border-black/[0.06] py-6 text-center bg-[#FAF8F5]">
-        <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 Vegcat. All rights reserved.</p>
-        <p className="text-gray-400 text-xs sm:text-sm">我们或许会倒闭，但永远不会变质。</p>
+      <footer className="mt-auto border-t border-black/[0.06] py-6 px-4 text-center bg-[#FAF8F5]">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+            <div className="text-center sm:text-left">
+              <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 Vegcat. All rights reserved.</p>
+              <p className="text-gray-400 text-xs sm:text-sm">我们或许会倒闭，但永远不会变质。</p>
+            </div>
+            {CONFIG.friendLinks.length > 0 && (
+              <div className="flex items-center gap-2 text-xs sm:text-sm">
+                <span className="text-gray-400">友站:</span>
+                {CONFIG.friendLinks.map((link, i) => (
+                  <span key={i}>
+                    <button
+                      onClick={() => openLink(link.url)}
+                      className="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors"
+                    >
+                      {link.name}
+                    </button>
+                    {i < CONFIG.friendLinks.length - 1 && <span className="text-gray-300 mx-1.5">|</span>}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </footer>
 
       <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
@@ -415,7 +468,6 @@ export default function GameDownloadSite() {
         </DialogContent>
       </Dialog>
 
-      {/* 先行版下载弹窗 */}
       <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
         <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <DialogHeader>
