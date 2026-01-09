@@ -41,8 +41,8 @@ const CONFIG = {
     cover: "https://www.helloimg.com/i/2025/12/06/693451359f546.jpg",
     stableSize: "94MB",
     betaSize: "99MB",
-    lanzouUrl: "https://wwbhc.lanzouq.com/iH3lZ3d23v2f",
-    tencentUrl: "https://wwbhc.lanzouq.com/i2e3i3d23waj",
+    lanzouUrl: "https://wwbhc.lanzouq.com/ipIXD3fp7n1a",
+    tencentUrl: "https://wwbhc.lanzouq.com/iX7lu3fp7omh",
   },
   damiao: {
     title: "大庙杯比赛",
@@ -411,8 +411,8 @@ export default function GameDownloadSite() {
                 <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
                 <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
                   <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                  <li>• 否则将出现无汉化/序列号异常等问题</li>
-                  <li>• 进入游戏后按下H键可以呼出客户端菜单</li>
+                  <li>• 提取码变更为f4cs！！！</li>
+                  <li>• 进入游戏后按下H键可呼出菜单</li>
                 </ul>
               </div>
             </div>
@@ -429,7 +429,7 @@ export default function GameDownloadSite() {
               className="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
             >
               <Download className="w-5 h-5 mr-2" />
-              前往下载（提取码:6657）
+              前往下载（提取码:f4cs）
             </Button>
             <Button
               variant="outline"
@@ -455,9 +455,9 @@ export default function GameDownloadSite() {
               <div>
                 <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
                 <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
-                  <li>• 请先运行免CDKEY补丁后再打开cstrike.exe</li>
-                  <li>• 否则将出现无汉化/序列号异常等问题</li>
-                  <li>• 进入游戏后按下H键可以呼出客户端菜单</li>
+                  <li>• 请先运行免CDKEY补丁后再打开游戏</li>
+                  <li>• 提取码变更为f4cs！！！</li>
+                  <li>• 进入游戏后按下H键可呼出菜单</li>
                 </ul>
               </div>
             </div>
@@ -474,7 +474,7 @@ export default function GameDownloadSite() {
               className="flex-1 bg-gray-900 hover:bg-black text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
             >
               <Download className="w-5 h-5 mr-2" />
-              前往下载（提取码:6657）
+              前往下载（提取码:f4cs）
             </Button>
             <Button
               variant="outline"
