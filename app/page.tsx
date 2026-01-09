@@ -24,8 +24,6 @@ const CONFIG = {
     "https://www.helloimg.com/i/2025/12/07/6935567f1d400.png",
     "https://www.helloimg.com/i/2025/12/07/693556778ce92.png",
     "https://www.helloimg.com/i/2025/12/07/6935567fc5605.png",
-    "https://www.helloimg.com/i/2025/12/07/6935567167b08.png",
-    "https://www.helloimg.com/i/2025/12/07/69355676f0020.png",
   ],
   stableImages: [
     "https://www.helloimg.com/i/2025/12/07/6935600331d46.png",
