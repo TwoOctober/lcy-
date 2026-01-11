@@ -199,6 +199,26 @@ const RotatingText = memo(({ texts }: { texts: string[] }) => {
 })
 RotatingText.displayName = "RotatingText"
 
+const DownloadButton = ({ onClick, extractionCode = "f4cs" }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <Button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
+    >
+      <Download className="w-5 h-5 mr-2" />
+      <span>前往下载（提取码:</span>
+      <span className={`transition-all duration-200 ${isHovered ? "bg-white text-indigo-600 px-1.5 rounded" : ""}`}>
+        {extractionCode}
+      </span>
+      <span>）</span>
+    </Button>
+  )
+}
+
 export default function GameDownloadSite() {
   const [dialogs, setDialogs] = useState({ sponsor: false, lanzou: false, tencent: false })
   const [imgErr, setImgErr] = useState<Set<string>>(new Set())
@@ -390,7 +410,7 @@ export default function GameDownloadSite() {
         </div>
       </main>
 
-<footer className="mt-auto border-t border-black/[0.06] py-6 text-center bg-[#FAF8F5]">
+      <footer className="mt-auto border-t border-black/[0.06] py-6 text-center bg-[#FAF8F5]">
         <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 Vegcat. All rights reserved.</p>
         <p className="text-gray-400 text-xs sm:text-sm">我们或许会倒闭，但永远不会变质。</p>
       </footer>
@@ -419,16 +439,13 @@ export default function GameDownloadSite() {
             <ImageCarousel images={CONFIG.stableImages} />
           </div>
           <div className="flex gap-3">
-            <Button
+            <DownloadButton
               onClick={() => {
                 openLink(CONFIG.cs16.lanzouUrl)
                 toggle("lanzou", false)
               }}
-              className="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              <Download className="w-5 h-5 mr-2" />
-              前往下载（提取码:f4cs）
-            </Button>
+              extractionCode="f4cs"
+            />
             <Button
               variant="outline"
               onClick={() => toggle("lanzou", false)}
@@ -464,16 +481,13 @@ export default function GameDownloadSite() {
             <ImageCarousel images={CONFIG.betaImages} />
           </div>
           <div className="flex gap-3">
-            <Button
+            <DownloadButton
               onClick={() => {
                 openLink(CONFIG.cs16.tencentUrl)
                 toggle("tencent", false)
               }}
-              className="flex-1 bg-gray-900 hover:bg-black text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              <Download className="w-5 h-5 mr-2" />
-              前往下载（提取码:f4cs）
-            </Button>
+              extractionCode="f4cs"
+            />
             <Button
               variant="outline"
               onClick={() => toggle("tencent", false)}
