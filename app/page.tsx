@@ -35,7 +35,7 @@ const CONFIG = {
   ],
   cs16: {
     title: "Counter-Strike 1.6",
-    desc: "涵盖十七张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
+    desc: "涵盖十六张竞技地图和休闲对枪图，一键注册汉化，流畅游玩",
     cover: "https://www.helloimg.com/i/2025/12/06/693451359f546.jpg",
     stableSize: "89MB",
     betaSize: "94MB",
@@ -43,7 +43,7 @@ const CONFIG = {
     tencentUrl: "https://wwbhc.lanzouq.com/iX7lu3fp7omh",
   },
   damiao: {
-    title: "大庙杯比赛",
+    title: "F4cs.cn 大庙杯比赛",
     desc: "2026届CS2大庙杯比赛开始报名，请加群770429361咨询",
     cover: "https://www.helloimg.com/i/2025/12/06/6934513ba9943.jpg",
     replayUrl: "https://b23.tv/x5nXHGj",
@@ -57,7 +57,7 @@ const CONFIG = {
   },
   rotatingTexts: {
     vegcat: ["探索关于站点和站长的信息"],
-    sponsor: ["务必支持我们持续优化体验", "死神上线两天流量欠费10块"],
+    sponsor: ["请支持我们持续优化体验", "死神上线两天流量欠费10块"],
   },
 }
 
@@ -411,7 +411,7 @@ export default function GameDownloadSite() {
       </main>
 
       <footer className="mt-auto border-t border-black/[0.06] py-6 text-center bg-[#FAF8F5]">
-        <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 Vegcat. All rights reserved.</p>
+        <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 F4cs.cn. Powered by Vegcat.</p>
         <p className="text-gray-400 text-xs sm:text-sm">我们或许会倒闭，但永远不会变质。</p>
       </footer>
 
