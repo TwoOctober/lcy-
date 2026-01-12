@@ -20,7 +20,11 @@ const CONFIG = {
   splash: {
     enabled: true,
     text: "F4cs.cn",
-    duration: 2000,
+    duration: 1500, // Reduced from 2000ms to 1500ms for faster loading
+  },
+  animations: {
+    enableSlideIn: true,
+    staggerDelay: 80, // milliseconds between each element animation
   },
   betaImages: [
     "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
@@ -234,17 +238,17 @@ const SplashScreen = memo(({ onComplete }: { onComplete: () => void }) => {
     <div className="fixed inset-0 z-50 bg-[#FAF8F5] flex items-center justify-center animate-splash">
       <style jsx>{`
         @keyframes fadeOut {
-          0%, 60% { opacity: 1; }
+          0%, 50% { opacity: 1; }
           100% { opacity: 0; }
         }
         @keyframes scaleIn {
-          0% { transform: scale(0.8); opacity: 0; }
-          40% { transform: scale(1); opacity: 1; }
-          60% { transform: scale(1); opacity: 1; }
-          100% { transform: scale(1.05); opacity: 0; }
+          0% { transform: scale(0.85); opacity: 0; filter: blur(8px); }
+          35% { transform: scale(1.02); opacity: 1; filter: blur(0px); }
+          50% { transform: scale(1); opacity: 1; filter: blur(0px); }
+          100% { transform: scale(1.08); opacity: 0; filter: blur(4px); }
         }
-        .animate-splash { animation: fadeOut 2s ease-in-out forwards; }
-        .animate-logo { animation: scaleIn 2s ease-out forwards; }
+        .animate-splash { animation: fadeOut 1.5s ease-in-out forwards; }
+        .animate-logo { animation: scaleIn 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
       `}</style>
       <div className="animate-logo">
         <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 tracking-tight">
@@ -260,6 +264,7 @@ export default function GameDownloadSite() {
   const [showSplash, setShowSplash] = useState(CONFIG.splash.enabled)
   const [dialogs, setDialogs] = useState({ sponsor: false, lanzou: false, tencent: false })
   const [imgErr, setImgErr] = useState<Set<string>>(new Set())
+  const [contentReady, setContentReady] = useState(false) // Track when content should animate in
 
   const toggle = useCallback((k: keyof typeof dialogs, v?: boolean) => {
     setDialogs((p) => ({ ...p, [k]: v ?? !p[k] }))
@@ -269,6 +274,7 @@ export default function GameDownloadSite() {
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false)
+    setTimeout(() => setContentReady(true), 50)
   }, [])
 
   if (showSplash) {
@@ -286,13 +292,34 @@ export default function GameDownloadSite() {
         .lanzou-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s ease}
         .lanzou-btn:hover::before{left:100%}
         @media(hover:none){.lanzou-btn:hover::before{left:-100%}}
+        
+        @keyframes slideInBlur {
+          0% { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            filter: blur(8px); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: translateY(0); 
+            filter: blur(0); 
+          }
+        }
+        .animate-slide-in {
+          animation: slideInBlur 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+        .delay-1 { animation-delay: 80ms; }
+        .delay-2 { animation-delay: 160ms; }
+        .delay-3 { animation-delay: 240ms; }
+        .delay-4 { animation-delay: 320ms; }
       `}</style>
 
       <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
         <div className="w-full max-w-6xl mx-auto space-y-7">
           <div
             onClick={() => openLink(CONFIG.links.feedback)}
-            className="cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group"
+            className={`cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in" : ""}`}
           >
             <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-3.5 sm:px-6 sm:py-4">
               <div className="flex items-center justify-between gap-3">
@@ -314,7 +341,9 @@ export default function GameDownloadSite() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
-            <article className="group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80">
+            <article
+              className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-1" : ""}`}
+            >
               <div className="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
                 {!imgErr.has("damiao") ? (
                   <img
@@ -362,7 +391,9 @@ export default function GameDownloadSite() {
               </div>
             </article>
 
-            <article className="group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80">
+            <article
+              className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-2" : ""}`}
+            >
               <div className="aspect-[16/9] bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
                 {!imgErr.has("cs16") ? (
                   <img
@@ -421,7 +452,9 @@ export default function GameDownloadSite() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(0,0,0,.1)] hover:border-gray-200/80 transition-all duration-300">
+            <div
+              className={`bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(0,0,0,.1)] hover:border-gray-200/80 transition-all duration-300 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-3" : ""}`}
+            >
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">Vegcat.cn</h3>
@@ -437,7 +470,9 @@ export default function GameDownloadSite() {
                 </Button>
               </div>
             </div>
-            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(244,63,94,.15)] hover:border-rose-200/60 transition-all duration-300">
+            <div
+              className={`bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(244,63,94,.15)] hover:border-rose-200/60 transition-all duration-300 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-4" : ""}`}
+            >
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">赞助支持</h3>
