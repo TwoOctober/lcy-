@@ -20,11 +20,11 @@ const CONFIG = {
   splash: {
     enabled: true,
     text: "F4cs.cn",
-    duration: 1500, // Reduced from 2000ms to 1500ms for faster loading
+    duration: 1800, // Increased to 1800ms for smoother experience
   },
   animations: {
     enableSlideIn: true,
-    staggerDelay: 80, // milliseconds between each element animation
+    staggerDelay: 150, // Increased to 150ms for slower, more coordinated animations
   },
   betaImages: [
     "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
@@ -235,24 +235,50 @@ const SplashScreen = memo(({ onComplete }: { onComplete: () => void }) => {
   }, [onComplete])
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#FAF8F5] flex items-center justify-center animate-splash">
+    <div className="fixed inset-0 z-50 bg-[#FAF8F5] flex items-center justify-center splash-container">
       <style jsx>{`
-        @keyframes fadeOut {
-          0%, 50% { opacity: 1; }
+        @keyframes fadeInOut {
+          0% { opacity: 0; }
+          15% { opacity: 1; }
+          85% { opacity: 1; }
           100% { opacity: 0; }
         }
-        @keyframes scaleIn {
-          0% { transform: scale(0.85); opacity: 0; filter: blur(8px); }
-          35% { transform: scale(1.02); opacity: 1; filter: blur(0px); }
-          50% { transform: scale(1); opacity: 1; filter: blur(0px); }
-          100% { transform: scale(1.08); opacity: 0; filter: blur(4px); }
+        @keyframes slideUp {
+          0% { transform: translateY(30px); opacity: 0; }
+          20% { transform: translateY(0); opacity: 1; }
+          80% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(-20px); opacity: 0; }
         }
-        .animate-splash { animation: fadeOut 1.5s ease-in-out forwards; }
-        .animate-logo { animation: scaleIn 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        @keyframes letterReveal {
+          0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .splash-container { animation: fadeInOut 1.8s ease-in-out forwards; }
+        .splash-logo { animation: slideUp 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        .letter-reveal { 
+          display: inline-block;
+          opacity: 0;
+          animation: letterReveal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .letter-reveal:nth-child(1) { animation-delay: 0.1s; }
+        .letter-reveal:nth-child(2) { animation-delay: 0.2s; }
+        .letter-reveal:nth-child(3) { animation-delay: 0.3s; }
+        .letter-reveal:nth-child(4) { animation-delay: 0.4s; }
+        .letter-reveal:nth-child(5) { animation-delay: 0.5s; }
+        .letter-reveal:nth-child(6) { animation-delay: 0.6s; }
+        .letter-reveal:nth-child(7) { animation-delay: 0.7s; }
+        .letter-reveal:nth-child(8) { animation-delay: 0.8s; }
       `}</style>
-      <div className="animate-logo">
-        <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 tracking-tight">
-          {CONFIG.splash.text}
+      <div className="splash-logo">
+        <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight">
+          {CONFIG.splash.text.split("").map((char, i) => (
+            <span
+              key={i}
+              className="letter-reveal text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600"
+            >
+              {char}
+            </span>
+          ))}
         </h1>
       </div>
     </div>
@@ -293,11 +319,12 @@ export default function GameDownloadSite() {
         .lanzou-btn:hover::before{left:100%}
         @media(hover:none){.lanzou-btn:hover::before{left:-100%}}
         
+        /* Slower, smoother slide-in animation with better mobile support */
         @keyframes slideInBlur {
           0% { 
             opacity: 0; 
-            transform: translateY(40px); 
-            filter: blur(8px); 
+            transform: translateY(50px); 
+            filter: blur(10px); 
           }
           100% { 
             opacity: 1; 
@@ -306,13 +333,27 @@ export default function GameDownloadSite() {
           }
         }
         .animate-slide-in {
-          animation: slideInBlur 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: slideInBlur 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           opacity: 0;
         }
-        .delay-1 { animation-delay: 80ms; }
-        .delay-2 { animation-delay: 160ms; }
-        .delay-3 { animation-delay: 240ms; }
-        .delay-4 { animation-delay: 320ms; }
+        .delay-1 { animation-delay: 150ms; }
+        .delay-2 { animation-delay: 300ms; }
+        .delay-3 { animation-delay: 450ms; }
+        .delay-4 { animation-delay: 600ms; }
+        
+        /* Fallback for older browsers without filter support */
+        @supports not (filter: blur(10px)) {
+          @keyframes slideInBlur {
+            0% { 
+              opacity: 0; 
+              transform: translateY(50px) scale(0.95); 
+            }
+            100% { 
+              opacity: 1; 
+              transform: translateY(0) scale(1); 
+            }
+          }
+        }
       `}</style>
 
       <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
