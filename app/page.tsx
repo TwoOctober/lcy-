@@ -17,6 +17,11 @@ import {
 } from "lucide-react"
 
 const CONFIG = {
+  splash: {
+    enabled: true,
+    text: "F4cs.cn",
+    duration: 2000,
+  },
   betaImages: [
     "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
     "https://www.helloimg.com/i/2025/12/07/6935568643d85.png",
@@ -219,7 +224,40 @@ const DownloadButton = ({ onClick, extractionCode = "f4cs" }) => {
   )
 }
 
+const SplashScreen = memo(({ onComplete }: { onComplete: () => void }) => {
+  useEffect(() => {
+    const timer = setTimeout(onComplete, CONFIG.splash.duration)
+    return () => clearTimeout(timer)
+  }, [onComplete])
+
+  return (
+    <div className="fixed inset-0 z-50 bg-[#FAF8F5] flex items-center justify-center animate-splash">
+      <style jsx>{`
+        @keyframes fadeOut {
+          0%, 60% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @keyframes scaleIn {
+          0% { transform: scale(0.8); opacity: 0; }
+          40% { transform: scale(1); opacity: 1; }
+          60% { transform: scale(1); opacity: 1; }
+          100% { transform: scale(1.05); opacity: 0; }
+        }
+        .animate-splash { animation: fadeOut 2s ease-in-out forwards; }
+        .animate-logo { animation: scaleIn 2s ease-out forwards; }
+      `}</style>
+      <div className="animate-logo">
+        <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 tracking-tight">
+          {CONFIG.splash.text}
+        </h1>
+      </div>
+    </div>
+  )
+})
+SplashScreen.displayName = "SplashScreen"
+
 export default function GameDownloadSite() {
+  const [showSplash, setShowSplash] = useState(CONFIG.splash.enabled)
   const [dialogs, setDialogs] = useState({ sponsor: false, lanzou: false, tencent: false })
   const [imgErr, setImgErr] = useState<Set<string>>(new Set())
 
@@ -228,6 +266,14 @@ export default function GameDownloadSite() {
   }, [])
 
   const onImgErr = useCallback((id: string) => setImgErr((p) => new Set([...p, id])), [])
+
+  const handleSplashComplete = useCallback(() => {
+    setShowSplash(false)
+  }, [])
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />
+  }
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] font-sans selection:bg-indigo-100/50 flex flex-col">
@@ -384,7 +430,7 @@ export default function GameDownloadSite() {
                 <Button
                   onClick={() => openLink(CONFIG.links.vegcat)}
                   variant="secondary"
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-5 h-11 sm:h-12 rounded-xl text-sm sm:text-base shadow-sm transition-all duration-300 ml-4 flex-shrink-0"
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-5 h-11 sm:h-12 rounded-xl shadow-sm transition-all duration-300 ml-4 flex-shrink-0"
                 >
                   <Globe className="w-4 h-4 mr-1.5" />
                   跳转
