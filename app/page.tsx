@@ -563,7 +563,7 @@ export default function GameDownloadSite() {
         </main>
 
         <footer className={`mt-auto py-6 text-center ${contentReady ? "slide-in slide-delay-4" : "opacity-0"}`}>
-          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4CS.cn.Powered by Vegcat.</p>
+          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4CS.cn 由 Vegcat 强力驱动</p>
         </footer>
       </div>
 
