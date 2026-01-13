@@ -52,7 +52,7 @@ const CONFIG = {
     tencentUrl: "https://wwbhc.lanzouq.com/iX7lu3fp7omh",
   },
   damiao: {
-    title: "F4cs.cn 大庙杯比赛",
+    title: "F4CS比赛",
     desc: "2026届CS2大庙杯比赛开始报名，请加群770429361咨询",
     cover: "https://www.helloimg.com/i/2025/12/06/6934513ba9943.jpg",
     replayUrl: "https://b23.tv/x5nXHGj",
@@ -321,7 +321,7 @@ const SplashScreen = memo(({ onComplete }: { onComplete: () => void }) => {
             </span>
           ))}
         </h1>
-        <p className="splash-subtitle">游戏下载与电竞赛事平台</p>
+        <p className="splash-subtitle">或许会变质，永远不倒闭</p>
       </div>
     </div>
   )
@@ -563,7 +563,7 @@ export default function GameDownloadSite() {
         </main>
 
         <footer className={`mt-auto py-6 text-center ${contentReady ? "slide-in slide-delay-4" : "opacity-0"}`}>
-          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4cs.cn. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4CS.cn. Vegcat强力驱动</p>
         </footer>
       </div>
 
@@ -581,10 +581,11 @@ export default function GameDownloadSite() {
               <div className="flex items-start gap-4">
                 <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用注意事项</h4>
+                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
                   <ul className="text-red-600 text-sm space-y-1.5 font-medium">
-                    <li>• 不推荐解压到C盘，建议使用D或E盘，解压前关闭杀毒软件</li>
-                    <li>• 确保游戏路径无中文字符，否则将无法使用本游戏</li>
+                  <li>• 请先运行免CDKEY补丁后再打开游戏</li>
+                  <li>• 否则将出现无汉化/序列号异常等问题</li>
+                  <li>• 进入游戏后按下H键可呼出菜单</li>
                   </ul>
                 </div>
               </div>
@@ -600,7 +601,7 @@ export default function GameDownloadSite() {
           <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-6 py-5 sm:px-8 sm:py-6">
             <DialogHeader>
               <DialogTitle className="text-white text-xl sm:text-2xl font-bold">先行版下载</DialogTitle>
-              <p className="text-emerald-100 text-sm mt-1">Counter-Strike 1.6 测试版本</p>
+              <p className="text-emerald-100 text-sm mt-1">Counter-Strike 1.6 先行测试版本</p>
             </DialogHeader>
           </div>
           <div className="p-6 sm:p-8 space-y-6">
@@ -608,10 +609,12 @@ export default function GameDownloadSite() {
               <div className="flex items-start gap-4">
                 <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用注意事项</h4>
+                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
                   <ul className="text-red-600 text-sm space-y-1.5 font-medium">
-                    <li>• 不推荐解压到C盘，建议使用D或E盘，解压前关闭杀毒软件</li>
-                    <li>• 确保游戏路径无中文字符，否则将无法使用本游戏</li>
+                  <li>• 请先运行免CDKEY补丁后再打开游戏</li>
+                  <li>• 否则将出现无汉化/序列号异常等问题</li>
+                  <li>• 进入游戏后按下H键可呼出菜单</li>
+                  <li>• 按下F键进行武器检视</li>
                   </ul>
                 </div>
               </div>
@@ -626,8 +629,8 @@ export default function GameDownloadSite() {
         <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-5 sm:px-8 sm:py-6">
             <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
-              <p className="text-pink-100 text-sm mt-1">您的支持是我们前进的动力</p>
+              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">赞助支持</DialogTitle>
+              <p className="text-pink-100 text-sm mt-1">后续添加新功能需要更强大的动力谢谢大家！</p>
             </DialogHeader>
           </div>
           <div className="p-6 sm:p-8">
