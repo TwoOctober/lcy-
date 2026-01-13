@@ -563,7 +563,7 @@ export default function GameDownloadSite() {
         </main>
 
         <footer className={`mt-auto py-6 text-center ${contentReady ? "slide-in slide-delay-4" : "opacity-0"}`}>
-          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4CS.cn   由 Vegcat 强力驱动</p>
+          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4CS.cn       由 Vegcat 强力驱动</p>
         </footer>
       </div>
 
@@ -651,7 +651,7 @@ export default function GameDownloadSite() {
           </div>
         </DialogContent>
       </Dialog>
-<Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
+      <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
         <DialogContent className="bg-white w-[95vw] max-w-2xl rounded-3xl p-0 overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 [&>button]:hidden">
           <div className="bg-gradient-to-r from-rose-500 to-pink-600 p-7 sm:p-8 text-center">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">赞助支持</h2>
