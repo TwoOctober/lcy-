@@ -651,46 +651,61 @@ export default function GameDownloadSite() {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
-        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
-              <p className="text-pink-100 text-sm mt-1">您的支持是我们前进的动力</p>
-            </DialogHeader>
+<Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
+        <DialogContent className="bg-white w-[95vw] max-w-2xl rounded-3xl p-0 overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 [&>button]:hidden">
+          <div className="bg-gradient-to-r from-rose-500 to-pink-600 p-7 sm:p-8 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">赞助支持</h2>
+            <p className="text-pink-100 text-sm sm:text-base">您的支持是我们更新的动力</p>
           </div>
-          <div className="p-6 sm:p-8">
-            <div className="grid grid-cols-2 gap-6 sm:gap-8">
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-blue-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
-                  <img
-                    src={CONFIG.links.alipay || "/placeholder.svg"}
-                    alt="支付宝"
-                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
-                  />
+          <div className="p-7 sm:p-10">
+            <div className="grid grid-cols-2 gap-8 sm:gap-12 mb-8">
+              <div className="flex flex-col items-center">
+                <span className="bg-blue-50 text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
+                  支付宝
+                </span>
+                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
+                  {!imgErr.has("alipay") ? (
+                    <img
+                      src={CONFIG.links.alipay || "/placeholder.svg"}
+                      alt="支付宝收款码"
+                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
+                      onError={() => onImgErr("alipay")}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
+                      加载失败
+                    </div>
+                  )}
                 </div>
-                <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">支付宝支付</p>
               </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-green-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
-                  <img
-                    src={CONFIG.links.wechat || "/placeholder.svg"}
-                    alt="微信支付"
-                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
-                  />
+              <div className="flex flex-col items-center">
+                <span className="bg-green-50 text-green-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
+                  微信支付
+                </span>
+                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
+                  {!imgErr.has("wechat") ? (
+                    <img
+                      src={CONFIG.links.wechat || "/placeholder.svg"}
+                      alt="微信收款码"
+                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
+                      onError={() => onImgErr("wechat")}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
+                      加载失败
+                    </div>
+                  )}
                 </div>
-                <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">微信支付</p>
               </div>
             </div>
-            <div className="mt-6 pt-5 border-t border-gray-100">
-              <Button
-                onClick={() => toggle("sponsor", false)}
-                variant="outline"
-                className="w-full h-12 sm:h-13 rounded-xl font-bold text-gray-600 hover:bg-gray-50 border-2"
-              >
-                关闭
-              </Button>
-            </div>
+            <Button
+              onClick={() => toggle("sponsor", false)}
+              className="w-full h-13 sm:h-14 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
+            >
+              关闭
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
