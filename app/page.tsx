@@ -568,59 +568,86 @@ export default function GameDownloadSite() {
       </div>
 
       {/* Dialogs */}
-      <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
-        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">正式版下载</DialogTitle>
-              <p className="text-indigo-100 text-sm mt-1">Counter-Strike 1.6 稳定版本</p>
-            </DialogHeader>
-          </div>
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
-                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+<Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
+        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <DialogHeader>
+            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
+              正式版下载
+            </DialogTitle>
+          </DialogHeader>
+          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
+            <div className="flex gap-4">
+              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
+              <div>
+                <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
+                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
                   <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                  <li>• 否则将出现无汉化/序列号异常等问题</li>
+                  <li>• 提取码变更为f4cs！！！</li>
                   <li>• 进入游戏后按下H键可呼出菜单</li>
-                  </ul>
-                </div>
+                </ul>
               </div>
             </div>
+          </div>
+          <div className="mb-6">
             <ImageCarousel images={CONFIG.stableImages} />
-            <DownloadButton onClick={() => openLink(CONFIG.cs16.lanzouUrl)} />
+          </div>
+          <div className="flex gap-3">
+            <DownloadButton
+              onClick={() => {
+                openLink(CONFIG.cs16.lanzouUrl)
+                toggle("lanzou", false)
+              }}
+              extractionCode="f4cs"
+            />
+            <Button
+              variant="outline"
+              onClick={() => toggle("lanzou", false)}
+              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
+            >
+              取消
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
-        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">先行版下载</DialogTitle>
-              <p className="text-emerald-100 text-sm mt-1">Counter-Strike 1.6 先行测试版本</p>
-            </DialogHeader>
-          </div>
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
-                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <DialogHeader>
+            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
+              先行版下载
+            </DialogTitle>
+          </DialogHeader>
+          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
+            <div className="flex gap-4">
+              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
+              <div>
+                <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
+                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
                   <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                  <li>• 否则将出现无汉化/序列号异常等问题</li>
+                  <li>• 提取码变更为f4cs！！！</li>
                   <li>• 进入游戏后按下H键可呼出菜单</li>
-                  <li>• 按下F键进行武器检视</li>
-                  </ul>
-                </div>
+                </ul>
               </div>
             </div>
+          </div>
+          <div className="mb-6">
             <ImageCarousel images={CONFIG.betaImages} />
-            <DownloadButton onClick={() => openLink(CONFIG.cs16.tencentUrl)} />
+          </div>
+          <div className="flex gap-3">
+            <DownloadButton
+              onClick={() => {
+                openLink(CONFIG.cs16.tencentUrl)
+                toggle("tencent", false)
+              }}
+              extractionCode="f4cs"
+            />
+            <Button
+              variant="outline"
+              onClick={() => toggle("tencent", false)}
+              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
+            >
+              取消
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
