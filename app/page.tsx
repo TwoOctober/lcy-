@@ -20,11 +20,11 @@ const CONFIG = {
   splash: {
     enabled: true,
     text: "F4cs.cn",
-    duration: 1800, // Increased to 1800ms for smoother experience
+    duration: 2200,
   },
   animations: {
     enableSlideIn: true,
-    staggerDelay: 150, // Increased to 150ms for slower, more coordinated animations
+    staggerDelay: 200,
   },
   betaImages: [
     "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
@@ -229,57 +229,99 @@ const DownloadButton = ({ onClick, extractionCode = "f4cs" }) => {
 }
 
 const SplashScreen = memo(({ onComplete }: { onComplete: () => void }) => {
+  const [phase, setPhase] = useState<"enter" | "show" | "exit">("enter")
+
   useEffect(() => {
-    const timer = setTimeout(onComplete, CONFIG.splash.duration)
-    return () => clearTimeout(timer)
+    // Phase 1: Enter animation (letters appear)
+    const enterTimer = setTimeout(() => setPhase("show"), 800)
+    // Phase 2: Show (brief pause)
+    const showTimer = setTimeout(() => setPhase("exit"), 1400)
+    // Phase 3: Exit and complete
+    const exitTimer = setTimeout(onComplete, CONFIG.splash.duration)
+
+    return () => {
+      clearTimeout(enterTimer)
+      clearTimeout(showTimer)
+      clearTimeout(exitTimer)
+    }
   }, [onComplete])
 
+  const letters = CONFIG.splash.text.split("")
+
   return (
-    <div className="fixed inset-0 z-50 bg-[#FAF8F5] flex items-center justify-center splash-container">
-      <style jsx>{`
-        @keyframes fadeInOut {
-          0% { opacity: 0; }
-          15% { opacity: 1; }
-          85% { opacity: 1; }
-          100% { opacity: 0; }
-        }
-        @keyframes slideUp {
-          0% { transform: translateY(30px); opacity: 0; }
-          20% { transform: translateY(0); opacity: 1; }
-          80% { transform: translateY(0); opacity: 1; }
-          100% { transform: translateY(-20px); opacity: 0; }
-        }
-        @keyframes letterReveal {
-          0% { opacity: 0; transform: translateY(20px) scale(0.8); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .splash-container { animation: fadeInOut 1.8s ease-in-out forwards; }
-        .splash-logo { animation: slideUp 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-        .letter-reveal { 
+    <div
+      className={`fixed inset-0 z-50 bg-[#FAF8F5] transition-opacity duration-500 ${phase === "exit" ? "opacity-0" : "opacity-100"}`}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
+    >
+      <style>{`
+        .splash-letter {
           display: inline-block;
           opacity: 0;
-          animation: letterReveal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          transform: translateY(40px);
+          animation: letterIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        .letter-reveal:nth-child(1) { animation-delay: 0.1s; }
-        .letter-reveal:nth-child(2) { animation-delay: 0.2s; }
-        .letter-reveal:nth-child(3) { animation-delay: 0.3s; }
-        .letter-reveal:nth-child(4) { animation-delay: 0.4s; }
-        .letter-reveal:nth-child(5) { animation-delay: 0.5s; }
-        .letter-reveal:nth-child(6) { animation-delay: 0.6s; }
-        .letter-reveal:nth-child(7) { animation-delay: 0.7s; }
-        .letter-reveal:nth-child(8) { animation-delay: 0.8s; }
+        @keyframes letterIn {
+          0% { 
+            opacity: 0; 
+            transform: translateY(40px);
+          }
+          100% { 
+            opacity: 1; 
+            transform: translateY(0);
+          }
+        }
+        .splash-container {
+          text-align: center;
+          width: 100%;
+          max-width: 100%;
+          padding: 0 20px;
+          box-sizing: border-box;
+        }
+        .splash-title {
+          font-size: clamp(3rem, 12vw, 7rem);
+          font-weight: 900;
+          letter-spacing: -0.02em;
+          line-height: 1;
+          margin: 0;
+        }
+        .splash-subtitle {
+          margin-top: 16px;
+          font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+          color: #6B7280;
+          opacity: 0;
+          animation: fadeIn 0.8s ease-out 0.6s forwards;
+        }
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+        .gradient-text {
+          background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
       `}</style>
-      <div className="splash-logo">
-        <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight">
-          {CONFIG.splash.text.split("").map((char, i) => (
-            <span
-              key={i}
-              className="letter-reveal text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600"
-            >
+
+      <div className="splash-container">
+        <h1 className="splash-title">
+          {letters.map((char, i) => (
+            <span key={i} className="splash-letter gradient-text" style={{ animationDelay: `${i * 80}ms` }}>
               {char}
             </span>
           ))}
         </h1>
+        <p className="splash-subtitle">游戏下载与电竞赛事平台</p>
       </div>
     </div>
   )
@@ -290,7 +332,7 @@ export default function GameDownloadSite() {
   const [showSplash, setShowSplash] = useState(CONFIG.splash.enabled)
   const [dialogs, setDialogs] = useState({ sponsor: false, lanzou: false, tencent: false })
   const [imgErr, setImgErr] = useState<Set<string>>(new Set())
-  const [contentReady, setContentReady] = useState(false) // Track when content should animate in
+  const [contentReady, setContentReady] = useState(!CONFIG.splash.enabled)
 
   const toggle = useCallback((k: keyof typeof dialogs, v?: boolean) => {
     setDialogs((p) => ({ ...p, [k]: v ?? !p[k] }))
@@ -300,385 +342,329 @@ export default function GameDownloadSite() {
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false)
-    setTimeout(() => setContentReady(true), 50)
+    setTimeout(() => setContentReady(true), 100)
   }, [])
 
-  if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} />
-  }
-
   return (
-    <div className="min-h-screen bg-[#FAF8F5] font-sans selection:bg-indigo-100/50 flex flex-col">
-      <style jsx>{`
-        ::-webkit-scrollbar{width:8px;height:8px}
-        ::-webkit-scrollbar-track{background:rgba(0,0,0,.02)}
-        ::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:4px}
-        ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.2)}
-        .lanzou-btn{position:relative;overflow:hidden}
-        .lanzou-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s ease}
-        .lanzou-btn:hover::before{left:100%}
-        @media(hover:none){.lanzou-btn:hover::before{left:-100%}}
-        
-        /* Slower, smoother slide-in animation with better mobile support */
-        @keyframes slideInBlur {
-          0% { 
-            opacity: 0; 
-            transform: translateY(50px); 
-            filter: blur(10px); 
-          }
-          100% { 
-            opacity: 1; 
-            transform: translateY(0); 
-            filter: blur(0); 
-          }
-        }
-        .animate-slide-in {
-          animation: slideInBlur 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          opacity: 0;
-        }
-        .delay-1 { animation-delay: 150ms; }
-        .delay-2 { animation-delay: 300ms; }
-        .delay-3 { animation-delay: 450ms; }
-        .delay-4 { animation-delay: 600ms; }
-        
-        /* Fallback for older browsers without filter support */
-        @supports not (filter: blur(10px)) {
-          @keyframes slideInBlur {
+    <>
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+
+      <div
+        className="min-h-screen bg-[#FAF8F5] font-sans selection:bg-indigo-100/50 flex flex-col"
+        style={{ visibility: showSplash ? "hidden" : "visible" }}
+      >
+        <style jsx>{`
+          ::-webkit-scrollbar{width:8px;height:8px}
+          ::-webkit-scrollbar-track{background:rgba(0,0,0,.02)}
+          ::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:4px}
+          ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.2)}
+          .lanzou-btn{position:relative;overflow:hidden}
+          .lanzou-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s ease}
+          .lanzou-btn:hover::before{left:100%}
+          @media(hover:none){.lanzou-btn:hover::before{left:-100%}}
+          
+          /* Smoother, slower slide-in animations */
+          @keyframes slideUp {
             0% { 
               opacity: 0; 
-              transform: translateY(50px) scale(0.95); 
+              transform: translateY(60px); 
             }
             100% { 
               opacity: 1; 
-              transform: translateY(0) scale(1); 
+              transform: translateY(0); 
             }
           }
-        }
-      `}</style>
+          .slide-in {
+            opacity: 0;
+            animation: slideUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          }
+          .slide-delay-1 { animation-delay: 0ms; }
+          .slide-delay-2 { animation-delay: 200ms; }
+          .slide-delay-3 { animation-delay: 400ms; }
+          .slide-delay-4 { animation-delay: 600ms; }
+        `}</style>
 
-      <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
-        <div className="w-full max-w-6xl mx-auto space-y-7">
-          <div
-            onClick={() => openLink(CONFIG.links.feedback)}
-            className={`cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in" : ""}`}
-          >
-            <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-3.5 sm:px-6 sm:py-4">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-300">
-                    <Bug className="w-5 h-5 text-amber-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm sm:text-base text-gray-900">报告游戏漏洞 / 期望添加功能</h3>
-                    <p className="text-gray-500 text-xs hidden sm:block mt-0.5">点击加入QQ群反馈问题或建议</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5 text-amber-600 font-bold text-xs sm:text-sm bg-amber-100/60 px-3 py-1.5 rounded-xl group-hover:bg-amber-200/60 transition-colors">
-                  <span className="hidden sm:inline">立即反馈</span>
-                  <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
-            <article
-              className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-1" : ""}`}
+        <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
+          <div className="w-full max-w-6xl mx-auto space-y-7">
+            <div
+              onClick={() => openLink(CONFIG.links.feedback)}
+              className={`cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group ${contentReady ? "slide-in slide-delay-1" : "opacity-0"}`}
             >
-              <div className="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
-                {!imgErr.has("damiao") ? (
-                  <img
-                    src={CONFIG.damiao.cover || "/placeholder.svg"}
-                    alt="大庙杯比赛"
-                    className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
-                    loading="eager"
-                    onError={() => onImgErr("damiao")}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300">
-                    <Trophy className="w-12 h-12" />
-                  </div>
-                )}
-              </div>
-              <div className="p-6 sm:p-7">
-                <div className="flex justify-between items-start mb-3.5">
-                  <h2 className="text-xl sm:text-2xl font-bold text-slate-800 leading-tight">{CONFIG.damiao.title}</h2>
-                  <Badge className="bg-slate-700 text-white text-xs px-3 py-1.5 rounded-full shadow-sm">电竞赛事</Badge>
-                </div>
-                <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.damiao.desc}</p>
-                <div className="space-y-3">
-                  <Button
-                    onClick={() => openLink(CONFIG.damiao.replayUrl)}
-                    className="w-full justify-between h-12 sm:h-13 bg-slate-700 hover:bg-slate-800 text-white rounded-xl font-bold text-sm sm:text-base shadow-sm hover:shadow-md transition-all duration-300"
-                  >
-                    <span className="flex items-center">
-                      <Trophy className="w-5 h-5 mr-2" />
-                      赛事回放
-                    </span>
-                    <ExternalLink className="w-4 h-4 opacity-60" />
-                  </Button>
-                  <Button
-                    onClick={() => openLink(CONFIG.damiao.qqUrl)}
-                    variant="outline"
-                    className="w-full justify-between h-12 sm:h-13 border-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
-                  >
-                    <span className="flex items-center">
-                      <Globe className="w-5 h-5 mr-2" />
-                      交流Q群
-                    </span>
-                    <ExternalLink className="w-4 h-4 text-slate-400" />
-                  </Button>
-                </div>
-              </div>
-            </article>
-
-            <article
-              className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-2" : ""}`}
-            >
-              <div className="aspect-[16/9] bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
-                {!imgErr.has("cs16") ? (
-                  <img
-                    src={CONFIG.cs16.cover || "/placeholder.svg"}
-                    alt="Counter-Strike 1.6 中文版下载"
-                    className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
-                    loading="eager"
-                    onError={() => onImgErr("cs16")}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300">
-                    <Download className="w-12 h-12" />
-                  </div>
-                )}
-              </div>
-              <div className="p-6 sm:p-7">
-                <div className="flex justify-between items-start mb-3.5">
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">{CONFIG.cs16.title}</h1>
-                  <Badge className="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-full shadow-sm">
-                    经典游戏
-                  </Badge>
-                </div>
-                <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.cs16.desc}</p>
-                <div className="space-y-3">
-                  <Button
-                    onClick={() => toggle("lanzou", true)}
-                    className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base lanzou-btn shadow-md hover:shadow-lg transition-all duration-300"
-                  >
-                    <span className="flex items-center">
-                      <Download className="w-5 h-5 mr-2" />
-                      正式版下载
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <Badge className="bg-white/25 text-white text-xs px-2.5 py-0.5 shadow-sm">推荐</Badge>
-                      <span className="text-xs bg-black/15 px-2.5 py-1 rounded-full font-mono">
-                        {CONFIG.cs16.stableSize}
-                      </span>
+              <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-3.5 sm:px-6 sm:py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-white p-2 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-300">
+                      <Bug className="w-5 h-5 text-amber-600" />
                     </div>
-                  </Button>
-                  <Button
-                    onClick={() => toggle("tencent", true)}
-                    variant="outline"
-                    className="w-full justify-between h-12 sm:h-13 border-2 border-indigo-100 text-gray-900 hover:bg-indigo-50 hover:border-indigo-200 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
-                  >
-                    <span className="flex items-center">
-                      <Download className="w-5 h-5 mr-2" />
-                      先行版下载
-                    </span>
-                    <span className="text-xs bg-gray-100 px-2.5 py-1 rounded-full text-gray-600 font-mono border border-gray-200">
-                      {CONFIG.cs16.betaSize}
-                    </span>
-                  </Button>
+                    <div>
+                      <h3 className="font-bold text-sm sm:text-base text-gray-900">报告游戏漏洞 / 期望添加功能</h3>
+                      <p className="text-gray-500 text-xs hidden sm:block mt-0.5">点击加入QQ群反馈问题或建议</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-amber-600 font-bold text-xs sm:text-sm bg-amber-100/60 px-3 py-1.5 rounded-xl group-hover:bg-amber-200/60 transition-colors">
+                    <span className="hidden sm:inline">立即反馈</span>
+                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  </div>
                 </div>
-              </div>
-            </article>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-            <div
-              className={`bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(0,0,0,.1)] hover:border-gray-200/80 transition-all duration-300 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-3" : ""}`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">Vegcat.cn</h3>
-                  <RotatingText texts={CONFIG.rotatingTexts.vegcat} />
-                </div>
-                <Button
-                  onClick={() => openLink(CONFIG.links.vegcat)}
-                  variant="secondary"
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-5 h-11 sm:h-12 rounded-xl shadow-sm transition-all duration-300 ml-4 flex-shrink-0"
-                >
-                  <Globe className="w-4 h-4 mr-1.5" />
-                  跳转
-                </Button>
               </div>
             </div>
-            <div
-              className={`bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] border border-black/[0.06] hover:shadow-[0_4px_12px_rgba(244,63,94,.15)] hover:border-rose-200/60 transition-all duration-300 ${contentReady && CONFIG.animations.enableSlideIn ? "animate-slide-in delay-4" : ""}`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-900 mb-1.5 text-base sm:text-lg">赞助支持</h3>
-                  <RotatingText texts={CONFIG.rotatingTexts.sponsor} />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
+              <article
+                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80 ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
+              >
+                <div className="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
+                  {!imgErr.has("damiao") ? (
+                    <img
+                      src={CONFIG.damiao.cover || "/placeholder.svg"}
+                      alt="大庙杯比赛"
+                      className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
+                      loading="eager"
+                      onError={() => onImgErr("damiao")}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-300">
+                      <Trophy className="w-12 h-12" />
+                    </div>
+                  )}
                 </div>
-                <Button
-                  onClick={() => toggle("sponsor", true)}
-                  className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold px-5 h-11 sm:h-12 rounded-xl shadow-md hover:shadow-lg text-sm sm:text-base transition-all duration-300 ml-4 flex-shrink-0"
-                >
-                  <Heart className="w-4 h-4 mr-1.5" />
-                  支持
-                </Button>
+                <div className="p-6 sm:p-7">
+                  <div className="flex justify-between items-start mb-3.5">
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-800 leading-tight">
+                      {CONFIG.damiao.title}
+                    </h2>
+                    <Badge className="bg-slate-700 text-white text-xs px-3 py-1.5 rounded-full shadow-sm">
+                      电竞赛事
+                    </Badge>
+                  </div>
+                  <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.damiao.desc}</p>
+                  <div className="space-y-3">
+                    <Button
+                      onClick={() => openLink(CONFIG.damiao.replayUrl)}
+                      className="w-full justify-between h-12 sm:h-13 bg-slate-700 hover:bg-slate-800 text-white rounded-xl font-bold text-sm sm:text-base shadow-sm hover:shadow-md transition-all duration-300"
+                    >
+                      <span className="flex items-center">
+                        <Trophy className="w-5 h-5 mr-2" />
+                        赛事回放
+                      </span>
+                      <ExternalLink className="w-4 h-4 opacity-60" />
+                    </Button>
+                    <Button
+                      onClick={() => openLink(CONFIG.damiao.qqUrl)}
+                      variant="outline"
+                      className="w-full justify-between h-12 sm:h-13 border-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
+                    >
+                      <span className="flex items-center">
+                        <Globe className="w-5 h-5 mr-2" />
+                        交流Q群
+                      </span>
+                      <ExternalLink className="w-4 h-4 text-slate-400" />
+                    </Button>
+                  </div>
+                </div>
+              </article>
+
+              <article
+                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80 ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
+              >
+                <div className="aspect-[16/9] bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
+                  {!imgErr.has("cs16") ? (
+                    <img
+                      src={CONFIG.cs16.cover || "/placeholder.svg"}
+                      alt="Counter-Strike 1.6 中文版下载"
+                      className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
+                      loading="eager"
+                      onError={() => onImgErr("cs16")}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-300">
+                      <Download className="w-12 h-12" />
+                    </div>
+                  )}
+                </div>
+                <div className="p-6 sm:p-7">
+                  <div className="flex justify-between items-start mb-3.5">
+                    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">{CONFIG.cs16.title}</h1>
+                    <Badge className="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-full shadow-sm">
+                      经典游戏
+                    </Badge>
+                  </div>
+                  <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.cs16.desc}</p>
+                  <div className="space-y-3">
+                    <Button
+                      onClick={() => toggle("lanzou", true)}
+                      className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base lanzou-btn shadow-md hover:shadow-lg transition-all duration-300"
+                    >
+                      <span className="flex items-center">
+                        <Download className="w-5 h-5 mr-2" />
+                        正式版下载
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <Badge className="bg-white/25 text-white text-xs px-2.5 py-0.5 shadow-sm">推荐</Badge>
+                        <span className="text-xs bg-black/15 px-2.5 py-1 rounded-full font-mono">
+                          {CONFIG.cs16.stableSize}
+                        </span>
+                      </div>
+                    </Button>
+                    <Button
+                      onClick={() => toggle("tencent", true)}
+                      variant="outline"
+                      className="w-full justify-between h-12 sm:h-13 border-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
+                    >
+                      <span className="flex items-center">
+                        <Download className="w-5 h-5 mr-2" />
+                        先行版下载
+                      </span>
+                      <span className="text-xs bg-indigo-50 text-indigo-500 px-2.5 py-1 rounded-full font-mono">
+                        {CONFIG.cs16.betaSize}
+                      </span>
+                    </Button>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div
+              className={`grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 ${contentReady ? "slide-in slide-delay-3" : "opacity-0"}`}
+            >
+              <div
+                onClick={() => openLink(CONFIG.links.vegcat)}
+                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-gray-200/80 transition-all duration-300 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                    <Globe className="w-6 h-6 sm:w-7 sm:h-7 text-gray-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-gray-900 text-base sm:text-lg mb-0.5">Vegcat.cn</h3>
+                    <RotatingText texts={CONFIG.rotatingTexts.vegcat} />
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors flex-shrink-0" />
+                </div>
+              </div>
+
+              <div
+                onClick={() => toggle("sponsor", true)}
+                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-pink-200/80 transition-all duration-300 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                    <Heart className="w-6 h-6 sm:w-7 sm:h-7 text-pink-500" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-gray-900 text-base sm:text-lg mb-0.5">赞助支持</h3>
+                    <RotatingText texts={CONFIG.rotatingTexts.sponsor} />
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-gray-300 group-hover:text-pink-400 transition-colors flex-shrink-0" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      <footer className="mt-auto border-t border-black/[0.06] py-6 text-center bg-[#FAF8F5]">
-        <p className="text-gray-900 font-bold text-sm sm:text-base mb-1">© 2025 F4cs.cn. Powered by Vegcat.</p>
-        <p className="text-gray-400 text-xs sm:text-sm">我们或许会倒闭，但永远不会变质。</p>
-      </footer>
+        <footer className={`mt-auto py-6 text-center ${contentReady ? "slide-in slide-delay-4" : "opacity-0"}`}>
+          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4cs.cn. All rights reserved.</p>
+        </footer>
+      </div>
 
+      {/* Dialogs */}
       <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
-              正式版下载
-            </DialogTitle>
-          </DialogHeader>
-          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
-            <div className="flex gap-4">
-              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
-              <div>
-                <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
-                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
-                  <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                  <li>• 提取码变更为f4cs！！！</li>
-                  <li>• 进入游戏后按下H键可呼出菜单</li>
-                </ul>
+        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-5 sm:px-8 sm:py-6">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">正式版下载</DialogTitle>
+              <p className="text-indigo-100 text-sm mt-1">Counter-Strike 1.6 稳定版本</p>
+            </DialogHeader>
+          </div>
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
+              <div className="flex items-start gap-4">
+                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-red-700 text-lg mb-2">使用注意事项</h4>
+                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+                    <li>• 不推荐解压到C盘，建议使用D或E盘，解压前关闭杀毒软件</li>
+                    <li>• 确保游戏路径无中文字符，否则将无法使用本游戏</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="mb-6">
             <ImageCarousel images={CONFIG.stableImages} />
-          </div>
-          <div className="flex gap-3">
-            <DownloadButton
-              onClick={() => {
-                openLink(CONFIG.cs16.lanzouUrl)
-                toggle("lanzou", false)
-              }}
-              extractionCode="f4cs"
-            />
-            <Button
-              variant="outline"
-              onClick={() => toggle("lanzou", false)}
-              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
-            >
-              取消
-            </Button>
+            <DownloadButton onClick={() => openLink(CONFIG.cs16.lanzouUrl)} />
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
-              先行版下载
-            </DialogTitle>
-          </DialogHeader>
-          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
-            <div className="flex gap-4">
-              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
-              <div>
-                <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
-                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
-                  <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                  <li>• 提取码变更为f4cs！！！</li>
-                  <li>• 进入游戏后按下H键可呼出菜单</li>
-                </ul>
+        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-6 py-5 sm:px-8 sm:py-6">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">先行版下载</DialogTitle>
+              <p className="text-emerald-100 text-sm mt-1">Counter-Strike 1.6 测试版本</p>
+            </DialogHeader>
+          </div>
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
+              <div className="flex items-start gap-4">
+                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-red-700 text-lg mb-2">使用注意事项</h4>
+                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+                    <li>• 不推荐解压到C盘，建议使用D或E盘，解压前关闭杀毒软件</li>
+                    <li>• 确保游戏路径无中文字符，否则将无法使用本游戏</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="mb-6">
             <ImageCarousel images={CONFIG.betaImages} />
-          </div>
-          <div className="flex gap-3">
-            <DownloadButton
-              onClick={() => {
-                openLink(CONFIG.cs16.tencentUrl)
-                toggle("tencent", false)
-              }}
-              extractionCode="f4cs"
-            />
-            <Button
-              variant="outline"
-              onClick={() => toggle("tencent", false)}
-              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
-            >
-              取消
-            </Button>
+            <DownloadButton onClick={() => openLink(CONFIG.cs16.tencentUrl)} />
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-2xl rounded-3xl p-0 overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 [&>button]:hidden">
-          <div className="bg-gradient-to-r from-rose-500 to-pink-600 p-7 sm:p-8 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">赞助支持</h2>
-            <p className="text-pink-100 text-sm sm:text-base">您的支持是我们更新的动力</p>
+        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-5 sm:px-8 sm:py-6">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
+              <p className="text-pink-100 text-sm mt-1">您的支持是我们前进的动力</p>
+            </DialogHeader>
           </div>
-          <div className="p-7 sm:p-10">
-            <div className="grid grid-cols-2 gap-8 sm:gap-12 mb-8">
-              <div className="flex flex-col items-center">
-                <span className="bg-blue-50 text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
-                  支付宝
-                </span>
-                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
-                  {!imgErr.has("alipay") ? (
-                    <img
-                      src={CONFIG.links.alipay || "/placeholder.svg"}
-                      alt="支付宝收款码"
-                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
-                      onError={() => onImgErr("alipay")}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
-                      加载失败
-                    </div>
-                  )}
+          <div className="p-6 sm:p-8">
+            <div className="grid grid-cols-2 gap-6 sm:gap-8">
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-blue-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
+                  <img
+                    src={CONFIG.links.alipay || "/placeholder.svg"}
+                    alt="支付宝"
+                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                  />
                 </div>
+                <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">支付宝支付</p>
               </div>
-              <div className="flex flex-col items-center">
-                <span className="bg-green-50 text-green-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
-                  微信支付
-                </span>
-                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
-                  {!imgErr.has("wechat") ? (
-                    <img
-                      src={CONFIG.links.wechat || "/placeholder.svg"}
-                      alt="微信收款码"
-                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
-                      onError={() => onImgErr("wechat")}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
-                      加载失败
-                    </div>
-                  )}
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-green-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
+                  <img
+                    src={CONFIG.links.wechat || "/placeholder.svg"}
+                    alt="微信支付"
+                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                  />
                 </div>
+                <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">微信支付</p>
               </div>
             </div>
-            <Button
-              onClick={() => toggle("sponsor", false)}
-              className="w-full h-13 sm:h-14 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
-            >
-              关闭
-            </Button>
+            <div className="mt-6 pt-5 border-t border-gray-100">
+              <Button
+                onClick={() => toggle("sponsor", false)}
+                variant="outline"
+                className="w-full h-12 sm:h-13 rounded-xl font-bold text-gray-600 hover:bg-gray-50 border-2"
+              >
+                关闭
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   )
 }
