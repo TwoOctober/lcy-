@@ -19,7 +19,7 @@ import {
 const CONFIG = {
   splash: {
     enabled: true,
-    text: "F4cs.cn",
+    text: "F4CS.cn",
     duration: 2200,
   },
   animations: {
