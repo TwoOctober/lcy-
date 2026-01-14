@@ -52,7 +52,7 @@ const CONFIG = {
     tencentUrl: "https://wwbhc.lanzouq.com/iX7lu3fp7omh",
   },
   damiao: {
-    title: "F4CS比赛",
+    title: "F4CS大庙杯",
     desc: "2026届CS2大庙杯比赛开始报名，请加群770429361咨询",
     cover: "https://www.helloimg.com/i/2025/12/06/6934513ba9943.jpg",
     replayUrl: "https://b23.tv/x5nXHGj",
