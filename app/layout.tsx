@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico",
+    icon: "https://www.helloimg.com/i/2026/01/17/696b9a036bd37.ico",
     shortcut:
-      "https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico",
+      "https://www.helloimg.com/i/2026/01/17/696b9a036bd37.ico",
     apple:
-      "https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico",
+      "https://www.helloimg.com/i/2026/01/17/696b9a036bd37.ico",
   },
     generator: 'v0.app'
 }
@@ -44,7 +44,7 @@ export default function RootLayout({
       <head>
         <link
           rel="icon"
-          href="https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico"
+          href="https://www.helloimg.com/i/2026/01/17/696b9a036bd37.ico"
         />
       </head>
       <body>{children}</body>
