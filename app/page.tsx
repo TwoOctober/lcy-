@@ -20,11 +20,11 @@ const CONFIG = {
   splash: {
     enabled: true,
     text: "F4CS.cn",
-    duration: 2200,
+    duration: 2500,
   },
   animations: {
     enableSlideIn: true,
-    staggerDelay: 200,
+    staggerDelay: 300,
   },
   betaImages: [
     "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
