@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico",
+    icon: "https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico",
     shortcut:
-      "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico",
+      "https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico",
     apple:
-      "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico",
+      "https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico",
   },
     generator: 'v0.app'
 }
@@ -44,7 +44,7 @@ export default function RootLayout({
       <head>
         <link
           rel="icon"
-          href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAK_I2ioEwG95D1jEOkaeYTLgWsN9k6fAAJ3GQAC0_xBVSf3mroYpXbmNgQ.ico"
+          href="https://www.helloimg.com/i/2026/01/17/696b970b1a998.ico"
         />
       </head>
       <body>{children}</body>
