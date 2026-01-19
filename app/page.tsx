@@ -19,12 +19,12 @@ import {
 const CONFIG = {
   splash: {
     enabled: true,
-    text: "F4CS.cn",
-    duration: 2500,
+    text: "F4cs.cn",
+    duration: 2200,
   },
   animations: {
     enableSlideIn: true,
-    staggerDelay: 300,
+    staggerDelay: 200,
   },
   betaImages: [
     "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
@@ -52,7 +52,7 @@ const CONFIG = {
     tencentUrl: "https://wwbhc.lanzouq.com/iX7lu3fp7omh",
   },
   damiao: {
-    title: "F4CS大庙杯",
+    title: "F4cs.cn 大庙杯比赛",
     desc: "2026届CS2大庙杯比赛开始报名，请加群770429361咨询",
     cover: "https://www.helloimg.com/i/2025/12/06/6934513ba9943.jpg",
     replayUrl: "https://b23.tv/x5nXHGj",
@@ -321,7 +321,7 @@ const SplashScreen = memo(({ onComplete }: { onComplete: () => void }) => {
             </span>
           ))}
         </h1>
-        <p className="splash-subtitle">或许会变质，永远不倒闭</p>
+        <p className="splash-subtitle">游戏下载与电竞赛事平台</p>
       </div>
     </div>
   )
@@ -508,14 +508,13 @@ export default function GameDownloadSite() {
                     </Button>
                     <Button
                       onClick={() => toggle("tencent", true)}
-                      variant="outline"
-                      className="w-full justify-between h-12 sm:h-13 border-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
+                      className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white rounded-xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
                     >
                       <span className="flex items-center">
                         <Download className="w-5 h-5 mr-2" />
                         先行版下载
                       </span>
-                      <span className="text-xs bg-indigo-50 text-indigo-500 px-2.5 py-1 rounded-full font-mono">
+                      <span className="text-xs bg-white/25 px-2.5 py-1 rounded-full font-mono shadow-sm">
                         {CONFIG.cs16.betaSize}
                       </span>
                     </Button>
@@ -563,149 +562,123 @@ export default function GameDownloadSite() {
         </main>
 
         <footer className={`mt-auto py-6 text-center ${contentReady ? "slide-in slide-delay-4" : "opacity-0"}`}>
-          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4CS.cn 由 Vegcat 强力驱动</p>
+          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4cs.cn. All rights reserved.</p>
         </footer>
       </div>
 
       {/* Dialogs */}
-<Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
-              正式版下载
-            </DialogTitle>
-          </DialogHeader>
-          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
-            <div className="flex gap-4">
-              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
-              <div>
-                <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
-                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
-                  <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                  <li>• 提取码变更为f4cs！！！</li>
-                  <li>• 进入游戏后按下H键可呼出菜单</li>
-                </ul>
+      <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
+        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-5 sm:px-8 sm:py-6">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">正式版下载</DialogTitle>
+              <p className="text-indigo-100 text-sm mt-1">正式版下载</p>
+            </DialogHeader>
+          </div>
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
+              <div className="flex items-start gap-4">
+                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
+                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+                    <li>• 请先运行免CDKEY补丁后再打开游戏</li>
+                    <li>• 进入游戏后按下H键可呼出菜单</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="mb-6">
             <ImageCarousel images={CONFIG.stableImages} />
-          </div>
-          <div className="flex gap-3">
-            <DownloadButton
-              onClick={() => {
-                openLink(CONFIG.cs16.lanzouUrl)
-                toggle("lanzou", false)
-              }}
-              extractionCode="f4cs"
-            />
-            <Button
-              variant="outline"
-              onClick={() => toggle("lanzou", false)}
-              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
-            >
-              取消
-            </Button>
+            <div className="flex gap-3 sm:gap-4">
+              <DownloadButton onClick={() => openLink(CONFIG.cs16.lanzouUrl)} />
+              <Button
+                onClick={() => toggle("lanzou", false)}
+                variant="outline"
+                className="h-13 sm:h-14 px-6 sm:px-8 rounded-2xl font-bold text-sm sm:text-base border-2 hover:bg-gray-50 transition-all duration-300"
+              >
+                取消
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <DialogHeader>
-            <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">
-              先行版下载
-            </DialogTitle>
-          </DialogHeader>
-          <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
-            <div className="flex gap-4">
-              <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
-              <div>
-                <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
-                <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
-                  <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                  <li>• 提取码变更为f4cs！！！</li>
-                  <li>• 进入游戏后按下H键可呼出菜单</li>
-                </ul>
+        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-6 py-5 sm:px-8 sm:py-6">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">先行版下载</DialogTitle>
+              <p className="text-emerald-100 text-sm mt-1">先行版下载</p>
+            </DialogHeader>
+          </div>
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
+              <div className="flex items-start gap-4">
+                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
+                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+                    <li>• 请先运行免CDKEY补丁后再打开游戏</li>
+                    <li>• 进入游戏后按下H键可呼出菜单</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="mb-6">
             <ImageCarousel images={CONFIG.betaImages} />
-          </div>
-          <div className="flex gap-3">
-            <DownloadButton
-              onClick={() => {
-                openLink(CONFIG.cs16.tencentUrl)
-                toggle("tencent", false)
-              }}
-              extractionCode="f4cs"
-            />
-            <Button
-              variant="outline"
-              onClick={() => toggle("tencent", false)}
-              className="px-6 border-2 border-gray-200 hover:bg-gray-50 h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
-            >
-              取消
-            </Button>
+            <div className="flex gap-3 sm:gap-4">
+              <DownloadButton onClick={() => openLink(CONFIG.cs16.tencentUrl)} />
+              <Button
+                onClick={() => toggle("tencent", false)}
+                variant="outline"
+                className="h-13 sm:h-14 px-6 sm:px-8 rounded-2xl font-bold text-sm sm:text-base border-2 hover:bg-gray-50 transition-all duration-300"
+              >
+                取消
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
+
       <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
-        <DialogContent className="bg-white w-[95vw] max-w-2xl rounded-3xl p-0 overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 [&>button]:hidden">
-          <div className="bg-gradient-to-r from-rose-500 to-pink-600 p-7 sm:p-8 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">赞助支持</h2>
-            <p className="text-pink-100 text-sm sm:text-base">您的支持是我们更新的动力</p>
+        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-5 sm:px-8 sm:py-6">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
+              <p className="text-pink-100 text-sm mt-1">您的支持是我们前进的动力</p>
+            </DialogHeader>
           </div>
-          <div className="p-7 sm:p-10">
-            <div className="grid grid-cols-2 gap-8 sm:gap-12 mb-8">
-              <div className="flex flex-col items-center">
-                <span className="bg-blue-50 text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
-                  支付宝
-                </span>
-                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
-                  {!imgErr.has("alipay") ? (
-                    <img
-                      src={CONFIG.links.alipay || "/placeholder.svg"}
-                      alt="支付宝收款码"
-                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
-                      onError={() => onImgErr("alipay")}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
-                      加载失败
-                    </div>
-                  )}
+          <div className="p-6 sm:p-8">
+            <div className="grid grid-cols-2 gap-6 sm:gap-8">
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-blue-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
+                  <img
+                    src={CONFIG.links.alipay || "/placeholder.svg"}
+                    alt="支付宝"
+                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                  />
                 </div>
+                <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">支付宝支付</p>
               </div>
-              <div className="flex flex-col items-center">
-                <span className="bg-green-50 text-green-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-xl mb-5 whitespace-nowrap shadow-sm">
-                  微信支付
-                </span>
-                <div className="bg-white p-4 rounded-2xl border-2 border-dashed border-gray-200 shadow-sm">
-                  {!imgErr.has("wechat") ? (
-                    <img
-                      src={CONFIG.links.wechat || "/placeholder.svg"}
-                      alt="微信收款码"
-                      className="w-40 h-40 sm:w-52 sm:h-52 object-contain rounded-xl"
-                      onError={() => onImgErr("wechat")}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center bg-gray-50 rounded-xl text-gray-400 text-sm">
-                      加载失败
-                    </div>
-                  )}
+              <div className="flex flex-col items-center text-center">
+                <div className="bg-green-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
+                  <img
+                    src={CONFIG.links.wechat || "/placeholder.svg"}
+                    alt="微信支付"
+                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                  />
                 </div>
+                <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">微信支付</p>
               </div>
             </div>
-            <Button
-              onClick={() => toggle("sponsor", false)}
-              className="w-full h-13 sm:h-14 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300"
-            >
-              关闭
-            </Button>
+            <div className="mt-6 pt-5 border-t border-gray-100">
+              <Button
+                onClick={() => toggle("sponsor", false)}
+                variant="outline"
+                className="w-full h-12 sm:h-13 rounded-xl font-bold text-gray-600 hover:bg-gray-50 border-2"
+              >
+                关闭
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
