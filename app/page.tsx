@@ -568,33 +568,40 @@ export default function GameDownloadSite() {
 
       {/* Dialogs */}
       <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
-        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">正式版下载</DialogTitle>
-              <p className="text-indigo-100 text-sm mt-1">正式版下载</p>
+        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 backdrop-blur-md">
+          <div className="relative bg-gradient-to-br from-indigo-600 via-indigo-500 to-purple-500 px-8 py-8 sm:px-10 sm:py-10">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+            <DialogHeader className="relative">
+              <DialogTitle className="text-white text-2xl sm:text-3xl font-bold mb-2">Counter-Strike 1.6</DialogTitle>
+              <p className="text-indigo-100 text-base">正式版下载 · {CONFIG.cs16.stableSize}</p>
             </DialogHeader>
           </div>
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+          <div className="p-8 sm:p-10 space-y-6">
+            <div className="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 rounded-2xl p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-100/50 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-4 relative">
+                <div className="w-12 h-12 rounded-xl bg-red-500 flex items-center justify-center flex-shrink-0">
+                  <AlertTriangle className="w-6 h-6 text-white" />
+                </div>
                 <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
-                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
-                    <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                    <li>• 进入游戏后按下H键可呼出菜单</li>
+                  <h4 className="font-bold text-red-800 text-lg mb-3">使用须知</h4>
+                  <ul className="text-red-700 text-sm sm:text-base space-y-2 font-medium">
+                    <li className="flex items-start"><span className="mr-2">•</span><span>请先运行免CDKEY补丁后再打开游戏</span></li>
+                    <li className="flex items-start"><span className="mr-2">•</span><span>进入游戏后按下H键可呼出菜单</span></li>
                   </ul>
                 </div>
               </div>
             </div>
-            <ImageCarousel images={CONFIG.stableImages} />
-            <div className="flex gap-3 sm:gap-4">
+            <div>
+              <p className="text-gray-500 text-sm font-medium mb-3">版本预览</p>
+              <ImageCarousel images={CONFIG.stableImages} />
+            </div>
+            <div className="flex gap-3 sm:gap-4 pt-2">
               <DownloadButton onClick={() => openLink(CONFIG.cs16.lanzouUrl)} />
               <Button
                 onClick={() => toggle("lanzou", false)}
                 variant="outline"
-                className="h-13 sm:h-14 px-6 sm:px-8 rounded-2xl font-bold text-sm sm:text-base border-2 hover:bg-gray-50 transition-all duration-300"
+                className="h-13 sm:h-14 px-8 sm:px-10 rounded-2xl font-bold text-base border-2 hover:bg-gray-50 transition-all duration-300"
               >
                 取消
               </Button>
@@ -604,33 +611,40 @@ export default function GameDownloadSite() {
       </Dialog>
 
       <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
-        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">先行版下载</DialogTitle>
-              <p className="text-emerald-100 text-sm mt-1">先行版下载</p>
+        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 backdrop-blur-md">
+          <div className="relative bg-gradient-to-br from-emerald-600 via-teal-500 to-cyan-500 px-8 py-8 sm:px-10 sm:py-10">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+            <DialogHeader className="relative">
+              <DialogTitle className="text-white text-2xl sm:text-3xl font-bold mb-2">Counter-Strike 1.6</DialogTitle>
+              <p className="text-emerald-100 text-base">先行版下载 · {CONFIG.cs16.betaSize}</p>
             </DialogHeader>
           </div>
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+          <div className="p-8 sm:p-10 space-y-6">
+            <div className="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 rounded-2xl p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-100/50 rounded-full blur-2xl"></div>
+              <div className="flex items-start gap-4 relative">
+                <div className="w-12 h-12 rounded-xl bg-red-500 flex items-center justify-center flex-shrink-0">
+                  <AlertTriangle className="w-6 h-6 text-white" />
+                </div>
                 <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
-                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
-                    <li>• 请先运行免CDKEY补丁后再打开游戏</li>
-                    <li>• 进入游戏后按下H键可呼出菜单</li>
+                  <h4 className="font-bold text-red-800 text-lg mb-3">使用须知</h4>
+                  <ul className="text-red-700 text-sm sm:text-base space-y-2 font-medium">
+                    <li className="flex items-start"><span className="mr-2">•</span><span>请先运行免CDKEY补丁后再打开游戏</span></li>
+                    <li className="flex items-start"><span className="mr-2">•</span><span>进入游戏后按下H键可呼出菜单</span></li>
                   </ul>
                 </div>
               </div>
             </div>
-            <ImageCarousel images={CONFIG.betaImages} />
-            <div className="flex gap-3 sm:gap-4">
+            <div>
+              <p className="text-gray-500 text-sm font-medium mb-3">版本预览</p>
+              <ImageCarousel images={CONFIG.betaImages} />
+            </div>
+            <div className="flex gap-3 sm:gap-4 pt-2">
               <DownloadButton onClick={() => openLink(CONFIG.cs16.tencentUrl)} />
               <Button
                 onClick={() => toggle("tencent", false)}
                 variant="outline"
-                className="h-13 sm:h-14 px-6 sm:px-8 rounded-2xl font-bold text-sm sm:text-base border-2 hover:bg-gray-50 transition-all duration-300"
+                className="h-13 sm:h-14 px-8 sm:px-10 rounded-2xl font-bold text-base border-2 hover:bg-gray-50 transition-all duration-300"
               >
                 取消
               </Button>
@@ -640,41 +654,42 @@ export default function GameDownloadSite() {
       </Dialog>
 
       <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
-        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
-              <p className="text-pink-100 text-sm mt-1">您的支持是我们前进的动力</p>
+        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 backdrop-blur-md">
+          <div className="relative bg-gradient-to-br from-pink-600 via-rose-500 to-red-500 px-8 py-8 sm:px-10 sm:py-10">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+            <DialogHeader className="relative">
+              <DialogTitle className="text-white text-2xl sm:text-3xl font-bold mb-2">支持我们</DialogTitle>
+              <p className="text-pink-100 text-base">您的支持是我们前进的动力</p>
             </DialogHeader>
           </div>
-          <div className="p-6 sm:p-8">
-            <div className="grid grid-cols-2 gap-6 sm:gap-8">
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-blue-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
+          <div className="p-8 sm:p-10">
+            <div className="grid grid-cols-2 gap-6 sm:gap-8 mb-6">
+              <div className="flex flex-col items-center">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-5 sm:p-6 mb-4 w-full flex items-center justify-center border-2 border-blue-100 hover:border-blue-200 transition-all duration-300 hover:shadow-lg">
                   <img
                     src={CONFIG.links.alipay || "/placeholder.svg"}
                     alt="支付宝"
-                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                    className="w-36 h-36 sm:w-48 sm:h-48 object-contain rounded-xl"
                   />
                 </div>
                 <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">支付宝支付</p>
               </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-green-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
+              <div className="flex flex-col items-center">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 sm:p-6 mb-4 w-full flex items-center justify-center border-2 border-green-100 hover:border-green-200 transition-all duration-300 hover:shadow-lg">
                   <img
                     src={CONFIG.links.wechat || "/placeholder.svg"}
                     alt="微信支付"
-                    className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                    className="w-36 h-36 sm:w-48 sm:h-48 object-contain rounded-xl"
                   />
                 </div>
                 <p className="font-bold text-gray-900 text-base sm:text-lg whitespace-nowrap">微信支付</p>
               </div>
             </div>
-            <div className="mt-6 pt-5 border-t border-gray-100">
+            <div className="pt-4 border-t-2 border-gray-100">
               <Button
                 onClick={() => toggle("sponsor", false)}
                 variant="outline"
-                className="w-full h-12 sm:h-13 rounded-xl font-bold text-gray-600 hover:bg-gray-50 border-2"
+                className="w-full h-13 sm:h-14 rounded-2xl font-bold text-base border-2 hover:bg-gray-50 transition-all duration-300"
               >
                 关闭
               </Button>
