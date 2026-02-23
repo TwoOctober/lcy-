@@ -14,6 +14,7 @@ import {
   Bug,
   ChevronLeft,
   ChevronRight,
+  X,
 } from "lucide-react"
 
 const CONFIG = {
@@ -50,6 +51,8 @@ const CONFIG = {
     betaSize: "94MB",
     lanzouUrl: "https://wwbhc.lanzouq.com/ipIXD3fp7n1a",
     tencentUrl: "https://wwbhc.lanzouq.com/iX7lu3fp7omh",
+    stableLine2Url: "https://www.ilanzou.com/s/54zntr8U",
+    betaLine2Url: "https://www.ilanzou.com/s/6Iintrwv",
   },
   damiao: {
     title: "F4cs.cn 大庙杯比赛",
@@ -210,20 +213,31 @@ RotatingText.displayName = "RotatingText"
 
 const DownloadButton = ({ onClick, extractionCode = "f4cs" }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
+
+  const handleClick = () => {
+    setIsClicked(true)
+    setTimeout(() => setIsClicked(false), 300)
+    onClick()
+  }
 
   return (
     <Button
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
+      className={`flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden ${isClicked ? 'scale-98' : ''}`}
     >
-      <Download className="w-5 h-5 mr-2" />
-      <span>前往下载（提取码:</span>
-      <span className={`transition-all duration-200 ${isHovered ? "bg-white text-indigo-600 px-1.5 rounded" : ""}`}>
-        {extractionCode}
-      </span>
-      <span>）</span>
+      <div className="relative z-10 flex items-center justify-center w-full">
+        <Download className={`w-5 h-5 mr-2 transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`} />
+        <span>前往下载（提取码:</span>
+        <span className={`transition-all duration-300 ${isHovered ? "bg-white text-indigo-600 px-1.5 rounded transform scale-110" : ""}`}>
+          {extractionCode}
+        </span>
+        <span>）</span>
+      </div>
+      <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
+      <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full ${isHovered ? 'animate-shine' : ''}`}></div>
     </Button>
   )
 }
@@ -350,7 +364,7 @@ export default function GameDownloadSite() {
       {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
 
       <div
-        className="min-h-screen bg-[#FAF8F5] font-sans selection:bg-indigo-100/50 flex flex-col"
+        className="min-h-screen bg-[#f8fafc] font-sans selection:bg-indigo-100/50 flex flex-col"
         style={{ visibility: showSplash ? "hidden" : "visible" }}
       >
         <style jsx>{`
@@ -382,13 +396,92 @@ export default function GameDownloadSite() {
           .slide-delay-2 { animation-delay: 200ms; }
           .slide-delay-3 { animation-delay: 400ms; }
           .slide-delay-4 { animation-delay: 600ms; }
+          
+          /* Dialog animations */
+          @keyframes fadeIn {
+            0% { 
+              opacity: 0; 
+              transform: translate(-50%, -50%) scale(0.9); 
+            }
+            100% { 
+              opacity: 1; 
+              transform: translate(-50%, -50%) scale(1); 
+            }
+          }
+          @keyframes slideIn {
+            0% { 
+              opacity: 0; 
+              transform: translateY(20px); 
+            }
+            100% { 
+              opacity: 1; 
+              transform: translateY(0); 
+            }
+          }
+          @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+          }
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+          }
+          .animate-fadeIn {
+            animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          }
+          .animate-slideIn {
+            animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          }
+          .animate-shine {
+            animation: shine 1.5s ease-in-out infinite;
+          }
+          .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+          }
+          .animation-delay-1 { animation-delay: 0.1s; }
+          .animation-delay-2 { animation-delay: 0.2s; }
+          .animation-delay-3 { animation-delay: 0.3s; }
+          .animation-delay-4 { animation-delay: 0.4s; }
+          .animation-delay-5 { animation-delay: 0.5s; }
+          .animation-delay-6 { animation-delay: 0.6s; }
+          
+          /* Main page styles */
+          .main-container {
+            min-height: 100vh;
+            background-color: #f8fafc;
+          }
+          .main-content {
+            max-width: 6xl;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+          }
+          .game-card {
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+          }
+          .game-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+          }
+          .info-card {
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+          }
+          .info-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+          }
         `}</style>
 
         <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
           <div className="w-full max-w-6xl mx-auto space-y-7">
             <div
               onClick={() => openLink(CONFIG.links.feedback)}
-              className={`cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group ${contentReady ? "slide-in slide-delay-1" : "opacity-0"}`}
+              className={`cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group info-card ${contentReady ? "slide-in slide-delay-1" : "opacity-0"}`}
             >
               <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-3.5 sm:px-6 sm:py-4">
                 <div className="flex items-center justify-between gap-3">
@@ -411,7 +504,7 @@ export default function GameDownloadSite() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
               <article
-                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80 ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
+                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80 game-card ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
               >
                 <div className="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
                   {!imgErr.has("damiao") ? (
@@ -465,7 +558,7 @@ export default function GameDownloadSite() {
               </article>
 
               <article
-                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80 ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
+                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80 game-card ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
               >
                 <div className="aspect-[16/9] bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
                   {!imgErr.has("cs16") ? (
@@ -529,7 +622,7 @@ export default function GameDownloadSite() {
             >
               <div
                 onClick={() => openLink(CONFIG.links.vegcat)}
-                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-gray-200/80 transition-all duration-300 group"
+                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-gray-200/80 transition-all duration-300 group info-card"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-sm">
@@ -545,7 +638,7 @@ export default function GameDownloadSite() {
 
               <div
                 onClick={() => toggle("sponsor", true)}
-                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-pink-200/80 transition-all duration-300 group"
+                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-pink-200/80 transition-all duration-300 group info-card"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-sm">
@@ -569,68 +662,118 @@ export default function GameDownloadSite() {
 
       {/* Dialogs */}
       <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
-        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">正式版下载</DialogTitle>
-              <p className="text-indigo-100 text-sm mt-1">正式版下载</p>
-            </DialogHeader>
-          </div>
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+        <DialogContent className="z-50 grid gap-4 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
+          <DialogHeader>
+            <DialogTitle className="tracking-tight text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">正式版下载</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col space-y-6">
+            
+            <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
+              <div className="flex gap-4">
+                <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
-                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+                  <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
+                  <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
                     <li>• 请先运行免CDKEY补丁后再打开游戏</li>
+                    <li>• 提取码：f4cs</li>
                     <li>• 进入游戏后按下H键可呼出菜单</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <ImageCarousel images={CONFIG.stableImages} />
-            <DownloadButton onClick={() => openLink(CONFIG.cs16.lanzouUrl)} />
+            
+            <div className="mb-6">
+              <ImageCarousel images={CONFIG.stableImages} />
+            </div>
+            
+            <div className="space-y-3">
+              <Button
+                onClick={() => openLink(CONFIG.cs16.lanzouUrl)}
+                className="w-full justify-center h-12 sm:h-13 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base lanzou-btn shadow-md hover:shadow-lg transition-all duration-300"
+              >
+                <span className="flex items-center">
+                  <Download className="w-5 h-5 mr-2" />
+                  <span>前往下载（提取码:</span>
+                  <span className="transition-all duration-200">f4cs</span>
+                  <span>）</span>
+                </span>
+              </Button>
+              <Button
+                onClick={() => openLink(CONFIG.cs16.stableLine2Url)}
+                className="w-full justify-center h-12 sm:h-13 bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white rounded-xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+              >
+                <div className="relative z-10 flex items-center justify-center w-full">
+                  <Download className="w-5 h-5 mr-2 transition-transform duration-300" />
+                  <span>备用线路</span>
+                </div>
+                <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full animate-shine"></div>
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
-        <DialogContent className="max-w-xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">先行版下载</DialogTitle>
-              <p className="text-emerald-100 text-sm mt-1">先行版下载</p>
-            </DialogHeader>
-          </div>
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-red-100 border-3 border-red-300 rounded-2xl p-5">
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-7 h-7 text-red-500 flex-shrink-0 mt-0.5" />
+        <DialogContent className="z-50 grid gap-4 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg bg-white w-[95vw] max-w-lg rounded-3xl p-6 sm:p-8 border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
+          <DialogHeader>
+            <DialogTitle className="tracking-tight text-xl sm:text-2xl font-bold text-gray-900 text-center mb-6">先行版下载</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col space-y-6">
+            
+            <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-2xl p-6 mb-6 shadow-sm">
+              <div className="flex gap-4">
+                <AlertTriangle className="w-9 h-9 text-red-600 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-red-700 text-lg mb-2">使用须知</h4>
-                  <ul className="text-red-600 text-sm space-y-1.5 font-medium">
+                  <h4 className="text-lg sm:text-xl font-bold text-red-800 mb-3">使用前必读</h4>
+                  <ul className="text-red-700 text-base sm:text-lg space-y-2.5 font-semibold leading-relaxed">
                     <li>• 请先运行免CDKEY补丁后再打开游戏</li>
+                    <li>• 提取码：f4cs</li>
                     <li>• 进入游戏后按下H键可呼出菜单</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <ImageCarousel images={CONFIG.betaImages} />
-            <DownloadButton onClick={() => openLink(CONFIG.cs16.tencentUrl)} />
+            
+            <div className="mb-6">
+              <ImageCarousel images={CONFIG.betaImages} />
+            </div>
+            
+            <div className="space-y-3">
+              <Button
+                onClick={() => openLink(CONFIG.cs16.tencentUrl)}
+                className="w-full justify-center h-12 sm:h-13 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base lanzou-btn shadow-md hover:shadow-lg transition-all duration-300"
+              >
+                <span className="flex items-center">
+                  <Download className="w-5 h-5 mr-2" />
+                  <span>前往下载（提取码:</span>
+                  <span className="transition-all duration-200">f4cs</span>
+                  <span>）</span>
+                </span>
+              </Button>
+              <Button
+                onClick={() => openLink(CONFIG.cs16.betaLine2Url)}
+                className="w-full justify-center h-12 sm:h-13 bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white rounded-xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+              >
+                <div className="relative z-10 flex items-center justify-center w-full">
+                  <Download className="w-5 h-5 mr-2 transition-transform duration-300" />
+                  <span>备用线路</span>
+                </div>
+                <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full animate-shine"></div>
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
-        <DialogContent className="max-w-2xl w-[95vw] p-0 gap-0 rounded-3xl overflow-hidden border-0 shadow-2xl max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-gradient-to-r from-pink-500 to-rose-500 px-6 py-5 sm:px-8 sm:py-6">
-            <DialogHeader>
-              <DialogTitle className="text-white text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
-              <p className="text-pink-100 text-sm mt-1">您的支持是我们前进的动力</p>
-            </DialogHeader>
-          </div>
-          <div className="p-6 sm:p-8">
+        <DialogContent className="max-w-2xl w-[95vw] p-6 sm:p-8 gap-4 rounded-3xl border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
+          <DialogHeader>
+            <DialogTitle className="text-gray-900 text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
+            <p className="text-gray-600 text-sm mt-1">您的支持是我们前进的动力</p>
+          </DialogHeader>
+          <div className="flex flex-col space-y-6">
             <div className="grid grid-cols-2 gap-6 sm:gap-8">
               <div className="flex flex-col items-center text-center">
                 <div className="bg-blue-50 rounded-2xl p-4 sm:p-5 mb-3 w-full flex items-center justify-center">
