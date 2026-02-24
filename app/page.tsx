@@ -84,7 +84,7 @@ const CONFIG = {
   },
   rotatingTexts: {
     vegcat: ["探索关于站点和站长的信息"],
-    sponsor: ["请支持我们持续优化体验", "死神上线两天流量欠费10块"],
+    sponsor: ["请支持我们持续优化体验""],
   },
 }
 
