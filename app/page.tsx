@@ -218,7 +218,7 @@ export default function GameDownloadSite() {
         setShowBubble(true)
         // Hide bubble after 3 seconds with fade out
         setTimeout(() => {
-          const bubble = document.querySelector('[style*="animation: popIn"]')
+          const bubble = document.querySelector('[style*="animation: popIn"]') as HTMLElement
           if (bubble) {
             bubble.style.transition = 'all 0.5s ease-out'
             bubble.style.opacity = '0'
