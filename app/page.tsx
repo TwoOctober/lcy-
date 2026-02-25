@@ -203,7 +203,7 @@ export default function GameDownloadSite() {
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false)
-    setTimeout(() => setContentReady(true), 100)
+    setContentReady(true)
   }, [])
 
   // Theme toggle functionality
