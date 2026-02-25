@@ -1,361 +1,152 @@
-"use client"
+'use client'
 
-import { useState, useEffect, memo, useCallback } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useState, useEffect, useCallback } from 'react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import {
   Download,
   ExternalLink,
   Globe,
-  Trophy,
   AlertTriangle,
   Heart,
   Bug,
-  ChevronLeft,
-  ChevronRight,
-  X,
-} from "lucide-react"
+  Moon,
+  Sun,
+} from 'lucide-react'
+
+// Import modular components
+import ImageCarousel from '@/components/common/ImageCarousel'
+import RotatingText from '@/components/common/RotatingText'
+import SplashScreen from '@/components/common/SplashScreen'
+import GameCard from '@/components/game/GameCard'
+
+// SEO and structured data
+const pageTitle = 'F4CS.cn'
+const pageDescription = '提供 Counter-Strike 1.6 和 死神vs火影 游戏下载，包含多个版本选择和备用下载链接，游戏已汉化免注册，可直接开玩。'
+const pageKeywords = '游戏下载, Counter-Strike 1.6, CS1.6, 死神vs火影, 格斗游戏, 经典游戏, 汉化游戏'
+
+// Structured data for games
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  'name': '游戏下载列表',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'item': {
+        '@type': 'Game',
+        'name': 'Counter-Strike 1.6',
+        'description': '经典第一人称射击游戏，已汉化免注册，包含十六张竞技地图和休闲地图',
+        'image': 'https://www.helloimg.com/i/2025/12/06/693451359f546.jpg',
+        'offers': [
+          {
+            '@type': 'Offer',
+            'url': 'https://wwbhc.lanzouq.com/ipIXD3fp7n1a',
+            'price': '0',
+            'priceCurrency': 'CNY',
+            'availability': 'https://schema.org/InStock'
+          }
+        ]
+      }
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'item': {
+        '@type': 'Game',
+        'name': '死神vs火影',
+        'description': '死神vs火影3.8.6.6最新版，格斗游戏',
+        'image': 'https://www.helloimg.com/i/2026/02/23/699bf11fbab03.jpg',
+        'offers': [
+          {
+            '@type': 'Offer',
+            'url': 'https://www.onlinedown.net/iopdfbhjl/1091062?module=download&t=website&v=20260212175423',
+            'price': '0',
+            'priceCurrency': 'CNY',
+            'availability': 'https://schema.org/InStock'
+          }
+        ]
+      }
+    }
+  ]
+}
 
 const CONFIG = {
   splash: {
     enabled: true,
-    text: "F4CS.cn",
+    text: 'F4CS.cn',
     duration: 3000,
   },
-  animations: {
-    enableSlideIn: true,
-    staggerDelay: 300,
-  },
   betaImages: [
-    "https://www.helloimg.com/i/2025/12/07/69355676d2a55.png",
-    "https://www.helloimg.com/i/2025/12/07/6935568643d85.png",
-    "https://www.helloimg.com/i/2025/12/07/69355671aa484.png",
-    "https://www.helloimg.com/i/2025/12/07/6935567f1d400.png",
-    "https://www.helloimg.com/i/2025/12/07/693556778ce92.png",
-    "https://www.helloimg.com/i/2025/12/07/6935567fc5605.png",
+    'https://www.helloimg.com/i/2025/12/07/69355676d2a55.png',
+    'https://www.helloimg.com/i/2025/12/07/6935568643d85.png',
+    'https://www.helloimg.com/i/2025/12/07/69355671aa484.png',
+    'https://www.helloimg.com/i/2025/12/07/6935567f1d400.png',
+    'https://www.helloimg.com/i/2025/12/07/693556778ce92.png',
+    'https://www.helloimg.com/i/2025/12/07/6935567fc5605.png',
   ],
   stableImages: [
-    "https://www.helloimg.com/i/2025/12/07/6935600331d46.png",
-    "https://www.helloimg.com/i/2025/12/07/69356001e31aa.png",
-    "https://www.helloimg.com/i/2025/12/07/69355ff9b1be4.png",
-    "https://www.helloimg.com/i/2025/12/07/693560077fa0b.png",
-    "https://www.helloimg.com/i/2025/12/07/6935600165e75.png",
-    "https://www.helloimg.com/i/2025/12/07/69355ffa227b9.png",
+    'https://www.helloimg.com/i/2025/12/07/6935600331d46.png',
+    'https://www.helloimg.com/i/2025/12/07/69356001e31aa.png',
+    'https://www.helloimg.com/i/2025/12/07/69355ff9b1be4.png',
+    'https://www.helloimg.com/i/2025/12/07/693560077fa0b.png',
+    'https://www.helloimg.com/i/2025/12/07/6935600165e75.png',
+    'https://www.helloimg.com/i/2025/12/07/69355ffa227b9.png',
   ],
   cs16: {
-    title: "Counter-Strike 1.6",
-    desc: "涵盖十六张竞技地图和休闲地图，已汉化免注册，马上开玩",
-    cover: "https://www.helloimg.com/i/2025/12/06/693451359f546.jpg",
-    stableSize: "89MB",
-    betaSize: "94MB",
-    lanzouUrl: "https://wwbhc.lanzouq.com/ipIXD3fp7n1a",
-    tencentUrl: "https://wwbhc.lanzouq.com/iX7lu3fp7omh",
-    stableLine2Url: "https://www.ilanzou.com/s/54zntr8U",
-    betaLine2Url: "https://www.ilanzou.com/s/6Iintrwv",
+    title: 'Counter-Strike 1.6',
+    desc: '涵盖十六张竞技地图和休闲地图，已汉化免注册，马上开玩',
+    cover: 'https://www.helloimg.com/i/2025/12/06/693451359f546.jpg',
+    stableSize: '89MB',
+    betaSize: '94MB',
+    lanzouUrl: 'https://wwbhc.lanzouq.com/ipIXD3fp7n1a',
+    tencentUrl: 'https://wwbhc.lanzouq.com/iX7lu3fp7omh',
+    stableLine2Url: 'https://www.ilanzou.com/s/54zntr8U',
+    betaLine2Url: 'https://www.ilanzou.com/s/6Iintrwv',
   },
   damiao: {
-    title: "死神vs火影",
-    desc: "死神vs火影3.8.6.6最新版已上线",
-    cover: "https://www.helloimg.com/i/2026/02/23/699bf11fbab03.jpg",
+    title: '死神vs火影',
+    desc: '死神vs火影3.8.6.6最新版已上线',
+    cover: 'https://www.helloimg.com/i/2026/02/23/699bf11fbab03.jpg',
     versions: [
       {
-        id: "v3.8.6.6",
-        name: "死神vs火影 3.8.6.6",
-        desc: "最新版本，包含旧人物角色包",
-        downloadUrl: "https://www.onlinedown.net/iopdfbhjl/1091062?module=download&t=website&v=20260212175423",
-        size: "470MB",
+        id: 'v3.8.6.6',
+        name: '死神vs火影 3.8.6.6',
+        desc: '最新版本，包含旧人物角色包',
+        downloadUrl: 'https://www.onlinedown.net/iopdfbhjl/1091062?module=download&t=website&v=20260212175423',
+        size: '470MB',
       },
       {
-        id: "v3.3",
-        name: "死神vs火影 3.3",
-        desc: "4399经典版本",
-        downloadUrl: "https://wwbhc.lanzouq.com/ii7Ho3j0vqid",
-        size: "86MB",
+        id: 'v3.3',
+        name: '死神vs火影 3.3',
+        desc: '4399经典版本',
+        downloadUrl: 'https://wwbhc.lanzouq.com/ii7Ho3j0vqid',
+        size: '86MB',
       },
     ],
-    defaultVersion: "v3.8.6.6",
+    defaultVersion: 'v3.8.6.6',
   },
   links: {
-    vegcat: "https://vegcat.cn",
-    alipay: "https://www.helloimg.com/i/2025/12/06/693451356dbd5.jpg",
-    wechat: "https://www.helloimg.com/i/2025/12/06/69345135bddd8.png",
-    feedback: "https://qm.qq.com/q/1tHqgp8OK8",
+    vegcat: 'https://vegcat.cn',
+    alipay: 'https://www.helloimg.com/i/2025/12/06/693451356dbd5.jpg',
+    wechat: 'https://www.helloimg.com/i/2025/12/06/69345135bddd8.png',
+    feedback: 'https://qm.qq.com/q/1tHqgp8OK8',
   },
   rotatingTexts: {
-    vegcat: ["探索关于站点和站长的信息"],
-    sponsor: ["请支持我们持续优化体验""],
+    vegcat: ['探索关于站点和站长的信息'],
+    sponsor: ['请支持我们持续优化体验'],
   },
 }
 
 const openLink = (url: string) => {
   try {
-    window.open(url, "_blank", "noopener,noreferrer")
+    window.open(url, '_blank', 'noopener,noreferrer')
   } catch {
     window.location.href = url
   }
 }
-
-const ImageCarousel = memo(({ images }: { images: string[] }) => {
-  const [idx, setIdx] = useState(0)
-  const [loaded, setLoaded] = useState<Set<number>>(new Set([0]))
-  const [err, setErr] = useState(false)
-
-  useEffect(() => {
-    if (images.length === 0) return
-    images.forEach((src, i) => {
-      if (i === 0) return
-      const img = new Image()
-      img.src = src
-      img.onload = () => setLoaded((prev) => new Set([...prev, i]))
-    })
-  }, [images])
-
-  useEffect(() => {
-    if (images.length <= 1) return
-    const t = setInterval(() => {
-      setIdx((p) => (p + 1) % images.length)
-      setErr(false)
-    }, 4000)
-    return () => clearInterval(t)
-  }, [images.length])
-
-  const go = useCallback(
-    (dir: number) => {
-      setIdx((p) => (p + dir + images.length) % images.length)
-      setErr(false)
-    },
-    [images.length],
-  )
-
-  if (images.length === 0) {
-    return (
-      <div className="space-y-3">
-        <p className="text-sm text-gray-500 font-medium text-center">版本预览</p>
-        <div className="bg-gray-50 rounded-xl p-10 text-center border border-dashed border-gray-200">
-          <p className="text-gray-400 font-medium text-base">敬请期待</p>
-        </div>
-      </div>
-    )
-  }
-
-  const isLoaded = loaded.has(idx)
-
-  return (
-    <div className="space-y-3">
-      <p className="text-sm text-gray-500 font-medium text-center">版本预览</p>
-      <div className="relative bg-gray-900 rounded-xl overflow-hidden">
-        <div className="aspect-[16/10] relative">
-          {!isLoaded && !err && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
-              <div className="w-10 h-10 border-3 border-white/20 border-t-white rounded-full animate-spin" />
-            </div>
-          )}
-          {!err ? (
-            <img
-              src={images[idx] || "/placeholder.svg"}
-              alt={`预览 ${idx + 1}`}
-              className="w-full h-full object-cover transition-opacity duration-300"
-              style={{ opacity: isLoaded ? 1 : 0 }}
-              onLoad={() => setLoaded((prev) => new Set([...prev, idx]))}
-              onError={() => setErr(true)}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-500 text-sm">加载失败</div>
-          )}
-        </div>
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={() => go(-1)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/60 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => go(1)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/60 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
-              {images.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setIdx(i)
-                    setErr(false)
-                  }}
-                  className={`h-2.5 rounded-full transition-all ${i === idx ? "bg-white w-5" : "bg-white/40 w-2.5"}`}
-                />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  )
-})
-ImageCarousel.displayName = "ImageCarousel"
-
-const RotatingText = memo(({ texts }: { texts: string[] }) => {
-  const [idx, setIdx] = useState(0)
-
-  useEffect(() => {
-    if (texts.length <= 1) return
-    const timer = setInterval(() => {
-      setIdx((prev) => (prev + 1) % texts.length)
-    }, 3000)
-    return () => clearInterval(timer)
-  }, [texts.length])
-
-  return (
-    <div className="relative h-5 sm:h-6 overflow-hidden">
-      {texts.map((text, i) => (
-        <p
-          key={i}
-          className={`absolute inset-0 text-gray-500 text-sm sm:text-base transition-all duration-500 ${
-            i === idx ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-          }`}
-        >
-          {text}
-        </p>
-      ))}
-    </div>
-  )
-})
-RotatingText.displayName = "RotatingText"
-
-const DownloadButton = ({ onClick, extractionCode = "f4cs" }) => {
-  const [isHovered, setIsHovered] = useState(false)
-  const [isClicked, setIsClicked] = useState(false)
-
-  const handleClick = () => {
-    setIsClicked(true)
-    setTimeout(() => setIsClicked(false), 300)
-    onClick()
-  }
-
-  return (
-    <Button
-      onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className={`flex-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white h-13 sm:h-14 rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden ${isClicked ? 'scale-98' : ''}`}
-    >
-      <div className="relative z-10 flex items-center justify-center w-full">
-        <Download className={`w-5 h-5 mr-2 transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`} />
-        <span>前往下载（提取码:</span>
-        <span className={`transition-all duration-300 ${isHovered ? "bg-white text-indigo-600 px-1.5 rounded transform scale-110" : ""}`}>
-          {extractionCode}
-        </span>
-        <span>）</span>
-      </div>
-      <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-      <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full ${isHovered ? 'animate-shine' : ''}`}></div>
-    </Button>
-  )
-}
-
-const SplashScreen = memo(({ onComplete }: { onComplete: () => void }) => {
-  const [phase, setPhase] = useState<"enter" | "show" | "exit">("enter")
-
-  useEffect(() => {
-    // Phase 1: Enter animation (letters appear)
-    const enterTimer = setTimeout(() => setPhase("show"), 800)
-    // Phase 2: Show (brief pause)
-    const showTimer = setTimeout(() => setPhase("exit"), 1400)
-    // Phase 3: Exit and complete
-    const exitTimer = setTimeout(onComplete, CONFIG.splash.duration)
-
-    return () => {
-      clearTimeout(enterTimer)
-      clearTimeout(showTimer)
-      clearTimeout(exitTimer)
-    }
-  }, [onComplete])
-
-  const letters = CONFIG.splash.text.split("")
-
-  return (
-    <div
-      className={`fixed inset-0 z-50 bg-[#FAF8F5] transition-opacity duration-500 ${phase === "exit" ? "opacity-0" : "opacity-100"}`}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}
-    >
-      <style>{`
-        .splash-letter {
-          display: inline-block;
-          opacity: 0;
-          transform: translateY(40px);
-          animation: letterIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        @keyframes letterIn {
-          0% { 
-            opacity: 0; 
-            transform: translateY(40px);
-          }
-          100% { 
-            opacity: 1; 
-            transform: translateY(0);
-          }
-        }
-        .splash-container {
-          text-align: center;
-          width: 100%;
-          max-width: 100%;
-          padding: 0 20px;
-          box-sizing: border-box;
-        }
-        .splash-title {
-          font-size: clamp(3rem, 12vw, 7rem);
-          font-weight: 900;
-          letter-spacing: -0.02em;
-          line-height: 1;
-          margin: 0;
-        }
-        .splash-subtitle {
-          margin-top: 16px;
-          font-size: clamp(0.875rem, 2.5vw, 1.125rem);
-          color: #6B7280;
-          opacity: 0;
-          animation: fadeIn 0.8s ease-out 0.6s forwards;
-        }
-        @keyframes fadeIn {
-          to { opacity: 1; }
-        }
-        .gradient-text {
-          background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-      `}</style>
-
-      <div className="splash-container">
-        <h1 className="splash-title">
-          {letters.map((char, i) => (
-            <span key={i} className="splash-letter gradient-text" style={{ animationDelay: `${i * 80}ms` }}>
-              {char}
-            </span>
-          ))}
-        </h1>
-        <p className="splash-subtitle">或许会倒闭，永远不变质</p>
-      </div>
-    </div>
-  )
-})
-SplashScreen.displayName = "SplashScreen"
 
 export default function GameDownloadSite() {
   const [showSplash, setShowSplash] = useState(CONFIG.splash.enabled)
@@ -363,6 +154,46 @@ export default function GameDownloadSite() {
   const [selectedBVNVersion, setSelectedBVNVersion] = useState(CONFIG.damiao.defaultVersion)
   const [imgErr, setImgErr] = useState<Set<string>>(new Set())
   const [contentReady, setContentReady] = useState(!CONFIG.splash.enabled)
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check system preference or saved state
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme')
+      if (savedTheme) {
+        return savedTheme === 'dark'
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    // Default to light mode on server
+    return false
+  })
+  const [showBubble, setShowBubble] = useState(false)
+
+  // Set page title and meta tags
+  useEffect(() => {
+    document.title = pageTitle
+    
+    // Update meta description
+    const descriptionMeta = document.querySelector('meta[name="description"]')
+    if (descriptionMeta) {
+      descriptionMeta.setAttribute('content', pageDescription)
+    } else {
+      const newMeta = document.createElement('meta')
+      newMeta.name = 'description'
+      newMeta.content = pageDescription
+      document.head.appendChild(newMeta)
+    }
+    
+    // Update meta keywords
+    const keywordsMeta = document.querySelector('meta[name="keywords"]')
+    if (keywordsMeta) {
+      keywordsMeta.setAttribute('content', pageKeywords)
+    } else {
+      const newMeta = document.createElement('meta')
+      newMeta.name = 'keywords'
+      newMeta.content = pageKeywords
+      document.head.appendChild(newMeta)
+    }
+  }, [])
 
   const toggle = useCallback((k: keyof typeof dialogs, v?: boolean) => {
     setDialogs((p) => ({ ...p, [k]: v ?? !p[k] }))
@@ -375,131 +206,99 @@ export default function GameDownloadSite() {
     setTimeout(() => setContentReady(true), 100)
   }, [])
 
+  // Theme toggle functionality
+  const toggleTheme = useCallback(() => {
+    setIsDarkMode((prev) => {
+      const newTheme = !prev
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light')
+      document.documentElement.classList.toggle('dark', newTheme)
+      
+      // Show bubble when switching to dark mode
+      if (newTheme) {
+        setShowBubble(true)
+        // Hide bubble after 3 seconds with fade out
+        setTimeout(() => {
+          const bubble = document.querySelector('[style*="animation: popIn"]')
+          if (bubble) {
+            bubble.style.transition = 'all 0.5s ease-out'
+            bubble.style.opacity = '0'
+            bubble.style.transform = 'scale(0.8)'
+            setTimeout(() => setShowBubble(false), 500)
+          } else {
+            setShowBubble(false)
+          }
+        }, 3000)
+      }
+      
+      return newTheme
+    })
+  }, [])
+
+  // Apply theme on mount
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode)
+  }, [isDarkMode])
+
   return (
-    <>
-      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+    <div className={`min-h-screen font-sans flex flex-col ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-[#f8fafc] text-gray-900'} overflow-x-hidden`}>
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />
+      }
+      
+      {/* Structured data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
-      <div
-        className="min-h-screen bg-[#f8fafc] font-sans selection:bg-indigo-100/50 flex flex-col"
-        style={{ visibility: showSplash ? "hidden" : "visible" }}
-      >
-        <style jsx>{`
-          ::-webkit-scrollbar{width:8px;height:8px}
-          ::-webkit-scrollbar-track{background:rgba(0,0,0,.02)}
-          ::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:4px}
-          ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.2)}
-          .lanzou-btn{position:relative;overflow:hidden}
-          .lanzou-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s ease}
-          .lanzou-btn:hover::before{left:100%}
-          @media(hover:none){.lanzou-btn:hover::before{left:-100%}}
-          
-          /* Smoother, slower slide-in animations */
-          @keyframes slideUp {
-            0% { 
-              opacity: 0; 
-              transform: translateY(60px); 
-            }
-            100% { 
-              opacity: 1; 
-              transform: translateY(0); 
-            }
-          }
-          .slide-in {
+      <style jsx>{`
+        @keyframes popIn {
+          0% {
             opacity: 0;
-            animation: slideUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transform: scale(0.8) translateY(-2px);
           }
-          .slide-delay-1 { animation-delay: 0ms; }
-          .slide-delay-2 { animation-delay: 200ms; }
-          .slide-delay-3 { animation-delay: 400ms; }
-          .slide-delay-4 { animation-delay: 600ms; }
+          50% {
+            opacity: 1;
+            transform: scale(1.05) translateY(0);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+      `}</style>
+      <main className="flex-1 flex flex-col justify-center py-6 sm:py-12 px-4 sm:px-8">
+        <div className="w-full max-w-6xl mx-auto">
+          {/* Theme toggle button */}
+          <div className="flex justify-end mb-4 relative items-center">
+            {/* Bubble popup */}
+            {showBubble && (
+              <div className={`mr-2 text-xs px-2.5 py-1 rounded-full transition-all duration-400 transform opacity-100 scale-100 ${isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'}`} style={{ animation: 'popIn 0.4s ease-out' }}>
+                做着玩的
+              </div>
+            )}
+            <Button
+              onClick={toggleTheme}
+              variant="ghost"
+              className={`rounded-full p-2 ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} shadow-sm`}
+              aria-label={isDarkMode ? '切换到浅色模式' : '切换到深色模式'}
+            >
+              {isDarkMode ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-gray-600" />
+              )}
+            </Button>
+          </div>
           
-          /* Dialog animations */
-          @keyframes fadeIn {
-            0% { 
-              opacity: 0; 
-              transform: translate(-50%, -50%) scale(0.9); 
-            }
-            100% { 
-              opacity: 1; 
-              transform: translate(-50%, -50%) scale(1); 
-            }
-          }
-          @keyframes slideIn {
-            0% { 
-              opacity: 0; 
-              transform: translateY(20px); 
-            }
-            100% { 
-              opacity: 1; 
-              transform: translateY(0); 
-            }
-          }
-          @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-          }
-          @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-          }
-          .animate-fadeIn {
-            animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          }
-          .animate-slideIn {
-            animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          }
-          .animate-shine {
-            animation: shine 1.5s ease-in-out infinite;
-          }
-          .animate-pulse {
-            animation: pulse 2s ease-in-out infinite;
-          }
-          .animation-delay-1 { animation-delay: 0.1s; }
-          .animation-delay-2 { animation-delay: 0.2s; }
-          .animation-delay-3 { animation-delay: 0.3s; }
-          .animation-delay-4 { animation-delay: 0.4s; }
-          .animation-delay-5 { animation-delay: 0.5s; }
-          .animation-delay-6 { animation-delay: 0.6s; }
-          
-          /* Main page styles */
-          .main-container {
-            min-height: 100vh;
-            background-color: #f8fafc;
-          }
-          .main-content {
-            max-width: 6xl;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-          }
-          .game-card {
-            border-radius: 1.5rem;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-          }
-          .game-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-          }
-          .info-card {
-            border-radius: 1.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-          }
-          .info-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-          }
-        `}</style>
-
-        <main className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6">
-          <div className="w-full max-w-6xl mx-auto space-y-7">
+          <div className="space-y-6 sm:space-y-10">
             <div
               onClick={() => openLink(CONFIG.links.feedback)}
-              className={`cursor-pointer rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,.08)] border border-black/[0.06] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] hover:border-amber-200/50 transition-all duration-300 overflow-hidden group info-card ${contentReady ? "slide-in slide-delay-1" : "opacity-0"}`}
+              className={`cursor-pointer rounded-2xl ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-black/[0.06]'} shadow-[0_2px_8px_rgba(0,0,0,.08)] hover:shadow-[0_4px_16px_rgba(0,0,0,.12)] ${isDarkMode ? 'hover:border-gray-600' : 'hover:border-amber-200/50'} transition-all duration-300 overflow-hidden group`}
+              role="button"
+              tabIndex={0}
+              aria-label="报告游戏漏洞或建议"
             >
-              <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-3.5 sm:px-6 sm:py-4">
+              <div className={`relative px-5 py-3.5 sm:px-6 sm:py-4 ${isDarkMode ? 'bg-gradient-to-r from-amber-900/30 to-orange-900/30' : 'bg-gradient-to-r from-amber-50 to-orange-50'}`}>
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="bg-white p-2 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-300">
@@ -518,22 +317,26 @@ export default function GameDownloadSite() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
               <article
-                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] transition-all duration-500 border border-black/[0.06] hover:border-slate-200/80 game-card ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
+                className={`rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-black/[0.06]'}`}
               >
                 <div className="aspect-[1067/600] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden">
-                  {!imgErr.has("damiao") ? (
+                  {!imgErr.has('damiao') ? (
                     <img
-                      src={CONFIG.damiao.cover || "/placeholder.svg"}
+                      src={CONFIG.damiao.cover}
                       alt="死神vs火影"
-                      className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
-                      loading="eager"
-                      onError={() => onImgErr("damiao")}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      onError={() => onImgErr('damiao')}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-300">
-                      <Download className="w-12 h-12" />
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-gray-50 text-gray-400 p-4">
+                      <div className="bg-white rounded-full p-4 shadow-sm mb-3">
+                        <Download className="w-8 h-8 text-gray-400" />
+                      </div>
+                      <p className="text-sm font-medium">图片加载失败</p>
                     </div>
                   )}
                 </div>
@@ -546,32 +349,34 @@ export default function GameDownloadSite() {
                       格斗游戏
                     </Badge>
                   </div>
-                  <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.damiao.desc}</p>
+                  <p id="bvn-desc" className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.damiao.desc}</p>
                   <div className="space-y-3">
                     <Button
-                      onClick={() => toggle("bvnVersion", true)}
-                      className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-800 hover:to-slate-700 text-white rounded-xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+                      onClick={() => toggle('bvnVersion', true)}
+                      className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-slate-700 to-slate-600 text-white rounded-xl font-bold text-sm sm:text-base shadow-md"
+                      aria-label="选择死神vs火影游戏版本"
+                      aria-describedby="bvn-desc"
                     >
-                      <div className="relative z-10 flex items-center justify-between w-full">
+                      <div className="flex items-center justify-between w-full">
                         <span className="flex items-center">
-                          <Download className="w-5 h-5 mr-2 transition-transform duration-300 hover:scale-110" />
+                          <Download className="w-5 h-5 mr-2" />
                           版本选择
                         </span>
-                        <ExternalLink className="w-4 h-4 opacity-60 transition-opacity duration-300 hover:opacity-100" />
+                        <ExternalLink className="w-4 h-4 opacity-60" />
                       </div>
-                      <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
                     </Button>
                     <Button
                       onClick={() => openLink(CONFIG.damiao.versions.find(v => v.id === selectedBVNVersion)?.downloadUrl || CONFIG.damiao.versions[0].downloadUrl)}
                       variant="outline"
-                      className="w-full justify-between h-12 sm:h-13 border-2 border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
+                      className="w-full justify-between h-12 sm:h-13 border-2 border-slate-200 text-slate-700 rounded-xl font-bold text-sm sm:text-base shadow-sm"
+                      aria-label={`快速下载死神vs火影 ${CONFIG.damiao.versions.find(v => v.id === selectedBVNVersion)?.name || CONFIG.damiao.versions[0].name}`}
+                      aria-describedby="bvn-desc"
                     >
                       <span className="flex items-center">
-                        <Download className="w-5 h-5 mr-2 transition-transform duration-300 hover:scale-110" />
+                        <Download className="w-5 h-5 mr-2" />
                         快速下载
                       </span>
-                      <span className="text-xs bg-slate-50 text-slate-500 px-2.5 py-1 rounded-full font-mono transition-all duration-300 hover:bg-slate-100">
+                      <span className="text-xs bg-slate-50 text-slate-500 px-2.5 py-1 rounded-full font-mono">
                         {CONFIG.damiao.versions.find(v => v.id === selectedBVNVersion)?.size || CONFIG.damiao.versions[0].size}
                       </span>
                     </Button>
@@ -580,20 +385,24 @@ export default function GameDownloadSite() {
               </article>
 
               <article
-                className={`group bg-white rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(79,70,229,.15)] transition-all duration-500 border border-black/[0.06] hover:border-indigo-200/80 game-card ${contentReady ? "slide-in slide-delay-2" : "opacity-0"}`}
+                className={`rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,.08)] ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-black/[0.06]'}`}
               >
                 <div className="aspect-[16/9] bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
-                  {!imgErr.has("cs16") ? (
+                  {!imgErr.has('cs16') ? (
                     <img
-                      src={CONFIG.cs16.cover || "/placeholder.svg"}
+                      src={CONFIG.cs16.cover}
                       alt="Counter-Strike 1.6 中文版下载"
-                      className="w-full h-full object-cover group-hover:scale-[1.08] transition-transform duration-700 ease-out"
-                      loading="eager"
-                      onError={() => onImgErr("cs16")}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      onError={() => onImgErr('cs16')}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-300">
-                      <Download className="w-12 h-12" />
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-gray-50 text-gray-400 p-4">
+                      <div className="bg-white rounded-full p-4 shadow-sm mb-3">
+                        <Download className="w-8 h-8 text-gray-400" />
+                      </div>
+                      <p className="text-sm font-medium">图片加载失败</p>
                     </div>
                   )}
                 </div>
@@ -604,11 +413,13 @@ export default function GameDownloadSite() {
                       经典游戏
                     </Badge>
                   </div>
-                  <p className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.cs16.desc}</p>
+                  <p id="cs16-desc" className="text-gray-600 text-sm sm:text-base mb-5 leading-relaxed">{CONFIG.cs16.desc}</p>
                   <div className="space-y-3">
                     <Button
-                      onClick={() => toggle("lanzou", true)}
-                      className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base lanzou-btn shadow-md hover:shadow-lg transition-all duration-300"
+                      onClick={() => toggle('lanzou', true)}
+                      className="w-full justify-between h-12 sm:h-13 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white rounded-xl font-bold text-sm sm:text-base shadow-md"
+                      aria-label="下载正式版 Counter-Strike 1.6"
+                      aria-describedby="cs16-desc"
                     >
                       <span className="flex items-center">
                         <Download className="w-5 h-5 mr-2" />
@@ -622,9 +433,11 @@ export default function GameDownloadSite() {
                       </div>
                     </Button>
                     <Button
-                      onClick={() => toggle("tencent", true)}
+                      onClick={() => toggle('tencent', true)}
                       variant="outline"
-                      className="w-full justify-between h-12 sm:h-13 border-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 rounded-xl font-bold text-sm sm:text-base transition-all duration-300"
+                      className="w-full justify-between h-12 sm:h-13 border-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 rounded-xl font-bold text-sm sm:text-base shadow-sm"
+                      aria-label="下载先行版 Counter-Strike 1.6"
+                      aria-describedby="cs16-desc"
                     >
                       <span className="flex items-center">
                         <Download className="w-5 h-5 mr-2" />
@@ -639,12 +452,10 @@ export default function GameDownloadSite() {
               </article>
             </div>
 
-            <div
-              className={`grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 ${contentReady ? "slide-in slide-delay-3" : "opacity-0"}`}
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
               <div
                 onClick={() => openLink(CONFIG.links.vegcat)}
-                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-gray-200/80 transition-all duration-300 group info-card"
+                className={`cursor-pointer rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] ${isDarkMode ? 'bg-gray-800 border-gray-700 hover:border-gray-600' : 'bg-white border-black/[0.06] hover:border-gray-200/80'} transition-all duration-300 group`}
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-sm">
@@ -659,8 +470,8 @@ export default function GameDownloadSite() {
               </div>
 
               <div
-                onClick={() => toggle("sponsor", true)}
-                className="cursor-pointer bg-white rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] border border-black/[0.06] hover:border-pink-200/80 transition-all duration-300 group info-card"
+                onClick={() => toggle('sponsor', true)}
+                className={`cursor-pointer rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,.1)] ${isDarkMode ? 'bg-gray-800 border-gray-700 hover:border-pink-900/50' : 'bg-white border-black/[0.06] hover:border-pink-200/80'} transition-all duration-300 group`}
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-sm">
@@ -675,27 +486,27 @@ export default function GameDownloadSite() {
               </div>
             </div>
           </div>
-        </main>
+        </div>
+      </main>
 
-        <footer className={`mt-auto py-6 text-center ${contentReady ? "slide-in slide-delay-4" : "opacity-0"}`}>
-          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4cs.cn. All rights reserved.</p>
-        </footer>
-      </div>
+      <footer className="mt-auto py-6 text-center">
+        <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} F4cs.cn. All rights reserved.</p>
+      </footer>
 
       {/* Dialogs */}
-      <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle("lanzou", v)}>
-        <DialogContent className="z-50 grid gap-3 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg bg-white w-[95vw] max-w-lg rounded-3xl p-5 sm:p-6 border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 flex flex-col">
+      <Dialog open={dialogs.lanzou} onOpenChange={(v) => toggle('lanzou', v)}>
+        <DialogContent className="z-50 grid gap-2 sm:gap-3 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg bg-white w-[95vw] max-w-lg rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 flex flex-col">
           <DialogHeader>
-            <DialogTitle className="tracking-tight text-lg sm:text-xl font-bold text-gray-900 text-center mb-4">正式版下载</DialogTitle>
+            <DialogTitle className="tracking-tight text-base sm:text-lg font-bold text-gray-900 text-center mb-3 sm:mb-4">正式版下载</DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col space-y-4 flex-1">
+          <div className="flex flex-col space-y-3 sm:space-y-4 flex-1">
             
-            <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-xl p-4 mb-4 shadow-sm">
-              <div className="flex gap-3">
-                <AlertTriangle className="w-7 h-7 text-red-600 flex-shrink-0" />
+            <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
+              <div className="flex gap-2 sm:gap-3">
+                <AlertTriangle className="w-5 h-5 sm:w-7 sm:h-7 text-red-600 flex-shrink-0" />
                 <div>
-                  <h4 className="text-base sm:text-lg font-bold text-red-800 mb-2">使用前必读</h4>
-                  <ul className="text-red-700 text-sm sm:text-base space-y-1.5 font-semibold leading-relaxed">
+                  <h4 className="text-sm sm:text-base font-bold text-red-800 mb-1 sm:mb-2">使用前必读</h4>
+                  <ul className="text-red-700 text-xs sm:text-sm space-y-1 sm:space-y-1.5 font-semibold leading-relaxed">
                     <li>• 请先运行免CDKEY补丁后再打开游戏</li>
                     <li>• 提取码：f4cs</li>
                     <li>• 进入游戏后按下H键可呼出菜单</li>
@@ -709,10 +520,11 @@ export default function GameDownloadSite() {
             </div>
           </div>
           <div className="flex gap-2 mt-3">
-            <div className="group flex-7">
+            <div className="group flex-5">
               <Button
                 onClick={() => openLink(CONFIG.cs16.lanzouUrl)}
                 className="w-full justify-center h-11 sm:h-12 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+                aria-label="下载正式版 Counter-Strike 1.6"
               >
                 <div className="relative z-10 flex items-center justify-center w-full">
                   <Download className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:scale-110" />
@@ -720,8 +532,6 @@ export default function GameDownloadSite() {
                   <span className="transition-all duration-200 group-hover:bg-white group-hover:text-indigo-600 px-1.5 rounded transform group-hover:scale-110">f4cs</span>
                   <span>）</span>
                 </div>
-                <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
               </Button>
             </div>
             <div className="group flex-1">
@@ -733,27 +543,25 @@ export default function GameDownloadSite() {
                   <Download className="w-4 h-4 mr-1 transition-transform duration-300 group-hover:scale-110" />
                   <span>备用</span>
                 </div>
-                <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
               </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle("tencent", v)}>
-        <DialogContent className="z-50 grid gap-3 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg bg-white w-[95vw] max-w-lg rounded-3xl p-5 sm:p-6 border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 flex flex-col">
+      <Dialog open={dialogs.tencent} onOpenChange={(v) => toggle('tencent', v)}>
+        <DialogContent className="z-50 grid gap-2 sm:gap-3 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg bg-white w-[95vw] max-w-lg rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 flex flex-col">
           <DialogHeader>
-            <DialogTitle className="tracking-tight text-lg sm:text-xl font-bold text-gray-900 text-center mb-4">先行版下载</DialogTitle>
+            <DialogTitle className="tracking-tight text-base sm:text-lg font-bold text-gray-900 text-center mb-3 sm:mb-4">先行版下载</DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col space-y-4 flex-1">
+          <div className="flex flex-col space-y-3 sm:space-y-4 flex-1">
             
-            <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-xl p-4 mb-4 shadow-sm">
-              <div className="flex gap-3">
-                <AlertTriangle className="w-7 h-7 text-red-600 flex-shrink-0" />
+            <div className="bg-gradient-to-br from-red-50 to-red-100 border-[3px] border-red-500 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4 shadow-sm">
+              <div className="flex gap-2 sm:gap-3">
+                <AlertTriangle className="w-5 h-5 sm:w-7 sm:h-7 text-red-600 flex-shrink-0" />
                 <div>
-                  <h4 className="text-base sm:text-lg font-bold text-red-800 mb-2">使用前必读</h4>
-                  <ul className="text-red-700 text-sm sm:text-base space-y-1.5 font-semibold leading-relaxed">
+                  <h4 className="text-sm sm:text-base font-bold text-red-800 mb-1 sm:mb-2">使用前必读</h4>
+                  <ul className="text-red-700 text-xs sm:text-sm space-y-1 sm:space-y-1.5 font-semibold leading-relaxed">
                     <li>• 请先运行免CDKEY补丁后再打开游戏</li>
                     <li>• 提取码：f4cs</li>
                     <li>• 进入游戏后按下H键可呼出菜单</li>
@@ -767,7 +575,7 @@ export default function GameDownloadSite() {
             </div>
           </div>
           <div className="flex gap-2 mt-3">
-            <div className="group flex-7">
+            <div className="group flex-5">
               <Button
                 onClick={() => openLink(CONFIG.cs16.tencentUrl)}
                 className="w-full justify-center h-11 sm:h-12 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white rounded-xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden"
@@ -778,8 +586,6 @@ export default function GameDownloadSite() {
                   <span className="transition-all duration-200 group-hover:bg-white group-hover:text-indigo-600 px-1.5 rounded transform group-hover:scale-110">f4cs</span>
                   <span>）</span>
                 </div>
-                <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
               </Button>
             </div>
             <div className="group flex-1">
@@ -791,15 +597,13 @@ export default function GameDownloadSite() {
                   <Download className="w-4 h-4 mr-1 transition-transform duration-300 group-hover:scale-110" />
                   <span>备用</span>
                 </div>
-                <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
               </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle("sponsor", v)}>
+      <Dialog open={dialogs.sponsor} onOpenChange={(v) => toggle('sponsor', v)}>
         <DialogContent className="max-w-3xl w-[90vw] p-6 sm:p-8 gap-4 rounded-3xl border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
           <DialogHeader>
             <DialogTitle className="text-gray-900 text-xl sm:text-2xl font-bold">支持我们</DialogTitle>
@@ -810,9 +614,11 @@ export default function GameDownloadSite() {
               <div className="flex flex-col items-center text-center">
                 <div className="bg-blue-50 rounded-xl p-4 sm:p-6 mb-3 w-full flex items-center justify-center">
                   <img
-                    src={CONFIG.links.alipay || "/placeholder.svg"}
+                    src={CONFIG.links.alipay}
                     alt="支付宝"
                     className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <p className="font-bold text-gray-900 text-sm sm:text-base whitespace-nowrap">支付宝支付</p>
@@ -820,9 +626,11 @@ export default function GameDownloadSite() {
               <div className="flex flex-col items-center text-center">
                 <div className="bg-green-50 rounded-xl p-4 sm:p-6 mb-3 w-full flex items-center justify-center">
                   <img
-                    src={CONFIG.links.wechat || "/placeholder.svg"}
+                    src={CONFIG.links.wechat}
                     alt="微信支付"
                     className="w-32 h-32 sm:w-48 sm:h-48 object-contain rounded-lg"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <p className="font-bold text-gray-900 text-sm sm:text-base whitespace-nowrap">微信支付</p>
@@ -830,7 +638,7 @@ export default function GameDownloadSite() {
             </div>
             <div className="mt-6 pt-5 border-t border-gray-100">
               <Button
-                onClick={() => toggle("sponsor", false)}
+                onClick={() => toggle('sponsor', false)}
                 variant="outline"
                 className="w-full h-12 sm:h-13 rounded-xl font-bold text-gray-600 hover:bg-gray-50 border-2 transition-all duration-300"
               >
@@ -841,18 +649,18 @@ export default function GameDownloadSite() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={dialogs.bvnVersion} onOpenChange={(v) => toggle("bvnVersion", v)}>
+      <Dialog open={dialogs.bvnVersion} onOpenChange={(v) => toggle('bvnVersion', v)}>
         <DialogContent className="z-50 grid gap-3 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg bg-white w-[95vw] max-w-lg rounded-3xl p-5 sm:p-6 border border-black/[0.06] shadow-[0_2px_12px_rgba(0,0,0,.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,.12)] max-h-[90vh] overflow-y-auto fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
           <DialogHeader>
-            <DialogTitle className="tracking-tight text-lg sm:text-xl font-bold text-gray-900 text-center mb-4">版本选择</DialogTitle>
+            <DialogTitle className="tracking-tight text-base sm:text-lg font-bold text-gray-900 text-center mb-3 sm:mb-4">版本选择</DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col space-y-4">
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">选择版本</label>
+          <div className="flex flex-col space-y-3 sm:space-y-4">
+            <div className="mb-3 sm:mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">选择版本</label>
               <select
                 value={selectedBVNVersion}
                 onChange={(e) => setSelectedBVNVersion(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-300"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-300"
               >
                 {CONFIG.damiao.versions.map((version) => (
                   <option key={version.id} value={version.id}>
@@ -863,18 +671,18 @@ export default function GameDownloadSite() {
             </div>
             
             {CONFIG.damiao.versions.find(v => v.id === selectedBVNVersion) && (
-              <div className="bg-slate-50 rounded-xl p-4 shadow-sm">
-                <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-2">
+              <div className="bg-slate-50 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
+                <h3 className="text-sm sm:text-base font-bold text-slate-800 mb-1 sm:mb-2">
                   {CONFIG.damiao.versions.find(v => v.id === selectedBVNVersion)?.name}
                 </h3>
-                <p className="text-gray-600 text-sm sm:text-base mb-3">
+                <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-3">
                   {CONFIG.damiao.versions.find(v => v.id === selectedBVNVersion)?.desc}
                 </p>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500 font-mono">
+                  <span className="text-xs sm:text-sm text-gray-500 font-mono">
                     文件大小: {CONFIG.damiao.versions.find(v => v.id === selectedBVNVersion)?.size}
                   </span>
-                  <Badge className="bg-slate-700 text-white text-xs px-3 py-1 rounded-full">
+                  <Badge className="bg-slate-700 text-white text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
                     官方版本
                   </Badge>
                 </div>
@@ -890,22 +698,20 @@ export default function GameDownloadSite() {
                       openLink(selectedVersion.downloadUrl);
                     }
                   }}
-                  className="w-full justify-center h-11 sm:h-12 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-800 hover:to-slate-700 text-white rounded-xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+                  className="w-full justify-center h-10 sm:h-12 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-800 hover:to-slate-700 text-white rounded-lg sm:rounded-xl font-bold text-xs sm:text-base shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden"
                 >
                   <div className="relative z-10 flex items-center justify-center w-full">
-                    <Download className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:scale-110" />
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 transition-transform duration-300 group-hover:scale-110" />
                     <span>下载游戏（提取码：</span>
                     <span className="transition-all duration-200 group-hover:bg-white group-hover:text-slate-700 px-1.5 rounded transform group-hover:scale-110">f4cs</span>
                     <span>）</span>
                   </div>
-                  <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
                 </Button>
               </div>
               <Button
-                onClick={() => toggle("bvnVersion", false)}
+                onClick={() => toggle('bvnVersion', false)}
                 variant="outline"
-                className="w-full justify-center h-11 sm:h-12 border-2 border-gray-200 hover:bg-gray-50 rounded-xl font-bold text-sm sm:text-base text-gray-900 transition-all duration-300"
+                className="w-full justify-center h-10 sm:h-12 border-2 border-gray-200 hover:bg-gray-50 rounded-lg sm:rounded-xl font-bold text-xs sm:text-base text-gray-900 transition-all duration-300"
               >
                 取消
               </Button>
@@ -913,6 +719,6 @@ export default function GameDownloadSite() {
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   )
 }
